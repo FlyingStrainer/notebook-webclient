@@ -1,3 +1,5 @@
+import * as form from "../forms/form.js";
+
 const loginView = {
 
 	init() {
@@ -9,4 +11,5 @@ const loginView = {
 	}
 };
 
+export * from  "../forms/form.js";
 export default loginView;

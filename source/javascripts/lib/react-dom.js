@@ -2500,7 +2500,7 @@ var EventPluginHub = {
     injectEventPluginOrder: EventPluginRegistry.injectEventPluginOrder,
 
     /**
-     * @param {object} injectedNamesToPlugins Map from names to plugin modules.
+     * @param {object} injectedNamesToPlugins Map from names to plugin forms.
      */
     injectEventPluginsByName: EventPluginRegistry.injectEventPluginsByName
   },
@@ -2679,7 +2679,7 @@ var invariant = _dereq_(152);
 var eventPluginOrder = null;
 
 /**
- * Injectable mapping from names to event plugin modules.
+ * Injectable mapping from names to event plugin forms.
  */
 var namesToPlugins = {};
 
@@ -2817,7 +2817,7 @@ var EventPluginRegistry = {
    *
    * Plugins can be injected as part of page initialization or on-the-fly.
    *
-   * @param {object} injectedNamesToPlugins Map from names to plugin modules.
+   * @param {object} injectedNamesToPlugins Map from names to plugin forms.
    * @internal
    * @see {EventPluginHub.injection.injectEventPluginsByName}
    */
@@ -8875,7 +8875,7 @@ function inject() {
   ReactInjection.EventEmitter.injectReactEventListener(ReactEventListener);
 
   /**
-   * Inject modules for resolving DOM hierarchy and plugin ordering.
+   * Inject forms for resolving DOM hierarchy and plugin ordering.
    */
   ReactInjection.EventPluginHub.injectEventPluginOrder(DefaultEventPluginOrder);
   ReactInjection.EventPluginUtils.injectComponentTree(ReactDOMComponentTree);
@@ -14689,7 +14689,7 @@ var OBSERVED_ERROR = {};
  * - and a `close` method that accepts the precomputation. `close` is invoked
  *   when the wrapped process is completed, or has failed.
  *
- * @param {Array<TransactionalWrapper>} transactionWrapper Wrapper modules
+ * @param {Array<TransactionalWrapper>} transactionWrapper Wrapper forms
  * that implement `initialize` and `close`.
  * @return {Transaction} Single transaction for reuse in thread.
  *
