@@ -9,7 +9,7 @@ var gutil = require("gulp-util");
 var minifier = require("gulp-clean-css");
 
 gulp.task("js", function() {
-	return gulp.src(["build/javascripts/lib/*.js", "build/javascripts/foundation.js", "build/javascripts/build/site.js"])
+	return gulp.src(["build/javascripts/lib/*.js", "build/javascripts/build/site.js"])
 		       .pipe(concat("site.min.js"))
 		       .pipe(gulp.dest("build/javascripts/"));
 });
@@ -25,7 +25,7 @@ gulp.task("css", function() {
 
 gulp.task("build", function() {
 		gulp.start("js");
-                gulp.start("css");
+		gulp.start("css");
 });
 
 gulp.task("default", ["build"]);
