@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<script src="./javascripts/lib/jquery.js"></script>
+	<script src="./javascripts/lib/react.js"></script>
+	<script src="./javascripts/lib/react-dom.js"></script>
+	<script src="./javascripts/build/site.js"></script>
+</head>
+<body>
+
+# This is the div that will hold all pages in notebook and let users select which page they want to have open
+<div id="pageSelectorView">
+  # this contents will be populated dynamically with js to show divs that hold each page existing in the notebook
+
+</div>
+
+# This is the div that will hold all the modules relating to edting pages
+<div id="pageTools">
+  # Sign pages
+  <div id="signPage" onclick="doOnSignClick">
+
+  </div>
+
+</div>
+
+# This div holds a view for looking at a current page and/or rendering
+<div id="currentPageView">
+  # this view will be dynalically populated through js to show the currently selected page
+
+</div>
+
+</body>
+</html>
