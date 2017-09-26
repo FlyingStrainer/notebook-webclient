@@ -1,0 +1,48 @@
+#id1 
+{
+      background-color: lightblue;
+}
+
+#id2 
+{
+      color: navy;
+      margin-left: 20px;
+}
+
+#topBar
+{
+    margin-left: 0;
+    margin-right: 0;
+    height: 100px;
+    background-color: blue;
+    clear: both;
+}
+
+#notebookSelectorView
+{
+    height: 300px;
+    overflow:hidden;
+    background-color:gray
+}
+
+#notebookTools
+{
+    float:left;
+    width:150px;
+    background-color:red;
+    height:300px;
+}
+
+.notebookTool
+{
+    background-color:pink;
+    height:30px;
+    margin-top:10px;
+}
+
+.notebookTool p 
+{
+    text-align:center;
+    margin:0px;
+    padding-top:6px
+}

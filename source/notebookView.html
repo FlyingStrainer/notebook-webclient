@@ -6,30 +6,63 @@
 	<script src="./javascripts/lib/react.js"></script>
 	<script src="./javascripts/lib/react-dom.js"></script>
 	<script src="./javascripts/build/site.js"></script>
+  <link rel="stylesheet" type="text/css" href="notebookStyle.css">
 </head>
 <body>
 
-# This is the div that will hold all notebooks user has access to 
-<div id="notebookSelectorView">
-  # this contents will be populated dynamically with js to show divs that hold all notebook
+<div id="topBar">  
 
 </div>
 
-# This is the div that will hold all the modules relating to editing, deleting, sharing notebooks
+<!-- This is the div that will hold all the modules relating to editing, deleting, sharing notebooks -->
 <div id="notebookTools">
-  <div id="sharePage">
-
+  <div class="notebookTool" id="sharePage">
+    <p> tool #1 </p>
   </div>
   
-  <div id="deletePages">
-
+  <div class="notebookTool" id="deleteNotebook">
+    <p> tool #2 </p>
   </div>
 
-  <div id="newNotebook">
-
+  <div class="notebookTool" dd="newNotebook">
+    <p> tool #3 </p>
   </div>
 
 </div>
+
+<!-- This is the div that will hold all notebooks user has access to -->
+<div id="notebookSelectorView">
+  <!-- this contents will be populated dynamically with js to show divs that hold all notebook -->
+
+  <div class="notebookHolder">
+    <p> Temporary Notebook Holder 1 </p>
+  </div>
+
+  <div class="notebookHolder">
+    <p> Temporary Notebook Holder 2 </p>
+  </div>
+
+  <div class="notebookHolder">
+    <p> Temporary Notebook Holder 3 </p>
+  </div>
+ 
+  <div class="notebookHolder">
+    <p> Temporary Notebook Holder 4 </p>
+  </div>
+
+  <div class="notebookHolder">
+    <p> Temporary Notebook Holder 5 </p>
+  </div>
+
+  <div class="notebookHolder">
+    <p> Temporary Notebook Holder 6 </p>
+  </div>
+  
+  <div class="notebookHolder">
+    <p> Temporary Notebook Holder 7 </p>
+  </div>
+</div>
+
 
 </body>
 </html>
