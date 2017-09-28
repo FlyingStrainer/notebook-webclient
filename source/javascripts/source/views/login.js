@@ -5,23 +5,22 @@ const loginView = {
 	init() {
 		const body = $("body");
 
-		body.append($("<div class='login--container'>" +
-			"<img src='/images/logo.png' alt='VENote' class='login--logo-image' />" +
-			"<div class='login--signin-form'>" +
-			"<span class='login--signin--header'>LOGIN</span>" +
-			"<div class='login--signin--login'></div>" +
-			"<div class='login--signin--register'></div>" +
-			"</div>" +
-			"<div class='login--register-form'>" +
-			"<div class='login--register--header'></div>" +
-			"<div class='login--register--register'></div>" +
-			"<div class='login--register--back'></div>" +
-			"</div>" +
+		body.append($("<div class='form-container form-style'>" +
+				"<form method='post'>" +
+					"<div class='form--label'><img src='./images/logo.png' alt='VENote' class='login--logo-image' width='600'/></div>" +
+					"<div class='form--text'><input name='username' type='text' placeholder='Username' data-required></div>" +
+					"<div class='form--text'><input name='password' type='password' placeholder='Password' data-required></div>" +
+				"</form>" +
 			"</div>"));
 
 		body.animate({"background-color": "#557FBE"}, 200, function() {
 
 		});
+
+		$("input").focus(function()
+		{
+			console.log($(this));
+		})
 
 	},
 
