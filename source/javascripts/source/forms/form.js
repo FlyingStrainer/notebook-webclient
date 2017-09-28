@@ -31,20 +31,16 @@ export class Input {
 		this.placeholder = placeholder;
 		this.description = description;
 	}
+}
 
-	setInputType(inputEnum) {
-		if(inputEnum)
-			this.inputType = inputEnum;
-	}
-
-	setRequired(required) {
-		if(required)
-			this.required = required;
+export class Label {
+	constructor(html) {
+		this.html = html;
 	}
 }
 
 export class Form {
-	constructor(inputs) {
-		this.inputs = inputs;
+	constructor(formFields) {
+		this.formFields = formFields;
 	}
 }
