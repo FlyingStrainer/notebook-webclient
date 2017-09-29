@@ -7,7 +7,7 @@ const dataEntryForm = {
 	init(root) {
 		ReactDOM.render(
 			<div>
-				<h1>Hello</h1>
+				<h1>DataEntry</h1>
 				<script>console.log("Hi")</script>
 			</div>
 		, root
