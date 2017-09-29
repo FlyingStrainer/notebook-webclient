@@ -1,0 +1,305 @@
+*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
+*:before,*:after{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
+
+.form-container {
+    position: absolute;
+    margin: auto;
+    top: 20%;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+}
+
+.form-container form {
+    max-width:600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-container .form--checkbox {
+    width:100%;
+    margin:20px 0;
+}
+
+.form-container .form--checkbox [type="checkbox"], .form-container .form--checkbox [type="radio"] {
+    margin-right:20px;
+}
+
+.form-container .form--checkbox.form--third {
+    text-align: left;
+}
+
+.form-container .form--radio.form--third {
+    text-align: left;
+}
+
+.form-container .form--radio.form--third input[type="radio"] {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.form-container .form--label{
+    width:100%;
+    display:inline-block;
+    margin:20px 0;
+    text-align:left;
+}
+
+.form-container .half-form, .form--half{
+    width: 50%;
+    margin-left: 0;
+    margin-right: 0;
+    float:left;
+
+}
+
+.form-container .half-form:nth-child(even),
+.form-container .form--half:nth-child(even) {
+    padding-right:10px;
+}
+
+.form-container .form--half:nth-child(odd) {
+    padding-left: 10px;
+}
+
+.form-container button.button-primary{
+    border:2px solid #f7f8f8;
+    padding:15px 30px;
+}
+
+.form-container button.button-primary:hover{
+    border:2px solid #009ADA;
+}
+
+.form-container .form--third{
+    width: 33%;
+    margin-left: 0;
+    margin-right: 0;
+    float:left;
+}
+
+.form-container .form--two-thirds{
+    width: 66%;
+    margin-left: 0;
+    margin-right: 0;
+    float:left;
+}
+
+.form-container .form--two-thirds{
+    padding-right:10px;
+}
+
+.form-container .form--third{
+    padding-left:10px;
+}
+
+.form-container .form--third--wrapper {
+    width: 100%;
+    display: inline-block;
+}
+
+.form-container .form-third:nth-child(3n+1) {
+    padding-right: 13px;
+}
+
+.form-container .form-third:nth-child(3n+2) {
+    padding-left:7px;
+    padding-right:7px;
+}
+
+.form-container .form--third:nth-child(3n+3) {
+    padding-left:13px;
+}
+
+.form-style fieldset{
+    border: none;
+}
+
+.form-style textarea{
+    min-height:200px;
+}
+.form-style legend {
+    font-size: 1.4em;
+    margin-bottom: 10px;
+}
+.form-style label {
+    display: block;
+    margin-bottom: 8px;
+}
+.form-style input[type="text"],
+.form-style input[type="password"],
+.form-style input[type="date"],
+.form-style input[type="datetime"],
+.form-style input[type="email"],
+.form-style input[type="number"],
+.form-style input[type="search"],
+.form-style input[type="time"],
+.form-style input[type="url"],
+.form-style textarea,
+.form-style select {
+    font-family: 'Montserrat', sans-serif;
+    background: #ffffff;
+    border: 2px solid #a1a0a0;
+    font-size: 17px;
+    margin: 0;
+    outline: 0;
+    padding: 7px;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background-color: #ffffff;
+    color:#404040;
+    margin-bottom: 5px;
+
+}
+.form-style input[type="text"]:focus,
+.form-style input[type="password"]:focus,
+.form-style input[type="date"]:focus,
+.form-style input[type="datetime"]:focus,
+.form-style input[type="email"]:focus,
+.form-style input[type="number"]:focus,
+.form-style input[type="search"]:focus,
+.form-style input[type="time"]:focus,
+.form-style input[type="url"]:focus,
+.form-style textarea:focus,
+.form-style select:focus{
+    background: #f7f8f8;
+    color:#404040;
+}
+.form-style select{
+    -webkit-appearance: menulist-button;
+    height:42px;
+}
+.form-style .number {
+    background: #1abc9c;
+    color: #fff;
+    height: 30px;
+    width: 30px;
+    display: inline-block;
+    font-size: 0.8em;
+    margin-right: 4px;
+    line-height: 30px;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+    border-radius: 15px 15px 15px 0px;
+}
+
+.form-style input[type="submit"],
+.form-style input[type="button"]
+{
+    position: relative;
+    display: block;
+    padding: 19px 39px 18px 39px;
+    color: #FFF;
+    margin: 0 auto;
+    background: #1abc9c;
+    font-size: 18px;
+    text-align: center;
+    font-style: normal;
+    width: 100%;
+    border: 1px solid #16a085;
+    border-width: 1px 1px 3px;
+    margin-bottom: 10px;
+}
+.form-style input[type="submit"]:hover,
+.form-style input[type="button"]:hover
+{
+    background: #109177;
+}
+
+h1, h1 a, .h1{
+       font-family: 'Norwester', 'Arial Black', 'sans-serif';
+       font-size:60px;
+       line-height:60px;
+       text-transform:uppercase;
+}
+
+h2, h2 a, .h2 {
+    font-family: 'Norwester', 'Arial Black', 'sans-serif';
+    font-size: 40px;
+    line-height: 40px;
+    text-transform: uppercase;
+}
+
+h3, h3 a, .h3 {
+    font-family: 'Norwester', 'Arial Black', 'sans-serif';
+    font-size:30px;
+    line-height:30px;
+    text-transform:uppercase;
+}
+
+h4, h4 a, .h4 {
+    font-family: 'Norwester', 'Arial Black', 'sans-serif';
+    font-size:20px;
+    line-height:20px;
+    text-transform:uppercase;
+}
+
+h5, h5 a, .h5, h6, h6 a, .h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-size:17px;
+    line-height:30px;
+    font-weight:400;
+}
+
+p, li{
+    font-size:13px;
+    line-height:20px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+a{
+    font-size:13px;
+    font-family: 'Montserrat', sans-serif;
+    color:#009ADA;
+    text-decoration:underline;
+}
+
+a:hover{
+    color:#009ADA;
+}
+
+button.button-primary,  button.button--primary, a.button-primary, a.button--primary{
+    font-size:15px;
+    font-family: 'Kollektif', 'Arial Black', 'sans-serif';
+    color:#ffffff;
+    padding:15px 10px;
+    width:100%;
+    text-decoration:none;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    border:2px solid transparent;
+    display: inline-block;
+}
+
+
+button.button-primary:hover, button.button--primary:hover, a.button-primary:hover, a.button--primary:hover{
+    font-family: 'Kollektif', 'Arial Black', 'sans-serif';
+    color:#ffbf00;
+    background:#f7f8f8;
+    padding:15px 10px;
+    width:100%;
+    text-decoration:none;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    border:2px solid #ffbf00;
+    display: inline-block;
+}
+
+a.button--secondary, a.button--secondary:hover{
+    font-size:17px;
+    font-family: 'Montserrat', sans-serif;
+    color:#231f20;
+    background:#00a1e4;
+    padding:10px 15px;
+    text-decoration:none;
+    display: inline-block;
+}
+
+.img-responsive{
+    width:100%;
+    height:auto;
+}

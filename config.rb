@@ -44,7 +44,7 @@ activate :external_pipeline,
 configure :build do
 	ignore 'javascripts/source/app/*'
   activate :minify_css
-  activate :minify_javascript
+ #activate :minify_javascript
   activate :relative_assets
 end
 
