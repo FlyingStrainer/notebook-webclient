@@ -26,3 +26,11 @@ origin that it exists by typing
 When the feature is complete and tested, create a pull request by
 going to https://github.com/FlyingStrainer/notebook-webclient/pulls
 and click "Create Pull Request"
+
+Select develop as the base branch and your feature branch as the
+head branch. Choose a title and leave any comments that you deem
+important to the reviewers. Click "Create pull request" again
+to submit the pull request for review.
+
+Once a pull request is reviewed by 1-2 other contributors,
+it will be merged.
