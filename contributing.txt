@@ -18,6 +18,11 @@ Then create a new feature branch
 
 	`git checkout -b new-feature-name`
 
+The first time you push to this branch you will need to tell
+origin that it exists by typing
+
+	`git push --set-upstream new-feature-name`
+
 When the feature is complete and tested, create a pull request by
 going to https://github.com/FlyingStrainer/notebook-webclient/pulls
 and click "Create Pull Request"
