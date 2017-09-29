@@ -12,16 +12,32 @@ Page.prototype =
 {
   id: null,
   signiture: null,
-  creator: null
+  creator: null,
+  timestamp: null
 };
 
 var Notebook = function(){};
 Notebook.prototype = 
 {
-  id: null,
+  id: "ThisIsID",
   pages: null,
-  creator: null
+  creator: null,
+  timestamp: null,
+  getNotebookHTML = function()
+  {
+    return "<div class=\"notebookHolder\"><p>" + id + " </p></div>"
+  }
 };
+
+function renderNotebooks( notebookList )
+{
+  var htmlToRender = "";
+  for (var notebook in notebooks)
+  {
+    htmlToRender = htmlToRender + notebook.getNootbookHTML(); 
+  }
+  document.getElementById("notebookSelectorView").innerHTML = htmlToRender;
+}
 
 //Example of how to make a 'class' and instantiate an object
 var myClass = function(){};
