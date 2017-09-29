@@ -1,9 +1,19 @@
 import * as form from "./form.js";
-import 'react' from "../lib/react.js"; 
+//import React from "./../../lib/react.js"; 
+//import ReactDOM from "./../../lib/react-dom.js";
 export * from "./form.js";
-export class DataEntryForm {
-	constructor() {
-		ReactDOM.render();
-		super();
+
+const dataEntryForm = {
+	init(root) {
+		ReactDOM.render(
+			<div>
+				<h1>Hello</h1>
+				<script>console.log("Hi")</script>
+			</div>
+		, root
+		);
+		console.log("Hi");
 	}
-}
+};
+
+export default dataEntryForm;
