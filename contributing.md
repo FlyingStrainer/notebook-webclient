@@ -1,9 +1,10 @@
 Contribution Policy
+
 Commit messages should use the git tense. 
 They should read as "If I merge this commit, it will..." For example:
-	- "Add data entry form"
-	- "Complete signing feature"
-	- "Refactor notebook view code"
+- "Add data entry form"
+- "Complete signing feature"
+- "Refactor notebook view code"
 
 This repo has two main branches: master and develop.
 Master will remain as a working build at all times.
@@ -25,7 +26,7 @@ origin that it exists by typing
 
 When the feature is complete and tested, create a pull request by
 going to https://github.com/FlyingStrainer/notebook-webclient/pulls
-and click "Create Pull Request"
+and click "Create Pull Request".
 
 Select develop as the base branch and your feature branch as the
 head branch. Choose a title and leave any comments that you deem
