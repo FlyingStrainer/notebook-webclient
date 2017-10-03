@@ -10,17 +10,24 @@ const dataEntryForm = {
 			<div id="Title">
 				<h1>DataEntry</h1>
 				<script>console.log("Hi")</script>
-				<script>addTextField()</script>
+				{addTextField()}
 			</div>
 			, root
 		);
 	}
 };
 
-function addTextField() {
-	return <div>
-		<h1>TextEntry</h1>
-	</div>;
+export function addTextField() {
+	return <form>
+		Describe your work:<br />
+		<input type="text" style="width: 300px; height: 200px;"/><br /><br />
+		Include an image:<br />
+		<input type="file" /><br /><br />
+		Caption the image:<br />
+		<input type="text" /><br /><br />
+
+		<input type="submit" /><br /><br />
+	</form>;
 }
 
 export default dataEntryForm;
