@@ -6,8 +6,7 @@ $(document).ready(function() {
 	loginView.init(React, ReactDOM);
 });
 
-// Render notebooks to notebook selector
-function renderNotebooks( notebooks )
+function renderNotebooks( notebookList )
 {
   var htmlToRender = "";
 
