@@ -303,3 +303,8 @@ a.button--secondary, a.button--secondary:hover{
     width:100%;
     height:auto;
 }
+
+.text-box{
+    width:200px;
+    height:200px;
+}

@@ -20,7 +20,7 @@ const dataEntryForm = {
 export function addTextField() {
 	return <form>
 		Describe your work:<br />
-		<input type="text" style="width: 300px; height: 200px;"/><br /><br />
+		<input type="text" className="text-box"/><br /><br />
 		Include an image:<br />
 		<input type="file" /><br /><br />
 		Caption the image:<br />
