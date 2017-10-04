@@ -54,12 +54,11 @@
 
 }
 
-.form-container .half-form:nth-child(even),
-.form-container .form--half:nth-child(even) {
+.form-container .form--half:nth-child(odd) {
     padding-right:10px;
 }
 
-.form-container .form--half:nth-child(odd) {
+.form-container .form--half:nth-child(even) {
     padding-left: 10px;
 }
 
@@ -88,10 +87,6 @@
 
 .form-container .form--two-thirds{
     padding-right:10px;
-}
-
-.form-container .form--third{
-    padding-left:10px;
 }
 
 .form-container .form--third--wrapper {
