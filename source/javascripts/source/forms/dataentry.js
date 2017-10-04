@@ -3,31 +3,36 @@ import * as form from "./form.js";
 //import ReactDOM from "./../../lib/react-dom.js";
 export * from "./form.js";
 var rootObject;
-const dataEntryForm = {
-	init(root) {
-		rootObject = root;
-		ReactDOM.render(
-			<div id="Title">
-				<h1>DataEntry</h1>
-				<script>console.log("Hi")</script>
-				{addTextField()}
-			</div>
-			, root
-		);
+
+class DataEntryForm extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {};
 	}
-};
 
-export function addTextField() {
-	return <form>
-		Describe your work:<br />
-		<input type="text" className="text-box"/><br /><br />
-		Include an image:<br />
-		<input type="file" /><br /><br />
-		Caption the image:<br />
-		<input type="text" /><br /><br />
-
-		<input type="submit" /><br /><br />
-	</form>;
+	render() {
+		return <DataEntryFields />; 
+	}
 }
 
-export default dataEntryForm;
+class DataEntryFields extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {};
+	}
+
+	render() {
+		return (<form className="data-form" id="form">
+			Describe your work:<br />
+			<textarea className="data-form" id="text-box"></textarea><br /><br />
+			Include an image:<br />
+			<input type="file" className="data-form" id="image-upload"/><br /><br />
+			Caption the image:<br />
+			<textarea className="data-form" id="caption-box"></textarea><br /><br />
+		
+			<input className="data-form" id="submit-button" type="submit" /><br /><br />
+		</form>);	
+	}
+}
+
+module.exports = DataEntryForm;
