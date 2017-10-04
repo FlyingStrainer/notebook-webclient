@@ -1,4 +1,3 @@
-import * as form from "../forms/form.js";
 import notebookView from "./notebooks.js";
 
 const loginView = {
@@ -6,30 +5,34 @@ const loginView = {
 	init() {
 		const body = $("body");
 
-		body.append($("<div class='form-container form-style login'>" +
-				"<form method='post'>" +
-					"<div class='form--label'><img src='./images/logo.png' alt='VENote' class='login--logo-image' width='600'/></div>" +
-					"<div class='form--text login--id'><input name='email' type='text' placeholder='Email' data-required></div>" +
-					"<div class='form--text login--id'><input name='password' type='password' placeholder='Password' data-required><a id='badlogin' style='display:none'>Your email/password was incorrect</a></div>" +
-					"<div class='form--text register--id' style='display:none;'><input name='confirmpassword' type='password' placeholder='Confirm Password' data-required></div>" +
-					"<div class='form--text register--id' style='display:none;'><input name='companyid' type='number' placeholder='Company ID' data-required></div>" +
-					"<div id='loginbutton' style='padding-right:10px; width:50%; margin-left:0; margin-right:0; float:left'>" +
-						"<button type='submit' title='Login' class='login button button--primary button--normal' style='background:forestgreen; margin-top:20px'>" +
-							"<span>Login</span>" +
-						"</button>" +
-					"</div>" +
-					"<div class='form--third' id='recoverbutton'>" +
-						"<button type='submit' title='Recover' class='recover button button--primary button--normal' style='background:orange; margin-top:20px; display:none'>" +
-							"<span>Recover</span>" +
-						"</button>" +
-					"</div>" +
-					"<div id='registerbutton' style='padding-left:10px; margin-right:0; margin-left:0; float:right; width:50%'>" +
-						"<button type='submit' title='Register' class='register button button--primary button--normal' style='background:indianred; margin-top:20px'>" +
-							"<span>Register</span>" +
-						"</button>" +
-					"</div>" +
-				"</form>" +
-			"</div>"));
+		const form = $("<div class='form-container form-style login' style='display:none;'>" +
+							"<form method='post'>" +
+								"<div class='form--label'><img src='./images/logo.png' alt='VENote' class='login--logo-image' width='600'/></div>" +
+								"<div class='form--text login--id'><input name='email' type='text' placeholder='Email' data-required></div>" +
+								"<div class='form--text login--id'><input name='password' type='password' placeholder='Password' data-required><a id='badlogin' style='display:none'>Your email/password was incorrect</a></div>" +
+								"<div class='form--text register--id' style='display:none;'><input name='confirmpassword' type='password' placeholder='Confirm Password' data-required></div>" +
+								"<div class='form--text register--id' style='display:none;'><input name='companyid' type='number' placeholder='Company ID' data-required></div>" +
+								"<div id='loginbutton' style='padding-right:10px; width:50%; margin-left:0; margin-right:0; float:left'>" +
+									"<button type='submit' title='Login' class='login button button--primary button--normal' style='background:forestgreen; margin-top:20px'>" +
+										"<span>Login</span>" +
+									"</button>" +
+								"</div>" +
+								"<div class='form--third' id='recoverbutton'>" +
+									"<button type='submit' title='Recover' class='recover button button--primary button--normal' style='background:orange; margin-top:20px; display:none'>" +
+										"<span>Recover</span>" +
+									"</button>" +
+								"</div>" +
+								"<div id='registerbutton' style='padding-left:10px; margin-right:0; margin-left:0; float:right; width:50%'>" +
+									"<button type='submit' title='Register' class='register button button--primary button--normal' style='background:indianred; margin-top:20px'>" +
+										"<span>Register</span>" +
+									"</button>" +
+								"</div>" +
+							"</form>" +
+						"</div>");
+
+		body.append(form);
+
+		form.show(500);
 
 		const loginfields = body.find(".login--id");
 		const badlogin = loginfields.find("#badlogin");
@@ -55,7 +58,7 @@ const loginView = {
 		$("button[type='submit']").on("click", function(e) {
 			if($(this).attr("title") === "Recover" && loginMode === 2)
 			{
-
+				//RECOVER ACCOUNT HERE
 			}
 			else
 			{
@@ -95,20 +98,16 @@ const loginView = {
 							badlogin.show(300);
 						else
 						{
-							/*body.find(".form-container").hide(500, function() {
-							 body.html('');
-							 notebookView.init();
-							 })*/
+							body.find(".form-container").hide(500, function() {
+							   body.html('');
+							   notebookView.init();
+							});
 						}
 					}
 				}
 			}
 			e.preventDefault();
 		});
-	},
-
-	transition() {
-
 	}
 };
 
