@@ -19,4 +19,20 @@ class DataEntry {
 		+ '}';
 		return json;
 	}
+	
+	postEntry() {
+		fetch('URL_PLACEHOLDER', {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type' : 'application/json'
+			},
+			body: this.toJSON()
+		});
+
+	}
+
+	redactEntry() {
+
+	}
 }
