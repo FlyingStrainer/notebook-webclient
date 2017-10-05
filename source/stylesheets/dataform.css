@@ -1,0 +1,28 @@
+
+.data-form#text-box{
+	width: 400px;
+	height: 200px;
+	margin: 0 auto;
+}
+
+.data-form#image-upload{
+	margin: 0 auto;	
+	display: inline-block;
+}
+
+.data-form#caption-box{
+	width: 400px;
+	height: 100px;
+	margin: 0 auto;
+}
+
+.data-form#submit-button{
+	width: 400px;
+	height: 100px;
+	margin: 0 auto;
+}
+
+.data-form#form{
+	margin: 0 auto;
+	text-align: center;
+}
