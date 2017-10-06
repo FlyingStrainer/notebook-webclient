@@ -1,4 +1,5 @@
 import DataEntry from "../forms/dataentry.js";
+import loginView from "./login.js";
 import Page from "../models/page.js";
 import notebookView from "./notebooks.js";
 
@@ -14,7 +15,7 @@ const pageView = {
 	    "<h1 class=\"title\">Page View</h1>" +
 	    "<h2 id=\"backBtn\" class=\"subtitle\">Go Back</h2>" +
 	    "</div>" +
-	    "<div class=\"topBarButton\">" +
+	    "<div id=\"logoutBtn\" class=\"topBarButton\">" +
 	    "<p>Logout</p>" +
 	    "</div>" +
 	    "</div>" +
@@ -92,7 +93,11 @@ const pageView = {
     // Handle click for logout
     $("#logoutBtn").on("click", function(e, e1, e2)
     {
-      alert("Logout");
+      body.find("#pageMainView").hide(500, function()
+      {
+        body.html('');
+        loginView.init();
+      });
       e.preventDefault();
     });
 

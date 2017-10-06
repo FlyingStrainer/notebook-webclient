@@ -1,4 +1,5 @@
 import pageView from "./pages.js";
+import loginView from "./login.js";
 import Notebook from "../models/notebook.js";
 
 const notebookView = {
@@ -50,7 +51,12 @@ const notebookView = {
     // Handle click for logout
     $("#logoutBtn").on("click", function(e, e1, e2) 
     {
-      alert("Logout"); 
+      body.find("#notebookMainView").hide(500, function()
+      {
+        body.html('');
+        loginView.init();
+      });
+
       e.preventDefault();
     });
 
