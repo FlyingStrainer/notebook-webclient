@@ -98,9 +98,10 @@ const loginView = {
 							badlogin.show(300);
 						else
 						{
+							notebookView.init();
 							body.find(".form-container").hide(500, function() {
-							   body.html('');
-							   notebookView.init();
+							   //body.html('');
+							   notebookView.render();
 							});
 						}
 					}
