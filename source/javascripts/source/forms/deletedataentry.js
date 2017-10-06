@@ -13,7 +13,7 @@ export default class DeleteDataEntryForm extends React.Component {
 	render() {
 		return <div className="delete-entry-form" id="container">
 				<div className="delete-entry-form" id="notebook-header">
-					<h1 className="delete-entry-form" id="header-text">Create new notebook</h1>
+					<h1 className="delete-entry-form" id="header-text">Delete entry</h1>
 					<input className="delete-entry-form" id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
 				</div>
 				<DeleteDataEntryFields submitCallback={this.submitCallback} />
