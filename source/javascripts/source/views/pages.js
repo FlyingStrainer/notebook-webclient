@@ -63,6 +63,13 @@ const pageView = {
 
 
     // Onclick setup
+
+    // Handle click for new page
+    $("#newPageView").on("click", function(e, e1, e2)
+    {
+      alert("pageview new");
+      e.preventDefault();
+    });
    
     // Handle click for logout
     $("#logoutBtn").on("click", function(e, e1, e2)
