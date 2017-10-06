@@ -1,5 +1,6 @@
 import notebookView from "./notebooks.js";
 import DataEntry from "../forms/dataentry.js";
+import Page from "../models/page.js";
 
 const pageView = {
 
@@ -102,6 +103,49 @@ const pageView = {
       });
       e.preventDefault();
     });
+
+    // Functions
+    // TODO delete test
+    function testRenderPagesToBar()
+    {
+      let nB = [new Page(), new Page()];
+      nB[0].dataEntry = "test1";
+      nB[0].timestamp = "june 3";
+      nB[0].id = "1234";
+      nB[1].dataEntry = "test2";
+      nB[1].timestamp = "april 6";
+      nB[1].id = "2243";
+
+      renderPagesToToolbar(nB);
+    }
+
+    // Given an array of notebook objects render them to notebook view
+    function renderPagesToToolbar( pages )
+    {
+      var htmlToRender = "";
+
+      pages.forEach( function (page)
+      {
+        htmlToRender = htmlToRender + page.getHTMLForPageSel();
+      });
+
+      // Add html to innerHTML
+      document.getElementById("pageSelectorView").innerHTML = htmlToRender;
+
+      // add onclick for each page id is "page" + id of page 
+      pages.forEach( function (page)
+      {
+        var pageId = "#page" + page.id;
+        $(pageId).on("click", function(e, e1, e2)
+        {
+          alert("Page with id " + page.id);
+          e.preventDefault();
+        });
+      });
+    }
+
+    // TODO delete test
+    testRenderPagesToBar();
 },
 
 transition() {
