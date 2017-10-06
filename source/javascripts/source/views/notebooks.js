@@ -106,7 +106,7 @@ const notebookView = {
         {
           body.html('');
           pageView.init();
-        })
+        });
         e.preventDefault();
       });
     }
