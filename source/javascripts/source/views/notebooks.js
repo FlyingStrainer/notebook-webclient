@@ -68,6 +68,8 @@ const notebookView = {
     });
 
     // Functions
+
+    // TODO delete test
     function testRenderNotebooks() 
     {
       let nB = [new Notebook(), new Notebook()];
@@ -115,6 +117,7 @@ const notebookView = {
       return "<div id=\"addNote\" class=\"notebookHolder\"><p> CREATE NEW NOTEBOOK </p></div>";
     }
 
+    // TODO delete test
     testRenderNotebooks();
 
 	},
