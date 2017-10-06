@@ -153,12 +153,12 @@ const notebookView = {
           $(notebookId).on("click", function(e, e1, e2)
           {
             // alert("notebook with id " + notebook.id);
-			console.log($(this));
-            body.find("#notebookMainView").hide(500, function() 
-            {
-              body.html('');
-              pageView.init(notebooks, notebook.dataEntries);
-            });
+	          pageView.init(notebook.dataEntries);
+	          body.find("#notebookMainView").hide(500, function()
+	          {
+		          body.html('');
+		          pageView.render();
+	          });
             e.preventDefault();
           });
       });

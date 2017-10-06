@@ -3,9 +3,15 @@ import loginView from "./login.js";
 import DataEntryForm from "../forms/dataentry.js";
 import notebookView from "./notebooks.js";
 
+let dataEntries;
+
 const pageView = {
 
-	init( initNotebooks, dEntries ) {
+	init(dEntries) {
+		dataEntries = dEntries;
+	},
+
+	render( dEntries ) {
     const body = $("body");
 
     const content = $(
@@ -102,10 +108,11 @@ const pageView = {
     $("#backBtn").on("click", function(e, e1, e2)
     {
       // alert("backbtn");
+	    notebookView.init();
       body.find("#pageMainView").hide(500, function()
       {
         body.html('');
-        notebookView.init(initNotebooks);
+        notebookView.render();
       });
       e.preventDefault();
     });
@@ -115,10 +122,10 @@ const pageView = {
     function testRenderDataToBar()
     {
       let nB = [new DataEntry("text1", "image1", "cap1", "tag1", "author"), new DataEntry("text2", "image2", "cap2", "tag2", "John Doe")];
-      notebooks[0].id = "id1";
-      notebooks[1].id = "id2";
+      nB[0].id = "id1";
+      nB[1].id = "id2";
 
-      renderDataEntryToToolbar(notebooks);
+      renderDataEntryToToolbar(nB);
     }
 
     // Given an array of notebook objects render them to notebook view
@@ -134,25 +141,30 @@ const pageView = {
       // Add html to innerHTML
       document.getElementById("pageSelectorView").innerHTML = htmlToRender;
 
-      // add onclick for each data entry id is "entry" + id of entry 
+
+	    $("#selectedPage").html('');
+	    $("#selectedPage").append($("<h4>" + data[0].date_created + "</h4><p>" + data[0].text + "</p><img src='" + data[0].image + "' /><p>" + data[0].caption +"</p><p>" + data[0].author + "</p>"));
+
+      // add onclick for each data entry id is "entry" + id of entry
       data.forEach( function (entry)
       {
         var entryId = "#entry" + entry.id;
-        $(entryId).on("click", function(e, e1, e2)
+        $(entryId).on("click", function(e)
         {
+        	$("#selectedPage").html('');
+        	$("#selectedPage").append($("<h4>" + entry.date_created + "</h4><p>" + entry.text + "</p><img src='" + entry.image + "' /><p>" + entry.caption +"</p><p>" + entry.author + "</p>"));
           // You can manipulate entry in here
-          alert("data entry with id " + entry.id);
           e.preventDefault();
         });
       });
 
-      // add onclick for each delete data entry id is "delEntry" + id of entry 
+      // add onclick for each delete data entry id is "delEntry" + id of entry
       data.forEach( function (entry)
       {
         var entryId = "#delEntry" + entry.id;
         $(entryId).on("click", function(e, e1, e2)
         {
-          alert("del data entry with id " + entry.id);
+	        $(this).remove();
 
           if (!e)
           {
@@ -161,7 +173,7 @@ const pageView = {
 
           e.cancelBubble = true;
 
-          if (e.stopPropagation) 
+          if (e.stopPropagation)
           {
             e.stopPropagation();
           }
@@ -172,9 +184,9 @@ const pageView = {
     // TODO delete test
     // Replace with the moc objects and call renderDataEntry
     // dEntries are entries pass from another place to page/data view
-    if (dEntries != null)
+    if (dataEntries !== undefined)
     {
-      renderDataEntryToToolbar(dEntries); 
+      renderDataEntryToToolbar(dataEntries);
     }
     // testRenderDataToBar();
 },
