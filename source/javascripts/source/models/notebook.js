@@ -10,7 +10,9 @@ export default class Notebook
 
   getHTMLForNotebookSel()
   {
-    var oDiv = "<div class=\"notebookHolder\">";
+    var oDivO = "<div id=\"";
+    var oDivC = "\" class=\"notebookHolder\">";
+    var oDiv = oDivO + "nb" + this.id + oDivC;
     var oP = "<p>";
     var cP = "</p>";
     var cDiv = "</div>";

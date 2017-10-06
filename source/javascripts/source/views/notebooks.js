@@ -109,6 +109,18 @@ const notebookView = {
         });
         e.preventDefault();
       });
+
+      // add onclick for each notebook id is "bn" + id of notebook 
+      notebooks.forEach( function (notebook)
+      {
+          var notebookId = "#nb" + notebook.id;
+          $(notebookId).on("click", function(e, e1, e2)
+          {
+            alert("notebook with id " + notebook.id);
+            e.preventDefault();
+          });
+      });
+
     }
 
     // Get html for the create notebook notebook
