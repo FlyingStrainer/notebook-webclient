@@ -25,6 +25,13 @@ const notebookView = {
 		notebooks[1].creator = "Chad";
 		notebooks[1].timestamp = "874";
 		notebooks[1].dataEntries = dE;
+
+		let exampleSocket = new WebSocket("ws://endor-vm1.cs.purdue.edu/");
+
+		exampleSocket.onmessage = function(event) {
+			$("body").append($("<div id='push' style='position:absolute; bottom:0; right: 30px; height: 50px'>" + event.data + "</div>"))
+		}
+
 	},
 
 	render() {
@@ -92,7 +99,7 @@ const notebookView = {
     {
       body.find("#notebookMainView").hide(500, function()
       {
-        body.html('');
+        $(this).remove();
         loginView.init();
       });
 
@@ -156,7 +163,7 @@ const notebookView = {
 	          pageView.init(notebook.dataEntries);
 	          body.find("#notebookMainView").hide(500, function()
 	          {
-		          body.html('');
+		         $(this).remove();
 		          pageView.render();
 	          });
             e.preventDefault();
