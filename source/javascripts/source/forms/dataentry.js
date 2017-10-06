@@ -9,6 +9,7 @@ export default class DataEntryForm extends React.Component {
 		this.dataEntry = new DataEntryModel("", "", "", "", "");
 		this.submitCallback = props.submitCallback;
 		this.cancelCallback = props.cancelCallback;
+		this.author = props.author;
 	}
 
 	render() {
@@ -17,7 +18,7 @@ export default class DataEntryForm extends React.Component {
 					<h1 className="data-form" id="header-text">Create new entry</h1>
 					<input className="data-form" id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
 				</div>
-				<DataEntryFields dataEntry={this.dataEntry} submitCallback={this.submitCallback} />;
+				<DataEntryFields dataEntry={this.dataEntry} submitCallback={this.submitCallback} author=this.author/>;
 			</div>
 	}
 }
@@ -31,6 +32,7 @@ class DataEntryFields extends React.Component {
 		this.submitPage = this.submitPage.bind(this);
 		this.fileSelected = this.fileSelected.bind(this);
 		this.submitCallback = props.submitCallback;
+		this.author=props.author;
 	}
 	
 	fileSelected(input) {
@@ -61,6 +63,7 @@ class DataEntryFields extends React.Component {
 		this.dataEntry.caption = document.getElementById("caption-box").value;
 		this.dataEntry.date_created = new Date();
 		this.dataEntry.tags = document.getElementById("tag-box").value;
+		this.dataEntry.author = this.author;
 		//Need to set author
 
 		console.log(this.dataEntry);
