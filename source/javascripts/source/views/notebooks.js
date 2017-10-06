@@ -1,4 +1,5 @@
 import pageView from "./pages.js";
+import Notebook from "../models/notebook.js";
 
 const notebookView = {
 
@@ -65,6 +66,56 @@ const notebookView = {
       alert("Logout"); 
       e.preventDefault();
     });
+
+    // Functions
+    function testRenderNotebooks() 
+    {
+      let nB = [new Notebook(), new Notebook()];
+      nB[0].id = "1234";
+      nB[0].pages = "test";
+      nB[0].creator = "create";
+      nB[0].timestamp = "123";
+      nB[1].id = "543";
+      nB[1].pages = "test1";
+      nB[1].creator = "Chad";
+      nB[1].timestamp = "874";
+
+      renderNotebooks(nB);
+    }
+
+    // Given an array of notebook objects render them to notebook view
+    function renderNotebooks( notebooks )
+    {
+      // Get a string which will be html for all notebooks starting with create
+      var htmlToRender = getHTMLForCreateNotebook();
+      notebooks.forEach( function (notebook)
+      {
+        htmlToRender = htmlToRender + notebook.getHTMLForNotebookSel(); 
+      });
+
+      // Add html to innerHTML
+      document.getElementById("notebookSelectorView").innerHTML = htmlToRender;
+
+      // Re add onclick for addnote
+      $("#addNote").on("click", function(e, e1, e2) 
+      {
+        // alert("Creat new notebook"); 
+        body.find("#notebookMainView").hide(500, function() 
+        {
+          body.html('');
+          pageView.init();
+        })
+        e.preventDefault();
+      });
+    }
+
+    // Get html for the create notebook notebook
+    function getHTMLForCreateNotebook()
+    {
+      return "<div id=\"addNote\" class=\"notebookHolder\"><p> CREATE NEW NOTEBOOK </p></div>";
+    }
+
+    testRenderNotebooks();
 
 	},
 
