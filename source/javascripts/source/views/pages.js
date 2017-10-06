@@ -76,7 +76,53 @@ const pageView = {
 
     content.show(500);
 
-    const dataEntryForm = <DataEntryForm />;
+
+		const overlay = $("#overlay");
+		const newDataEntry =$("#root");
+		const deleteDataEntry= $("#confirm");
+
+    const dataEntryForm = <DataEntryForm cancelCallback={function() {
+	    overlay.animate({"top": "50%", "left": "50%", "width": "0", "height": "0"}, 150, function() {$(this).hide()});
+    }} submitCallback={function(dataEntry){
+	    overlay.animate({"top": "50%", "left": "50%", "width": "0", "height": "0"}, 150, function() {$(this).hide()});
+	    $("#pageSelectorView").append(dataEntry.getHTMLForEntrySel());
+
+	    $("#selectedPage").html('');
+	    $("#selectedPage").append($("<h4>" + dataEntry.date_created + "</h4><p>" + dataEntry.text + "</p><img src='" + dataEntry.image + "' /><p>" + dataEntry.caption +"</p><p>" + dataEntry.author + "</p>"));
+
+	    var entryId = "#entry" + dataEntry.id;
+	    $(entryId).on("click", function(e)
+	    {
+		    $("#selectedPage").html('');
+		    $("#selectedPage").append($("<h4>" + dataEntry.date_created + "</h4><p>" + dataEntry.text + "</p><img src='" + dataEntry.image + "' /><p>" + dataEntry.caption +"</p><p>" + dataEntry.author + "</p>"));
+		    // You can manipulate entry in here
+		    e.preventDefault();
+	    });
+
+	    var entryId = "#delEntry" + dataEntry.id;
+	    $(entryId).on("click", function(e)
+	    {
+
+		    deleteDataEntry.show();
+		    newDataEntry.hide();
+		    overlay.show();
+
+		    overlay.animate({"top": "0%", "left": "0%", "width": "100%", "height": "100%"}, 150);
+		    //$(this).remove();
+
+		    if (! e)
+		    {
+			    var e = window.event;
+		    }
+
+		    e.cancelBubble = true;
+
+		    if (e.stopPropagation)
+		    {
+			    e.stopPropagation();
+		    }
+	    });
+    }} />;
     const deleteDataEntryForm = <DeleteDataEntryForm />;
 
 		ReactDOM.render(
@@ -90,10 +136,6 @@ const pageView = {
 		);
 
     // Onclick setup
-
-		const overlay = $("#overlay");
-		const newDataEntry =$("#root");
-		const deleteDataEntry= $("#confirm");
 
         $("button[type='submit']").on('click', function(e) {
 
@@ -184,7 +226,7 @@ const pageView = {
 	        overlay.show();
 
 	        overlay.animate({"top": "0%", "left": "0%", "width": "100%", "height": "100%"}, 150);
-	        $(this).remove();
+	        //$(this).remove();
 
           if (!e)
           {
