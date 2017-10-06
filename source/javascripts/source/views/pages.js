@@ -5,7 +5,7 @@ import notebookView from "./notebooks.js";
 
 const pageView = {
 
-	init() {
+	init( dEntries ) {
     const body = $("body");
 
     const content = $(
@@ -175,7 +175,12 @@ const pageView = {
 
     // TODO delete test
     // Replace with the moc objects and call renderDataEntry
-    testRenderDataToBar();
+    // dEntries are entries pass from another place to page/data view
+    if (dEntries != null)
+    {
+      renderDataEntryToToolbar(dEntries); 
+    }
+    // testRenderDataToBar();
 },
 
 	transition() {
