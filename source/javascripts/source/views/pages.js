@@ -70,7 +70,6 @@ const pageView = {
 	    "</button>" +
 	    "<div id='overlay' style='position:absolute; top:50%; left:50%; width:0; height:0; background-color: rgba(0, 0, 0, 0.5); z-index:10; display:none'>" +
 	    "<div id='root' style='position:absolute; top:20%; left: 20%; width: 60%; height:60%; background-color: white'></div>" +
-		"<div id='confirm' style='position:absolute;top:40%; left: 40%; width:20%; height:20%; background-color: white'></div>" +
 	    "</div>" +
 	    "</div>");
 
@@ -81,7 +80,6 @@ const pageView = {
 
 		const overlay = $("#overlay");
 		const newDataEntry =$("#root");
-		const deleteDataEntry= $("#confirm");
 
     const dataEntryForm = <DataEntryForm cancelCallback={function() {
 	    overlay.animate({"top": "50%", "left": "50%", "width": "0", "height": "0"}, 150, function() {$(this).hide()});
@@ -89,16 +87,26 @@ const pageView = {
 	    overlay.animate({"top": "50%", "left": "50%", "width": "0", "height": "0"}, 150, function() {$(this).hide()});
 	    $("#pageSelectorView").append(dataEntry.getHTMLForEntrySel());
 
+	    let content = "<h4>" + dataEntry.date_created + "</h4><p>" + dataEntry.text + "</p><img src='" + dataEntry.image + "' /><p>" + dataEntry.caption +"</p><p>" + dataEntry.author + "</p>"
+
 	    $("#selectedPage").html('');
-	    $("#selectedPage").append($("<h4>" + dataEntry.date_created + "</h4><p>" + dataEntry.text + "</p><img src='" + dataEntry.image + "' /><p>" + dataEntry.caption +"</p><p>" + dataEntry.author + "</p>"));
+	    $("#selectedPage").append($(content));
 
 		notebook.dataEntries.push(dataEntry);
 
 	    var entryId = "#entry" + dataEntry.id;
 	    $(entryId).on("click", function(e)
 	    {
+	    	console.log("here");
+		    if(dataEntry.redacted === 1)
+		    {
+			    $("#selectedPage").attr("style", "background-color: gray");
+		    }
+		    else
+			    $("#selectedPage").attr("style", "");
+
 		    $("#selectedPage").html('');
-		    $("#selectedPage").append($("<h4>" + dataEntry.date_created + "</h4><p>" + dataEntry.text + "</p><img src='" + dataEntry.image + "' /><p>" + dataEntry.caption +"</p><p>" + dataEntry.author + "</p>"));
+		    $("#selectedPage").append($(content));
 		    // You can manipulate entry in here
 		    e.preventDefault();
 	    });
@@ -107,11 +115,13 @@ const pageView = {
 	    $(entryId).on("click", function(e)
 	    {
 
-		    deleteDataEntry.show();
-		    newDataEntry.hide();
-		    overlay.show();
+		    dataEntry.redacted = 1;
 
-		    overlay.animate({"top": "0%", "left": "0%", "width": "100%", "height": "100%"}, 150);
+		    //deleteDataEntry.show();
+		    //newDataEntry.hide();
+		    //overlay.show();
+
+		    //overlay.animate({"top": "0%", "left": "0%", "width": "100%", "height": "100%"}, 150);
 		    //$(this).remove();
 
 		    if (! e)
@@ -127,16 +137,10 @@ const pageView = {
 		    }
 	    });
     }} />;
-    const deleteDataEntryForm = <DeleteDataEntryForm />;
 
 		ReactDOM.render(
 			dataEntryForm,
 			document.getElementById("root")
-		);
-
-		ReactDOM.render(
-			deleteDataEntryForm,
-			document.getElementById("confirm")
 		);
 
     // Onclick setup
@@ -144,7 +148,6 @@ const pageView = {
         $("button[type='submit']").on('click', function(e) {
 
         	newDataEntry.show();
-        	deleteDataEntry.hide();
 			overlay.show();
 
 			overlay.animate({"top": "0%", "left": "0%", "width": "100%", "height": "100%"}, 150);
@@ -206,6 +209,14 @@ const pageView = {
       {
 	      $("#selectedPage").html('');
 	      $("#selectedPage").append($("<h4>" + data[0].date_created + "</h4><p>" + data[0].text + "</p><img src='" + data[0].image + "' /><p>" + data[0].caption +"</p><p>" + data[0].author + "</p>"));
+
+
+	      if(data[0].redacted === 1)
+	      {
+		      $("#selectedPage").attr("style", "background-color: gray");
+	      }
+	      else
+		      $("#selectedPage").attr("style", "");
       }
 
       // add onclick for each data entry id is "entry" + id of entry
@@ -214,6 +225,14 @@ const pageView = {
         var entryId = "#entry" + entry.id;
         $(entryId).on("click", function(e)
         {
+        	console.log(entry);
+        	if(entry.redacted === 1)
+	        {
+	        	$("#selectedPage").attr("style", "background-color: gray");
+	        }
+	        else
+		        $("#selectedPage").attr("style", "");
+
         	$("#selectedPage").html('');
         	$("#selectedPage").append($("<h4>" + entry.date_created + "</h4><p>" + entry.text + "</p><img src='" + entry.image + "' /><p>" + entry.caption +"</p><p>" + entry.author + "</p>"));
           // You can manipulate entry in here
@@ -228,12 +247,13 @@ const pageView = {
         $(entryId).on("click", function(e, e1, e2)
         {
 
-	        deleteDataEntry.show();
-	        newDataEntry.hide();
-	        overlay.show();
+	        //deleteDataEntry.show();
+	        //newDataEntry.hide();
+	        //overlay.show();
 
-	        overlay.animate({"top": "0%", "left": "0%", "width": "100%", "height": "100%"}, 150);
-	        //$(this).remove();
+	        //overlay.animate({"top": "0%", "left": "0%", "width": "100%", "height": "100%"}, 150);
+
+	        entry.redacted = 1;
 
           if (!e)
           {

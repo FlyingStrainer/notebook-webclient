@@ -103,16 +103,20 @@ const loginView = {
 					}
 					else
 					{
-						let random = Math.random();
-						if(random < .5)
-							badlogin.show(300);
-						else
+						let username = $("input[name='email']").val();
+						let password = $("input[name='password']").val();
+
+						if(username === "kleclain@purdue.edu" && password === "test123")
 						{
 							notebookView.init();
 							body.find(".form-container").hide(500, function() {
-							   $(this).remove();
-							   notebookView.render();
+								$(this).remove();
+								notebookView.render();
 							});
+						}
+						else
+						{
+							badlogin.show(300);
 						}
 					}
 				}

@@ -76,14 +76,11 @@ class DataEntryFields extends React.Component {
 			body: this
 		});
 
-		this.dataEntry.text = "";
-		this.dataEntry.caption = "";
-		this.dataEntry.tags = "";
-		this.dataEntry.author = "";
 
 		if (this.submitCallback) {
 			this.submitCallback(this.dataEntry);
 		}
+		this.dataEntry = new DataEntryModel("", "", "", "", "");
 	}
 
 	render() {
