@@ -9,28 +9,16 @@ let notebooks;
 const notebookView = {
 
 	init() {
-		// TODO RYAN add your data models here
-		// TODO change this to mock data
-		let dE = [new DataEntry("text1", "image1", "cap1", "tag1", "author"), new DataEntry("text2", "image2", "cap2", "tag2", "John Doe")];
-		dE[0].id = "id1";
-		dE[1].id = "id2";
 
-		// TODO notebooks here
-		notebooks = [new Notebook(), new Notebook()];
-		notebooks[0].id = "1234";
-		notebooks[0].creator = "create";
-		notebooks[0].timestamp = "123";
-		notebooks[0].dataEntries = dE;
-		notebooks[1].id = "543";
-		notebooks[1].creator = "Chad";
-		notebooks[1].timestamp = "874";
-		notebooks[1].dataEntries = dE;
-
-		let exampleSocket = new WebSocket("ws://endor-vm1.cs.purdue.edu/");
-
-		exampleSocket.onmessage = function(event) {
-			$("body").append($("<div id='push' style='position:absolute; bottom:0; right: 30px; height: 50px'>" + event.data + "</div>"))
+		if(notebooks === undefined)
+		{
+			notebooks = [];
+			console.log("HERE");
 		}
+
+		$.get("http://endor-vm1.cs.purdue.edu/", {"msgType" : "getNotebooks"}, function(data) {
+			console.log(data);
+		});
 
 	},
 
@@ -61,17 +49,31 @@ const notebookView = {
 	    "</div>" +
 	    "</div>");
 
+
     body.append(content);
+		const overlay = $("#overlay");
 
     content.show(500);
 
-		const element = <CreateNotebookForm />;
+		const element = <CreateNotebookForm cancelCallback={function() {
+			overlay.animate({"top": "50%", "left": "50%", "width": "0", "height": "0"}, 150, function() {$(this).hide()});
+		}} submitCallback={function(notebook){
+			overlay.animate({"top": "50%", "left": "50%", "width": "0", "height": "0"}, 150, function() {$(this).hide()});
+
+			notebooks.push(notebook);
+
+			pageView.init(notebook);
+			body.find("#notebookMainView").hide(500, function()
+			{
+				$(this).remove();
+				pageView.render();
+			});
+
+		}} />;
 		ReactDOM.render(
 			element,
 			document.getElementById("root")
 		);
-
-		const overlay = $("#overlay");
 
     // Other init logic here
 
@@ -80,8 +82,9 @@ const notebookView = {
     // Re add onclick for addnot
 
 		// Re add onclick for addnote
-		$("#addNote").on("click", function(e, e1, e2)
+		$("#addNote").on("click", function(e)
 		{
+			console.log(overlay);
 			overlay.show();
 
 			overlay.animate({"top": "0%", "left": "0%", "width": "100%", "height": "100%"}, 150);
@@ -95,7 +98,7 @@ const notebookView = {
 		});
 
     // Handle click for logout
-    $("#logoutBtn").on("click", function(e, e1, e2) 
+    $("#logoutBtn").on("click", function(e)
     {
       body.find("#notebookMainView").hide(500, function()
       {
@@ -160,7 +163,8 @@ const notebookView = {
           $(notebookId).on("click", function(e, e1, e2)
           {
             // alert("notebook with id " + notebook.id);
-	          pageView.init(notebook.dataEntries);
+	          console.log(notebook.dataEntries);
+	          pageView.init(notebook);
 	          body.find("#notebookMainView").hide(500, function()
 	          {
 		         $(this).remove();

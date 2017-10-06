@@ -17,7 +17,7 @@ export default class Notebook
     var oP = "<p>";
     var cP = "</p>";
     var cDiv = "</div>";
-    var ret = oDiv + oP + this.timestamp + cP + cDiv;
+    var ret = oDiv + oP + this.name + cP + oP + this.timestamp + cP + cDiv;
     return ret;
   }
 

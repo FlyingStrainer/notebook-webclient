@@ -5,11 +5,13 @@ import DeleteDataEntryForm from "../forms/deletedataentry.js";
 import notebookView from "./notebooks.js";
 
 let dataEntries;
+let notebook;
 
 const pageView = {
 
-	init(dEntries) {
-		dataEntries = dEntries;
+	init(nb) {
+		notebook = nb;
+		dataEntries = notebook.dataEntries;
 	},
 
 	render( ) {
@@ -89,6 +91,8 @@ const pageView = {
 
 	    $("#selectedPage").html('');
 	    $("#selectedPage").append($("<h4>" + dataEntry.date_created + "</h4><p>" + dataEntry.text + "</p><img src='" + dataEntry.image + "' /><p>" + dataEntry.caption +"</p><p>" + dataEntry.author + "</p>"));
+
+		notebook.dataEntries.push(dataEntry);
 
 	    var entryId = "#entry" + dataEntry.id;
 	    $(entryId).on("click", function(e)
@@ -198,8 +202,11 @@ const pageView = {
       document.getElementById("pageSelectorView").innerHTML = htmlToRender;
 
 
-	    $("#selectedPage").html('');
-	    $("#selectedPage").append($("<h4>" + data[0].date_created + "</h4><p>" + data[0].text + "</p><img src='" + data[0].image + "' /><p>" + data[0].caption +"</p><p>" + data[0].author + "</p>"));
+      if(data.length > 0)
+      {
+	      $("#selectedPage").html('');
+	      $("#selectedPage").append($("<h4>" + data[0].date_created + "</h4><p>" + data[0].text + "</p><img src='" + data[0].image + "' /><p>" + data[0].caption +"</p><p>" + data[0].author + "</p>"));
+      }
 
       // add onclick for each data entry id is "entry" + id of entry
       data.forEach( function (entry)
