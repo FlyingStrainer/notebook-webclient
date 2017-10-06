@@ -5,10 +5,19 @@ export default class DeleteDataEntryForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
+		this.submitCallback = props.submitCallback;
+		this.cancelCallback = props.cancelCallback;
+		this.dataEntry = props.dataEntry;
 	}
 
 	render() {
-		return <DeleteDataEntryFields />;
+		return <div className="delete-entry-form" id="container">
+				<div className="delete-entry-form" id="notebook-header">
+					<h1 className="delete-entry-form" id="header-text">Create new notebook</h1>
+					<input className="delete-entry-form" id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
+				</div>
+				<DeleteDataEntryFields submitCallback={this.submitCallback} />
+			</div>
 	}
 }
 
@@ -18,6 +27,8 @@ class DeleteDataEntryFields  extends React.Component {
 		this.state = {};
 		this.confirm = this.confirm.bind(this);
 		this.cancel = this.cancel.bind(this);
+		this.submitCallback = props.submitCallback;
+		this.dataEntry = props.dataEntry;
 	}
 
 	confirm() {
@@ -32,10 +43,16 @@ class DeleteDataEntryFields  extends React.Component {
 			},
 			body: notebook
 		});
+
+		if (this.submitCallback) {
+			this.submitCallback(this.dataEntry);
+		}
 	}
 
 	cancel() {
-
+		if (this.cancelCallback) {
+			this.cancelCallback(null);
+		}
 	}
 
 	render() {
