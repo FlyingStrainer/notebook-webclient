@@ -1,4 +1,6 @@
+import DataEntry from "../models/dataentry.js";
 import notebookView from "./notebooks.js";
+import Notebook from "../models/notebook.js";
 
 const loginView = {
 
@@ -98,7 +100,24 @@ const loginView = {
 							badlogin.show(300);
 						else
 						{
-							notebookView.init();
+              // TODO RYAN add your data models here
+              // TODO change this to mock data
+              let dE = [new DataEntry("text1", "image1", "cap1", "tag1", "author"), new DataEntry("text2", "image2", "cap2", "tag2", "John Doe")];
+              dE[0].id = "id1";
+              dE[1].id = "id2";
+
+              // TODO notebooks here
+              let nB = [new Notebook(), new Notebook()];
+              nB[0].id = "1234";
+              nB[0].creator = "create";
+              nB[0].timestamp = "123";
+              nB[0].dataEntries = dE;
+              nB[1].id = "543";
+              nB[1].creator = "Chad";
+              nB[1].timestamp = "874";
+              nB[1].dataEntries = dE;
+
+							notebookView.init(nB);
 							body.find(".form-container").hide(500, function() {
 							   //body.html('');
 							   notebookView.render();

@@ -1,9 +1,11 @@
+import DataEntry from "../models/dataentry.js";
 import pageView from "./pages.js";
+import loginView from "./login.js";
 import Notebook from "../models/notebook.js";
 
 const notebookView = {
 
-	init() {
+	init(initNotebooks) {
     const body = $("body");
 
     const content = $(
@@ -34,23 +36,28 @@ const notebookView = {
     // Other init logic here
 
     // Onclick Setup
-
-    // Handle click for new notebook creation
-    $("#addNote").on("click", function(e, e1, e2) 
+    // Onclick for new notebook
+    // Re add onclick for addnote
+    $("#addNote").on("click", function(e, e1, e2)
     {
-      // alert("Creat new notebook"); 
-      body.find("#notebookMainView").hide(500, function() 
+      // alert("Creat new notebook");
+      body.find("#notebookMainView").hide(500, function()
       {
         body.html('');
         pageView.init();
-      })
+      });
       e.preventDefault();
     });
 
     // Handle click for logout
     $("#logoutBtn").on("click", function(e, e1, e2) 
     {
-      alert("Logout"); 
+      body.find("#notebookMainView").hide(500, function()
+      {
+        body.html('');
+        loginView.init();
+      });
+
       e.preventDefault();
     });
 
@@ -92,7 +99,7 @@ const notebookView = {
         body.find("#notebookMainView").hide(500, function() 
         {
           body.html('');
-          pageView.init();
+          pageView.init(notebooks, null);
         });
         e.preventDefault();
       });
@@ -101,9 +108,16 @@ const notebookView = {
       notebooks.forEach( function (notebook)
       {
           var notebookId = "#nb" + notebook.id;
+
           $(notebookId).on("click", function(e, e1, e2)
           {
-            alert("notebook with id " + notebook.id);
+            // alert("notebook with id " + notebook.id);
+
+            body.find("#notebookMainView").hide(500, function() 
+            {
+              body.html('');
+              pageView.init(notebooks, notebook.dataEntries);
+            });
             e.preventDefault();
           });
       });
@@ -116,8 +130,13 @@ const notebookView = {
       return "<div id=\"addNote\" class=\"notebookHolder\"><p> CREATE NEW NOTEBOOK </p></div>";
     }
 
+    // initNotebooks are passed thorugh from another view calling init 
     // TODO delete test
-    testRenderNotebooks();
+    if (initNotebooks != null)
+    {
+      renderNotebooks(initNotebooks);
+    }
+    // testRenderNotebooks();
 
 	},
 
