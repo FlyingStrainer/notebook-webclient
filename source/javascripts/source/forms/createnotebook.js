@@ -1,7 +1,7 @@
 import * as form from "./form.js";
 export * from "./form.js";
 
-class CreateNotebookForm extends React.Component {
+export default class CreateNotebookForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -29,7 +29,7 @@ class CreateNotebookFields  extends React.Component {
 				'Accept': 'application/json',
 				'Content-Type': 'appication/json'
 			},
-			body: notebook;
+			body: notebook
 		});
 	}
 
@@ -44,5 +44,3 @@ class CreateNotebookFields  extends React.Component {
 			</div>);	
 	}
 }
-
-module.exports = CreateNotebookForm;
