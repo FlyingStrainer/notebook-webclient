@@ -17,6 +17,24 @@ body
     height:540px;
 }
 
+#notebookMainView *
+{
+    -webkit-box-sizing:content-box;
+    -moz-box-sizing:content-box;
+    box-sizing:content-box;
+}
+
+#notebookMainView .topBarView h1
+{
+    font-size: 32px;
+    line-height: normal;
+}
+
+#notebookMainView .topBarView h2
+{
+    font-size:24px;
+    line-height: normal;
+}
 
 /* 
 ***  Styles for notebookView ***
