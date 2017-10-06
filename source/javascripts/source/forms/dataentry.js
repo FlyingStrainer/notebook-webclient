@@ -7,9 +7,15 @@ export default class DataEntryForm extends React.Component {
 		super(props);
 		this.state = {};
 		this.dataEntry = new DataEntryModel("", "", "", "", "");
+		this.submitCallback = props.submitCallback;
+		this.cancelCallback - props.cancelCallback;
 	}
 
 	render() {
+		<div className="data-form" id="data-entry-header">
+			<h1 class="data-form" id="header-text">Create new entry</h1>
+			<input className="data-form" id="cancel-button" onClick={this.cancelCallback}/>
+		</div>
 		return <DataEntryFields dataEntry={this.dataEntry}/>;
 	}
 }

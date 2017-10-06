@@ -1,4 +1,5 @@
 import * as form from "./form.js";
+import NotebookModel from "../models/notebook.js"
 export * from "./form.js";
 
 class CreateNotebookForm extends React.Component {
@@ -21,7 +22,7 @@ class CreateNotebookFields  extends React.Component {
 	
 	postNewNotebook() {
 		console.log("Creating new notebook");
-		var notebook = new Notebook("name", "id", [], "Person1");
+		var notebook = new NotebookModel("name", "id", [], "Person1");
 
 		fetch('PLACEHOLDER_URL', {
 			method: 'POST',
@@ -29,7 +30,7 @@ class CreateNotebookFields  extends React.Component {
 				'Accept': 'application/json',
 				'Content-Type': 'appication/json'
 			},
-			body: notebook;
+			body: notebook
 		});
 	}
 
