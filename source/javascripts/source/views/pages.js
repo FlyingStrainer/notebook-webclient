@@ -68,7 +68,7 @@ const pageView = {
 	    "</button>" +
 	    "<div id='overlay' style='position:absolute; top:50%; left:50%; width:0; height:0; background-color: rgba(0, 0, 0, 0.5); z-index:10; display:none'>" +
 	    "<div id='root' style='position:absolute; top:20%; left: 20%; width: 60%; height:60%; background-color: white'></div>" +
-		"<div id='confirm' style='position:absolute:top:40%; left: 40%; width:20%; height:20%; background-color: white'></div>" +
+		"<div id='confirm' style='position:absolute;top:40%; left: 40%; width:20%; height:20%; background-color: white'></div>" +
 	    "</div>" +
 	    "</div>");
 
@@ -86,7 +86,7 @@ const pageView = {
 
 		ReactDOM.render(
 			deleteDataEntryForm,
-			document.getElementById("root")
+			document.getElementById("confirm")
 		);
 
     // Onclick setup

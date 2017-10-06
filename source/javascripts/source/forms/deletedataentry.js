@@ -16,7 +16,8 @@ class DeleteDataEntryFields  extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
-		this.postNewNotebook = this.postNewNotebook.bind(this);
+		this.confirm = this.confirm.bind(this);
+		this.cancel = this.cancel.bind(this);
 	}
 
 	confirm() {
