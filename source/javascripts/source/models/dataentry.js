@@ -1,12 +1,13 @@
-export default DataEntry;
 
 class DataEntry {
-	constructor(text, image, caption, author) {
+	constructor(text, image, caption, tags, author) {
 		this.text = text;
 		this.image = image;
 		this.caption = caption;
+		this.tags = tags;
 		this.date_created = new Date();
 		this.author = author;
+		this.redacted = false;
 	}
 
 	toJSON() {
@@ -36,3 +37,5 @@ class DataEntry {
 
 	}
 }
+
+module.exports =  DataEntry;

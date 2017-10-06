@@ -1,6 +1,7 @@
 import * as form from "./form.js";
 //import React from "./../../lib/react.js"; 
 //import ReactDOM from "./../../lib/react-dom.js";
+const DataEntry = require('../models/dataentry.js');
 export * from "./form.js";
 var rootObject;
 
@@ -8,10 +9,11 @@ class DataEntryForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
+		this.dataEntry = new DataEntry("", "", "", "", props.author);
 	}
 
 	render() {
-		return <DataEntryFields />; 
+		return <DataEntryFields />;
 	}
 }
 
@@ -31,6 +33,7 @@ class DataEntryFields extends React.Component {
 			console.log("out");
 			reader.onloadend = function (e) {
 				console.log("in");
+				this.dataEntry.image = reader.result;
 				this.setState({
 					imgSrc: [reader.result]
 				})
@@ -41,6 +44,19 @@ class DataEntryFields extends React.Component {
 
 	submitPage() {
 		console.log("Hai");
+		var checkbox = document.getElementById("checkbox");
+		if (!checkbox.checked)
+		{
+			console.log("Whoa");
+			return;
+		}
+
+		this.dataEntry.text = document.getElementById("text-box").value;
+		this.dataEntry.caption = document.getElementById("caption-box").value;
+		this.dataEntry.data_created = new Date();
+		this.dataEntry.tags = document.getElementById("tag-box").value;
+		//Need to set author
+
 		fetch('', {
 			method: 'POST',
 			headers: {
@@ -55,17 +71,26 @@ class DataEntryFields extends React.Component {
 	}
 
 	render() {
-		return (<form className="data-form" id="form">
-			Describe your work:<br />
-			<textarea className="data-form" id="text-box"></textarea><br /><br />
-			Include an image:<br />
-			<input type="file" ref="file" className="data-form" id="image-upload" accept="image/*" onChange={(event)=>{this.fileSelected(event)}} /><br /><br />
-			<img className="data-form" id="image" src={this.state.imgSrc} /><br /><br />
-			Caption the image:<br />
-			<textarea className="data-form" id="caption-box"></textarea><br /><br />
-		
-			<input className="data-form" id="submit-button" type="button" value="Submit" onClick={this.submitPage} /><br /><br />
-		</form>);	
+		return (<div className="data-form" id="form-div">
+				<form className="data-form" id="form">
+					Describe your work:<br />
+					<textarea className="data-form" id="text-box"></textarea><br /><br />
+					Include an image:<br />
+					<input type="file" ref="file" className="data-form" id="image-upload" accept="image/*" onChange={(event)=>{this.fileSelected(event)}} /><br />
+					<img className="data-form" id="image" src={this.state.imgSrc} /><br />
+					Caption the image:<br />
+					<textarea className="data-form" id="caption-box"></textarea><br /><br />
+
+					Add image tags:<br />
+					(Write tags as a comma separated list, for example: "Wheels, Drive Train, Movement")<br />
+					<textarea className="data-form" id="tag-box"></textarea><br /><br />
+					<label>	
+						<input className="data-form" id="checkbox" type="checkbox" value="Hi"/>
+						By checking this you confirm the accuracy of this entry.<br /><br />
+					</label>
+					<input className="data-form" id="submit-button" type="button" value="Submit" onClick={this.submitPage} /><br /><br />
+				</form>
+			</div>);	
 	}
 }
 
