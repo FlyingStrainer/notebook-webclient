@@ -1,7 +1,6 @@
 import loginView from "./views/login.js";
 import pages from "./views/pages.js";
 import DataEntryForm from "./forms/dataentry.js";
-
 $(document).ready(function() {
 	const body = $("body");
 	if(body.hasClass("pageview"))
@@ -15,8 +14,8 @@ $(document).ready(function() {
 			console.log("Cancel");
 		}		
 
-		var submit = function() {
-			console.log("Submit");
+		var submit = function(dataEntry) {
+			console.log("Submit: " + dataEntry.text);
 		}		
 
 		const element = <DataEntryForm cancelCallback={cancel} submitCallback={submit} />;

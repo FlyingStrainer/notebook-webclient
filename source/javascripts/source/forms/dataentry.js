@@ -72,7 +72,7 @@ class DataEntryFields extends React.Component {
 			},
 			body: this
 		});
-		this.submitCallback();
+		this.submitCallback(this.dataEntry);
 	}
 
 	render() {
