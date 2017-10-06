@@ -23,14 +23,6 @@ const pageView = {
 	    "<!-- This div holds all pages in notebook to let users select page open -->" +
 	    "<div id=\"pageSelectorView\">" +
 	    "<!-- This page should be clicked to make a new page --> " +
-	    "<div class=\"pageView\">" +
-	    "<p>Page 1</p>" +
-	    "<p>Meta Data?</p>" +
-	    "</div>" +
-	    "<div class=\"pageView\">" +
-	    "<p>Page 2</p>" +
-	    "<p>Meta Data?</p>" +
-	    "</div>" +
 	    "</div>" +
 
 	    /*"!-- This is the div that will hold all the modules relating to edting pages -->" +
