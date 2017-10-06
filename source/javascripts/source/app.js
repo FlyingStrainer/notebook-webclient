@@ -11,6 +11,7 @@ $(document).ready(function() {
 	if(body.hasClass("dataEntryView"))
 	{
 //		dataEntryForm.init(document.getElementById("root"));
+		
 		const element = <DataEntryForm />;
 		ReactDOM.render(
 			element,

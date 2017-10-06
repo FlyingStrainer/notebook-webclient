@@ -2,7 +2,7 @@ import pageView from "./pages.js";
 import loginView from "./login.js";
 import Notebook from "../models/notebook.js";
 import DataEntry from "../models/dataentry.js";
-import NewNotebookForm from "../forms/createnotebook.js";
+import CreateNotebookForm from "../forms/createnotebook.js";
 
 let notebooks;
 
@@ -58,7 +58,7 @@ const notebookView = {
 
     content.show(500);
 
-		const element = <NewNotebookForm />;
+		const element = <CreateNotebookForm />;
 		ReactDOM.render(
 			element,
 			document.getElementById("root")
