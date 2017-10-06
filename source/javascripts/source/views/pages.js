@@ -198,8 +198,11 @@ const pageView = {
       document.getElementById("pageSelectorView").innerHTML = htmlToRender;
 
 
-	    $("#selectedPage").html('');
-	    $("#selectedPage").append($("<h4>" + data[0].date_created + "</h4><p>" + data[0].text + "</p><img src='" + data[0].image + "' /><p>" + data[0].caption +"</p><p>" + data[0].author + "</p>"));
+      if(data.length > 0)
+      {
+	      $("#selectedPage").html('');
+	      $("#selectedPage").append($("<h4>" + data[0].date_created + "</h4><p>" + data[0].text + "</p><img src='" + data[0].image + "' /><p>" + data[0].caption +"</p><p>" + data[0].author + "</p>"));
+      }
 
       // add onclick for each data entry id is "entry" + id of entry
       data.forEach( function (entry)

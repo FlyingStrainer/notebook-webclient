@@ -1,4 +1,5 @@
 import notebookView from "./notebooks.js";
+import socket from "../network.js";
 
 const loginView = {
 
@@ -81,10 +82,19 @@ const loginView = {
 					else
 					{
 						//REGISTER ACCOUNT HERE
+						console.log($("input[name='email']").val());
+						socket.send(JSON.stringify({"msgType" : "register", "data" : {"email" : $("input[name='email']").val()}}));
 					}
 				}
 				else if($(this).attr("title") === "Login")
 				{
+//					socket.onmessage = function(event)
+//					{
+
+//					}
+
+//					socket.send(JSON.stringify({"msgType" : "login", "data" : {"email" : $("input[name='email']").val(), "password" : $("input[name='password']").val()}}));
+
 					if(loginMode > 0)
 					{
 						loginMode = 0;
