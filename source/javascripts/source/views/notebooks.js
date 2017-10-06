@@ -10,8 +10,8 @@ const notebookView = {
           "<div class=\"mainView\" id=\"notebookMainView\">" +
             "<div class=\"topBarView\">" +
               "<div id=\"titleHolder\">" +
-                "<h1 class=\"title\">Our Title</h1>" +
-                "<h2 class=\"subtitle\">subtitle(Maybe users name)/org</h2>" +
+                "<h1 class=\"title\">Venote</h1>" +
+                "<h2 class=\"subtitle\">View Notebooks</h2>" +
               "</div>" +
               "<div id=\"logoutBtn\" class=\"topBarButton\">" +
                 "<p>Logout</p>" +
