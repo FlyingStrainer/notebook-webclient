@@ -1,11 +1,33 @@
 import pageView from "./pages.js";
 import loginView from "./login.js";
 import Notebook from "../models/notebook.js";
+import DataEntry from "../models/dataentry.js";
 import NewNotebookForm from "../forms/createnotebook.js";
+
+let notebooks;
 
 const notebookView = {
 
-	init(initNotebooks) {
+	init() {
+		// TODO RYAN add your data models here
+		// TODO change this to mock data
+		let dE = [new DataEntry("text1", "image1", "cap1", "tag1", "author"), new DataEntry("text2", "image2", "cap2", "tag2", "John Doe")];
+		dE[0].id = "id1";
+		dE[1].id = "id2";
+
+		// TODO notebooks here
+		notebooks = [new Notebook(), new Notebook()];
+		notebooks[0].id = "1234";
+		notebooks[0].creator = "create";
+		notebooks[0].timestamp = "123";
+		notebooks[0].dataEntries = dE;
+		notebooks[1].id = "543";
+		notebooks[1].creator = "Chad";
+		notebooks[1].timestamp = "874";
+		notebooks[1].dataEntries = dE;
+	},
+
+	render() {
     const body = $("body");
 
     const content = $(
@@ -46,21 +68,24 @@ const notebookView = {
 
     // Other init logic here
 
-		console.log("HERE1");
     // Onclick Setup
     // Onclick for new notebook
-    // Re add onclick for addnote
-    $("#addNote").on("click", function(e)
-    {
-		console.log("HERE");
-	    overlay.show();
+    // Re add onclick for addnot
 
-	    overlay.animate({"top": "0%", "left": "0%", "width": "100%", "height": "100%"}, 150);
+		// Re add onclick for addnote
+		$("#addNote").on("click", function(e, e1, e2)
+		{
+			overlay.show();
 
-	    e.preventDefault();
-      // alert("Creat new notebook");
-      e.preventDefault();
-    });
+			overlay.animate({"top": "0%", "left": "0%", "width": "100%", "height": "100%"}, 150);
+			// alert("Creat new notebook");
+			/*body.find("#notebookMainView").hide(500, function()
+			 {
+			 body.html('');
+			 pageView.init(notebooks, null);
+			 });*/
+			e.preventDefault();
+		});
 
     // Handle click for logout
     $("#logoutBtn").on("click", function(e, e1, e2) 
@@ -80,20 +105,20 @@ const notebookView = {
     function testRenderNotebooks() 
     {
       let nB = [new Notebook(), new Notebook()];
-      nB[0].id = "1234";
-      nB[0].pages = "test";
-      nB[0].creator = "create";
-      nB[0].timestamp = "123";
-      nB[1].id = "543";
-      nB[1].pages = "test1";
-      nB[1].creator = "Chad";
-      nB[1].timestamp = "874";
+      notebooks[0].id = "1234";
+      notebooks[0].pages = "test";
+      notebooks[0].creator = "create";
+      notebooks[0].timestamp = "123";
+      notebooks[1].id = "543";
+      notebooks[1].pages = "test1";
+      notebooks[1].creator = "Chad";
+      notebooks[1].timestamp = "874";
 
-      renderNotebooks(nB);
+      renderNotebooks(notebooks);
     }
 
     // Given an array of notebook objects render them to notebook view
-    function renderNotebooks( notebooks )
+    function renderNotebooks()
     {
       // Get a string which will be html for all notebooks starting with create
       var htmlToRender = getHTMLForCreateNotebook();
@@ -106,14 +131,17 @@ const notebookView = {
       document.getElementById("notebookSelectorView").innerHTML = htmlToRender;
 
       // Re add onclick for addnote
-      $("#addNote").on("click", function(e, e1, e2) 
+      $("#addNote").on("click", function(e, e1, e2)
       {
-        // alert("Creat new notebook"); 
-        body.find("#notebookMainView").hide(500, function() 
+	      overlay.show();
+
+	      overlay.animate({"top": "0%", "left": "0%", "width": "100%", "height": "100%"}, 150);
+        // alert("Creat new notebook");
+        /*body.find("#notebookMainView").hide(500, function()
         {
           body.html('');
           pageView.init(notebooks, null);
-        });
+        });*/
         e.preventDefault();
       });
 
@@ -145,9 +173,9 @@ const notebookView = {
 
     // initNotebooks are passed thorugh from another view calling init 
     // TODO delete test
-    if (initNotebooks != null)
+    if (notebooks != null)
     {
-      renderNotebooks(initNotebooks);
+      renderNotebooks();
     }
     // testRenderNotebooks();
 

@@ -115,10 +115,10 @@ const pageView = {
     function testRenderDataToBar()
     {
       let nB = [new DataEntry("text1", "image1", "cap1", "tag1", "author"), new DataEntry("text2", "image2", "cap2", "tag2", "John Doe")];
-      nB[0].id = "id1";
-      nB[1].id = "id2";
+      notebooks[0].id = "id1";
+      notebooks[1].id = "id2";
 
-      renderDataEntryToToolbar(nB);
+      renderDataEntryToToolbar(notebooks);
     }
 
     // Given an array of notebook objects render them to notebook view
