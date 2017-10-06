@@ -111,7 +111,7 @@ const pageView = {
     {
       body.find("#pageMainView").hide(500, function()
       {
-        body.html('');
+        $(this).remove();
         loginView.init();
       });
       e.preventDefault();
@@ -125,7 +125,7 @@ const pageView = {
 	    notebookView.init();
       body.find("#pageMainView").hide(500, function()
       {
-        body.html('');
+       $(this).remove();
         notebookView.render();
       });
       e.preventDefault();

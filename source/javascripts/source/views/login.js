@@ -100,7 +100,7 @@ const loginView = {
 						{
 							notebookView.init();
 							body.find(".form-container").hide(500, function() {
-							   body.html('');
+							   $(this).remove();
 							   notebookView.render();
 							});
 						}
