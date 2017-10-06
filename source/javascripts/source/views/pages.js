@@ -147,6 +147,28 @@ const pageView = {
           e.preventDefault();
         });
       });
+
+      // add onclick for each delete page id is "delPage" + id of page
+      pages.forEach( function (page)
+      {
+        var pageId = "#delPage" + page.id;
+        $(pageId).on("click", function(e, e1, e2)
+        {
+          alert("del Page with id " + page.id);
+
+          if (!e)
+          {
+            var e = window.event;
+          }
+
+          e.cancelBubble = true;
+
+          if (e.stopPropagation) 
+          {
+            e.stopPropagation();
+          }
+        });
+      });
     }
 
     // TODO delete test
