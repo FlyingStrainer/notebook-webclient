@@ -1,6 +1,4 @@
 import * as form from "./form.js";
-//import React from "./../../lib/react.js"; 
-//import ReactDOM from "./../../lib/react-dom.js";
 const DataEntry = require('../models/dataentry.js');
 export * from "./form.js";
 var rootObject;
