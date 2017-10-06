@@ -1,7 +1,6 @@
 import loginView from "./views/login.js";
-import dataEntryForm from "./forms/dataentry.js";
 import pages from "./views/pages.js";
-var DataEntryForm = require("./forms/dataentry.js");
+import DataEntryForm from "./forms/dataentry.js";
 
 $(document).ready(function() {
 	const body = $("body");
