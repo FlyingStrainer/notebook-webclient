@@ -10,6 +10,12 @@ const notebookView = {
 
 	init() {
 
+		if(notebooks === undefined)
+		{
+			notebooks = [];
+			console.log("HERE");
+		}
+
 		$.get("http://endor-vm1.cs.purdue.edu/", {"msgType" : "getNotebooks"}, function(data) {
 			console.log(data);
 		});
@@ -54,8 +60,9 @@ const notebookView = {
 		}} submitCallback={function(notebook){
 			overlay.animate({"top": "50%", "left": "50%", "width": "0", "height": "0"}, 150, function() {$(this).hide()});
 
+			notebooks.push(notebook);
 
-			pageView.init(notebook.dataEntries);
+			pageView.init(notebook);
 			body.find("#notebookMainView").hide(500, function()
 			{
 				$(this).remove();
@@ -156,7 +163,8 @@ const notebookView = {
           $(notebookId).on("click", function(e, e1, e2)
           {
             // alert("notebook with id " + notebook.id);
-	          pageView.init(notebook.dataEntries);
+	          console.log(notebook.dataEntries);
+	          pageView.init(notebook);
 	          body.find("#notebookMainView").hide(500, function()
 	          {
 		         $(this).remove();

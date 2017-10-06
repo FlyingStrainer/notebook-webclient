@@ -32,7 +32,7 @@ class CreateNotebookFields  extends React.Component {
 	
 	postNewNotebook() {
 		console.log("Creating new notebook");
-		var notebook = new NotebookModel("name", "id", [], this.author);
+		var notebook = new NotebookModel(document.getElementById("notebook-text-box").value, "id", [], this.author);
 
 		fetch('PLACEHOLDER_URL', {
 			method: 'POST',

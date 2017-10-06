@@ -63,7 +63,7 @@ class DataEntryFields extends React.Component {
 		this.dataEntry.caption = document.getElementById("caption-box").value;
 		this.dataEntry.date_created = new Date();
 		this.dataEntry.tags = document.getElementById("tag-box").value;
-		this.dataEntry.author = this.author;
+		this.dataEntry.author = "Author";
 		//Need to set author
 
 		console.log(this.dataEntry);

@@ -5,11 +5,13 @@ import DeleteDataEntryForm from "../forms/deletedataentry.js";
 import notebookView from "./notebooks.js";
 
 let dataEntries;
+let notebook;
 
 const pageView = {
 
-	init(dEntries) {
-		dataEntries = dEntries;
+	init(nb) {
+		notebook = nb;
+		dataEntries = notebook.dataEntries;
 	},
 
 	render( ) {
@@ -89,6 +91,8 @@ const pageView = {
 
 	    $("#selectedPage").html('');
 	    $("#selectedPage").append($("<h4>" + dataEntry.date_created + "</h4><p>" + dataEntry.text + "</p><img src='" + dataEntry.image + "' /><p>" + dataEntry.caption +"</p><p>" + dataEntry.author + "</p>"));
+
+		notebook.dataEntries.push(dataEntry);
 
 	    var entryId = "#entry" + dataEntry.id;
 	    $(entryId).on("click", function(e)
