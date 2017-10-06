@@ -1,6 +1,6 @@
 import DataEntry from "../models/dataentry.js";
 import loginView from "./login.js";
-import Page from "../models/page.js";
+import DataEntryForm from "../forms/dataentry.js";
 import notebookView from "./notebooks.js";
 
 const pageView = {
@@ -67,6 +67,12 @@ const pageView = {
     body.append(content);
 
     content.show(500);
+
+		const element = <DataEntryForm />;
+		ReactDOM.render(
+			element,
+			document.getElementById("root")
+		);
 
     // Onclick setup
 
