@@ -1,7 +1,8 @@
 export default class Notebook 
 {
-  constructor( id, dataEntries, creator)
+  constructor(name, id, dataEntries, creator)
   {
+    this.name = name;
     this.id = id;
     this.dataEntries = dataEntries;
     this.creator = creator;
@@ -19,4 +20,17 @@ export default class Notebook
     var ret = oDiv + oP + this.timestamp + cP + cDiv;
     return ret;
   }
+
+  postNotebook() {
+    fetch('PLACEHOLDER_URL', {
+      method: "POST",
+      header: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: this
+    });
+  }
+
 }
+

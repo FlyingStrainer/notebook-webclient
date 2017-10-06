@@ -7,11 +7,11 @@ class DataEntryForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
-		this.dataEntry = new DataEntry("", "", "", "", props.author);
+		this.dataEntry = new DataEntry("", "", "", "", "");
 	}
 
 	render() {
-		return <DataEntryFields />;
+		return <DataEntryFields dataEntry={this.dataEntry}/>;
 	}
 }
 
@@ -19,6 +19,9 @@ class DataEntryFields extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {hasImage: false, file: [], imgSrc: null};
+		this.fileSelected = this.fileSelected.bind(this);
+		this.dataEntry = props.dataEntry;
+		this.submitPage = this.submitPage.bind(this);
 		this.fileSelected = this.fileSelected.bind(this);
 	}
 	
@@ -28,9 +31,7 @@ class DataEntryFields extends React.Component {
 		if (input.target.value) {
 			var file = this.refs.file.files[0];
 			var reader = new FileReader();
-			console.log("out");
 			reader.onloadend = function (e) {
-				console.log("in");
 				this.dataEntry.image = reader.result;
 				this.setState({
 					imgSrc: [reader.result]
@@ -41,30 +42,27 @@ class DataEntryFields extends React.Component {
 	}
 
 	submitPage() {
-		console.log("Hai");
 		var checkbox = document.getElementById("checkbox");
 		if (!checkbox.checked)
 		{
-			console.log("Whoa");
+			alert("You must check the box before submitting.");
 			return;
 		}
-
+		console.log(this.dataEntry);
 		this.dataEntry.text = document.getElementById("text-box").value;
 		this.dataEntry.caption = document.getElementById("caption-box").value;
-		this.dataEntry.data_created = new Date();
+		this.dataEntry.date_created = new Date();
 		this.dataEntry.tags = document.getElementById("tag-box").value;
 		//Need to set author
 
-		fetch('', {
+		console.log(this.dataEntry);
+		fetch('PLACEHOLDER_URL', {
 			method: 'POST',
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'appication/json'
 			},
-			body: JSON.stringify({
-				param1: 'value1',
-				param2: 'value2'
-			})
+			body: this
 		});
 	}
 
