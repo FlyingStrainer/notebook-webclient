@@ -1,4 +1,4 @@
-import DataEntry from "../forms/dataentry.js";
+import DataEntry from "../models/dataentry.js";
 import loginView from "./login.js";
 import Page from "../models/page.js";
 import notebookView from "./notebooks.js";
@@ -116,50 +116,47 @@ const pageView = {
 
     // Functions
     // TODO delete test
-    function testRenderPagesToBar()
+    function testRenderDataToBar()
     {
-      let nB = [new Page(), new Page()];
-      nB[0].dataEntry = "test1";
-      nB[0].timestamp = "june 3";
-      nB[0].id = "1234";
-      nB[1].dataEntry = "test2";
-      nB[1].timestamp = "april 6";
-      nB[1].id = "2243";
+      let nB = [new DataEntry("text1", "image1", "cap1", "tag1", "author"), new DataEntry("text2", "image2", "cap2", "tag2", "John Doe")];
+      nB[0].id = "id1";
+      nB[1].id = "id2";
 
-      renderPagesToToolbar(nB);
+      renderDataEntryToToolbar(nB);
     }
 
     // Given an array of notebook objects render them to notebook view
-    function renderPagesToToolbar( pages )
+    function renderDataEntryToToolbar( data )
     {
       var htmlToRender = "";
 
-      pages.forEach( function (page)
+      data.forEach( function (entry)
       {
-        htmlToRender = htmlToRender + page.getHTMLForPageSel();
+        htmlToRender = htmlToRender + entry.getHTMLForEntrySel();
       });
 
       // Add html to innerHTML
       document.getElementById("pageSelectorView").innerHTML = htmlToRender;
 
-      // add onclick for each page id is "page" + id of page
-      pages.forEach( function (page)
+      // add onclick for each data entry id is "entry" + id of entry 
+      data.forEach( function (entry)
       {
-        var pageId = "#page" + page.id;
-        $(pageId).on("click", function(e, e1, e2)
+        var entryId = "#entry" + entry.id;
+        $(entryId).on("click", function(e, e1, e2)
         {
-          alert("Page with id " + page.id);
+          // You can manipulate entry in here
+          alert("data entry with id " + entry.id);
           e.preventDefault();
         });
       });
 
-      // add onclick for each delete page id is "delPage" + id of page
-      pages.forEach( function (page)
+      // add onclick for each delete data entry id is "delEntry" + id of entry 
+      data.forEach( function (entry)
       {
-        var pageId = "#delPage" + page.id;
-        $(pageId).on("click", function(e, e1, e2)
+        var entryId = "#delEntry" + entry.id;
+        $(entryId).on("click", function(e, e1, e2)
         {
-          alert("del Page with id " + page.id);
+          alert("del data entry with id " + entry.id);
 
           if (!e)
           {
@@ -177,7 +174,8 @@ const pageView = {
     }
 
     // TODO delete test
-    testRenderPagesToBar();
+    // Replace with the moc objects and call renderDataEntry
+    testRenderDataToBar();
 },
 
 	transition() {
