@@ -1,3 +1,4 @@
+import notebookView from "./notebooks.js";
 import DataEntry from "../forms/dataentry.js";
 
 const pageView = {
@@ -8,8 +9,8 @@ const pageView = {
       "<div class=\"mainView\" id=\"pageMainView\">" +
         "<div class=\"topBarView\">" +
           "<div id=\"titleHolder\">" +
-            "<h1 class=\"title\">Our Title</h1>" +
-            "<h2 class=\"subtitle\">subtitle(Maybe users name)/org</h2>" +
+            "<h1 class=\"title\">Page View</h1>" +
+            "<h2 id=\"backBtn\" class=\"subtitle\">Go Back</h2>" +
           "</div>" +
           "<div class=\"topBarButton\">" +
             "<p>Logout</p>" +
@@ -88,11 +89,24 @@ const pageView = {
       alert("Logout");
       e.preventDefault();
     });
-	},
 
-	transition() {
+    // Handle click for back button
+    // Re add onclick for addnote
+    $("#backBtn").on("click", function(e, e1, e2)
+    {
+      // alert("backbtn");
+      body.find("#pageMainView").hide(500, function()
+      {
+        body.html('');
+        notebookView.init();
+      });
+      e.preventDefault();
+    });
+},
 
-	}
+transition() {
+
+}
 
 };
 
