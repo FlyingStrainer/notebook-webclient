@@ -1,3 +1,5 @@
+import pageView from "./pages.js";
+
 const notebookView = {
 
 	init() {
@@ -10,7 +12,7 @@ const notebookView = {
                 "<h1 class=\"title\">Our Title</h1>" +
                 "<h2 class=\"subtitle\">subtitle(Maybe users name)/org</h2>" +
               "</div>" +
-              "<div class=\"topBarButton\">" +
+              "<div id=\"logoutBtn\" class=\"topBarButton\">" +
                 "<p>Logout</p>" +
               "</div>" +
             "</div>" +
@@ -35,15 +37,35 @@ const notebookView = {
             "<!-- This is the div that will hold all notebooks user has access to -->" +
             "<div id=\"notebookSelectorView\">" +
             "<!-- this contents will be populated dynamically with js to show divs that hold all notebook -->" +
-            "<div class=\"notebookHolder\">" +
-              "<p> Temporary Notebook Holder 1 </p>" +
-            "</div>" +
-            "<div class=\"notebookHolder\">" +
-              "<p> Temporary Notebook Holder 2 </p>" +
+            "<div id=\"addNote\" class=\"notebookHolder\">" +
+              "<p> CREATE NEW NOTEBOOK </p>" +
             "</div>" +
           "</div>" +
         "</div>"));
+
     // Other init logic here
+
+    // Onclick Setup
+
+    // Handle click for new notebook creation
+    $("#addNote").on("click", function(e, e1, e2) 
+    {
+      // alert("Creat new notebook"); 
+      body.find("#notebookMainView").hide(500, function() 
+      {
+        body.html('');
+        pageView.init();
+      })
+      e.preventDefault();
+    });
+
+    // Handle click for logout
+    $("#logoutBtn").on("click", function(e, e1, e2) 
+    {
+      alert("Logout"); 
+      e.preventDefault();
+    });
+
 	},
 
 	transition() {
