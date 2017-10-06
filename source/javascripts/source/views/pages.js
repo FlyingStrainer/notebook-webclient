@@ -1,3 +1,5 @@
+import DataEntry from "../forms/dataentry.js";
+
 const pageView = {
 
 	init() {
@@ -17,18 +19,17 @@ const pageView = {
         "<!-- This div holds all pages in notebook to let users select page open -->" +
         "<div id=\"pageSelectorView\">" +
           "<!-- This page should be clicked to make a new page --> " +
-          "<div class=\"pageView\" id=\"newPageView\">" +
-            "<p>New Page</p>" + 
           "<div class=\"pageView\">" +
             "<p>Page 1</p>" +
             "<p>Meta Data?</p>" +
+          "</div>" +
           "<div class=\"pageView\">" +
             "<p>Page 2</p>" +
             "<p>Meta Data?</p>" +
           "</div>" +
         "</div>" +
 
-        "!-- This is the div that will hold all the modules relating to edting pages -->" +
+        /*"!-- This is the div that will hold all the modules relating to edting pages -->" +
         "<div class=\"toolsView\" id=\"pageTools\">" +
           "<!-- Sign pages -->" +
           "<div class=\"notebookTool\" id=\"signPage\">" +
@@ -50,7 +51,7 @@ const pageView = {
           "<div class=\"notebookTool\">" +
             "<p>Tool 5</p>" +
           "</div>" +
-        "</div>" +
+        "</div>" + */
 
         "<!-- This div holds a view for looking at a current page and/or rendering -->" +
         "<div id=\"currentPageView\">" +
@@ -59,17 +60,27 @@ const pageView = {
 
           "</div>" +
         "</div>" +
+        "<button type='submit' title='New Data Entry' class='register button button--primary button--normal' style='position:absolute; bottom: 100px; width: 200px; height: 60px; left: 50%'>" +
+          "<span>New Data Entry</span>" +
+        "</button>" +
+        "<div id='overlay' style='position:absolute; top:50%; left:50%; width:0; height:0; background-color: rgba(0, 0, 0, 0.5); z-index:10; display:none'>" +
+          "<div id='root' style='position:absolute; top:20%; left: 20%; width: 60%; height:60%; background-color: white'></div>" +
+        "</div>" +
       "</div>"));
-
 
     // Onclick setup
 
-    // Handle click for new page
-    $("#newPageView").on("click", function(e, e1, e2)
-    {
-      alert("pageview new");
-      e.preventDefault();
-    });
+		const overlay = $("#overlay");
+
+		console.log(overlay);
+
+        $("button[type='submit']").on('click', function(e) {
+			overlay.show();
+
+			overlay.animate({"top": "0%", "left": "0%", "width": "100%", "height": "100%"}, 150);
+
+        	e.preventDefault();
+        });
    
     // Handle click for logout
     $("#logoutBtn").on("click", function(e, e1, e2)
