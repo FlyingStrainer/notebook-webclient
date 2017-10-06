@@ -1,5 +1,4 @@
 *{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
-*:before,*:after{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
 
 .form-container {
     position: absolute;
@@ -54,12 +53,11 @@
 
 }
 
-.form-container .half-form:nth-child(even),
-.form-container .form--half:nth-child(even) {
+.form-container .form--half:nth-child(odd) {
     padding-right:10px;
 }
 
-.form-container .form--half:nth-child(odd) {
+.form-container .form--half:nth-child(even) {
     padding-left: 10px;
 }
 
@@ -88,10 +86,6 @@
 
 .form-container .form--two-thirds{
     padding-right:10px;
-}
-
-.form-container .form--third{
-    padding-left:10px;
 }
 
 .form-container .form--third--wrapper {
@@ -186,6 +180,12 @@
     border-radius: 15px 15px 15px 0px;
 }
 
+/* Margin on body to 0 so there is no gap */
+body
+{
+    margin:0;
+}
+
 .form-style input[type="submit"],
 .form-style input[type="button"]
 {
@@ -266,7 +266,7 @@ button.button-primary,  button.button--primary, a.button-primary, a.button--prim
     font-size:15px;
     font-family: 'Kollektif', 'Arial Black', 'sans-serif';
     color:#ffffff;
-    padding:15px 10px;
+    padding:8px 10px;
     width:100%;
     text-decoration:none;
     letter-spacing:3px;
@@ -280,7 +280,7 @@ button.button-primary:hover, button.button--primary:hover, a.button-primary:hove
     font-family: 'Kollektif', 'Arial Black', 'sans-serif';
     color:#ffbf00;
     background:#f7f8f8;
-    padding:15px 10px;
+    padding:8px 10px;
     width:100%;
     text-decoration:none;
     letter-spacing:3px;
@@ -294,7 +294,7 @@ a.button--secondary, a.button--secondary:hover{
     font-family: 'Montserrat', sans-serif;
     color:#231f20;
     background:#00a1e4;
-    padding:10px 15px;
+    padding:8px 15px;
     text-decoration:none;
     display: inline-block;
 }
@@ -303,4 +303,3 @@ a.button--secondary, a.button--secondary:hover{
     width:100%;
     height:auto;
 }
-

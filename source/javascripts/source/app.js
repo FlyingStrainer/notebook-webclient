@@ -1,4 +1,5 @@
 import loginView from "./views/login.js";
+<<<<<<< HEAD
 import dataEntryForm from "./forms/dataentry.js";
 import pages from "./views/pages.js";
 var DataEntryForm = require("./forms/dataentry.js");

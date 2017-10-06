@@ -6,8 +6,98 @@
 	<script src="./javascripts/lib/react.js"></script>
 	<script src="./javascripts/lib/react-dom.js"></script>
 	<script src="./javascripts/build/site.js"></script>
+	<script src="./javascripts/source/app.js"></script>
+  <link rel="stylesheet" type="text/css" href="stylesheets/styles.css">
 </head>
-<body class="pageview">
+<body>
 
+<div class="topBarView">
+  <div id="titleHolder">
+    <h1 class="title">Our Title</h1>
+    <h2 class="subtitle">subtitle(Maybe users name, notebook title)/org</h2>
+  </div>
+  <div class="topBarButton">
+    <p>Logout</p>
+  </div>
+</div>
+
+<!-- This is the div that will hold all pages in notebook and let users select which page they want to have open
+this contents will be populated dynamically with js to show divs that hold each page existing in the notebook -->
+<div id="pageSelectorView">
+
+  <!-- This page should be clicked to make a new page -->
+  <div class="pageView" id="newPageView">
+    <p>New Page</p>
+  </div>
+
+  <div class="pageView">
+    <p>Page 1</p>
+    <p>Meta Data?</p>
+  </div>
+
+  <div class="pageView">
+    <p>Page 2</p>
+    <p>Meta Data?</p>
+  </div>
+
+  <div class="pageView">
+    <p>Page 3</p>
+    <p>Meta Data?</p>
+  </div>
+
+  <div class="pageView">
+    <p>Page 4</p>
+    <p>Meta Data?</p>
+  </div>
+
+  <div class="pageView">
+    <p>Page 5</p>
+    <p>Meta Data?</p>
+  </div>
+
+  <div class="pageView">
+    <p>Page 6</p>
+    <p>Meta Data?</p>
+  </div>
+
+  <div class="pageView">
+    <p>Page 7</p>
+    <p>Meta Data?</p>
+  </div>
+</div>
+
+<!-- This is the div that will hold all the modules relating to edting pages -->
+<div class="toolsView" id="pageTools">
+
+  <!-- Sign pages -->
+  <div class="notebookTool" id="signPage">
+    <p>Sign Page</p>
+  </div>
+
+  <div class="notebookTool"> 
+    <p>Tool 2</p>
+  </div>
+
+  <div class="notebookTool">
+    <p>Tool 3</p>
+  </div>
+
+  <div class="notebookTool">
+    <p>Tool 4</p>
+  </div>
+
+  <div class="notebookTool">
+    <p>Tool 5</p>
+  </div>
+</div>
+
+<!-- This div holds a view for looking at a current page and/or rendering -->
+<div id="currentPageView">
+  <!-- this view will be dynalically populated through js to show the currently selected page -->
+  <div id="selectedPage">
+
+  </div>
+
+</div>
 </body>
 </html>
