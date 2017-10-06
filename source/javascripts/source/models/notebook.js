@@ -1,11 +1,11 @@
 export default class Notebook 
 {
-  constructor( id, pages, creator, timestamp )
+  constructor( id, dataEntries, creator)
   {
     this.id = id;
-    this.pages = pages;
+    this.dataEntries = dataEntries;
     this.creator = creator;
-    this.timestamp = timestamp;
+    this.timestamp = new Date();
   }
 
   getHTMLForNotebookSel()
