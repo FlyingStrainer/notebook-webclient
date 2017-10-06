@@ -1,5 +1,6 @@
 import DataEntry from "../forms/dataentry.js";
 import Page from "../models/page.js";
+import notebookView from "./notebooks.js";
 
 const pageView = {
 
