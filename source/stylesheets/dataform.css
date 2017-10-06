@@ -41,6 +41,19 @@
 	/*background-color: blue;*/
 }
 
-.data-form# {
+.data-form#data-entry-header{
+	float: center;
+}
 
+.data-form#header-text{
+	display: inline-block;
+}
+
+.data-form#cancel-button{
+	display: inline-block;
+	margin-left: 200px;
+}
+
+.data-form#container{
+	display: block;
 }

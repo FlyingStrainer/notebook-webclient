@@ -1,0 +1,8 @@
+.create-notebook-form#container{
+	display: block;
+	float: left;
+}
+
+.create-notebook-form#header-text{
+	text-color: blue;
+}
