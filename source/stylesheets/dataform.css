@@ -25,7 +25,8 @@
 .data-form#form{
 	display: inline-block;
 	/*text-align: center;*/
-	/*background-color: red;*/
+	width: 100%;
+	background-color: white;
 }
 
 .data-form#tag-box{
@@ -38,7 +39,7 @@
 .data-format#form-div{
 	text-align: center;
 	width: 100%;
-	/*background-color: blue;*/
+	/*background-color: blue*/;
 }
 
 .data-form#data-entry-header{

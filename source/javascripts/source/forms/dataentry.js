@@ -18,7 +18,7 @@ export default class DataEntryForm extends React.Component {
 					<h1 className="data-form" id="header-text">Create new entry</h1>
 					<input className="data-form" id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
 				</div>
-				<DataEntryFields dataEntry={this.dataEntry} submitCallback={this.submitCallback} author={this.author}/>;
+				<DataEntryFields dataEntry={this.dataEntry} submitCallback={this.submitCallback} author={this.author}/>
 			</div>
 	}
 }
@@ -75,6 +75,12 @@ class DataEntryFields extends React.Component {
 			},
 			body: this
 		});
+
+		this.dataEntry.text = "";
+		this.dataEntry.caption = "";
+		this.dataEntry.tags = "";
+		this.dataEntry.author = "";
+
 		if (this.submitCallback) {
 			this.submitCallback(this.dataEntry);
 		}
