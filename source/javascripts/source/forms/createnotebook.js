@@ -2,7 +2,7 @@ import * as form from "./form.js";
 import NotebookModel from "../models/notebook.js"
 export * from "./form.js";
 
-class CreateNotebookForm extends React.Component {
+export default class CreateNotebookForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -45,5 +45,3 @@ class CreateNotebookFields  extends React.Component {
 			</div>);	
 	}
 }
-
-module.exports = CreateNotebookForm;

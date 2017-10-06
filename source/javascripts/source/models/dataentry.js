@@ -35,8 +35,7 @@ export default class DataEntry {
     var oP = "<p>";
     var cP = "</p>";
     var cDiv = "</div>";
-    var ret = oDiv + oDelDiv + oP + "x" + cP + cDelDiv + oP + this.text + cP + 
-      oP + this.caption + cP + oP + this.author + cP + cDiv;
+    var ret = oDiv + oDelDiv + oP + "x" + cP + cDelDiv + oP + this.date_created + cP + oP + this.author + cP + cDiv;
     return ret;
   }
 
