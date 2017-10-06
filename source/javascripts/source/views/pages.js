@@ -5,7 +5,7 @@ import notebookView from "./notebooks.js";
 
 const pageView = {
 
-	init( dEntries ) {
+	init( initNotebooks, dEntries ) {
     const body = $("body");
 
     const content = $(
@@ -101,7 +101,7 @@ const pageView = {
       body.find("#pageMainView").hide(500, function()
       {
         body.html('');
-        notebookView.init();
+        notebookView.init(initNotebooks);
       });
       e.preventDefault();
     });

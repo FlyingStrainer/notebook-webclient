@@ -5,7 +5,7 @@ import Notebook from "../models/notebook.js";
 
 const notebookView = {
 
-	init() {
+	init(initNotebooks) {
     const body = $("body");
 
     const content = $(
@@ -36,6 +36,18 @@ const notebookView = {
     // Other init logic here
 
     // Onclick Setup
+    // Onclick for new notebook
+    // Re add onclick for addnote
+    $("#addNote").on("click", function(e, e1, e2)
+    {
+      // alert("Creat new notebook");
+      body.find("#notebookMainView").hide(500, function()
+      {
+        body.html('');
+        pageView.init();
+      });
+      e.preventDefault();
+    });
 
     // Handle click for logout
     $("#logoutBtn").on("click", function(e, e1, e2) 
@@ -87,23 +99,15 @@ const notebookView = {
         body.find("#notebookMainView").hide(500, function() 
         {
           body.html('');
-          pageView.init();
+          pageView.init(notebooks, null);
         });
         e.preventDefault();
       });
-
-      // TODO change this to mock data
-      let nB = [new DataEntry("text1", "image1", "cap1", "tag1", "author"), new DataEntry("text2", "image2", "cap2", "tag2", "John Doe")];
-      nB[0].id = "id1";
-      nB[1].id = "id2";
 
       // add onclick for each notebook id is "bn" + id of notebook 
       notebooks.forEach( function (notebook)
       {
           var notebookId = "#nb" + notebook.id;
-
-          // TODO Eeach of these notebooks should have different data entry
-          notebook.dataEntries = nB;
 
           $(notebookId).on("click", function(e, e1, e2)
           {
@@ -112,7 +116,7 @@ const notebookView = {
             body.find("#notebookMainView").hide(500, function() 
             {
               body.html('');
-              pageView.init(notebook.dataEntries);
+              pageView.init(notebooks, notebook.dataEntries);
             });
             e.preventDefault();
           });
@@ -126,8 +130,13 @@ const notebookView = {
       return "<div id=\"addNote\" class=\"notebookHolder\"><p> CREATE NEW NOTEBOOK </p></div>";
     }
 
+    // initNotebooks are passed thorugh from another view calling init 
     // TODO delete test
-    testRenderNotebooks();
+    if (initNotebooks != null)
+    {
+      renderNotebooks(initNotebooks);
+    }
+    // testRenderNotebooks();
 
 	},
 
