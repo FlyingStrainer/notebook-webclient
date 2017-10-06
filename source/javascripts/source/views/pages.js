@@ -60,6 +60,16 @@ const pageView = {
           "</div>" +
         "</div>" +
       "</div>"));
+
+
+    // Onclick setup
+   
+    // Handle click for logout
+    $("#logoutBtn").on("click", function(e, e1, e2)
+    {
+      alert("Logout");
+      e.preventDefault();
+    });
 	},
 
 	transition() {
