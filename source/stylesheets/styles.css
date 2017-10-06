@@ -1,0 +1,166 @@
+/* Margin on body to 0 so there is no gap */
+body
+{
+    margin:0;
+}
+
+/* 
+***  Styles for pageView and notebookView ***
+*/
+
+/* Left pane to hold actions related to notebooks */
+.toolsView
+{
+    float:left;
+    width:150px;
+    background-color:red;
+    height:540px;
+}
+
+
+/* 
+***  Styles for notebookView ***
+*/
+
+/* The background div for top bar. TODO style nicer */
+.topBarView
+{
+    padding-left:20px;
+    padding-right:20px;
+    margin-left: 0;
+    margin-right: 0;
+    height:150px;
+    background-color: blue;
+    clear: both;
+}
+
+/* div to hold title and subtitle */
+#titleHolder
+{
+    float:left;
+}
+
+.title 
+{
+
+}
+
+.subtitle
+{
+
+}
+
+/* class for buttons that float to right in topBarView */
+.topBarButton
+{
+    background-color:purple;
+    padding:20px;
+    margin-top:20px;
+    float:right;
+}
+
+/* For now p inside topBarButton are the action buttons */
+.topBarButton p
+{
+    margin:0;
+}
+
+/* Tools inside notebooks toolview */
+.notebookTool
+{
+    background-color:pink;
+    height:30px;
+    margin-top:20px;
+}
+
+.notebookTool p 
+{
+    text-align:center;
+    margin:0px;
+    padding-top:6px
+}
+
+/* middle pane to hold notebooks. Overflow hidden forces width to full if next to float */
+#notebookSelectorView
+{
+    overflow:hidden;
+    background-color:gray
+}
+
+/* the notebook elements inside the selection view. To be rendered dynamically */
+.notebookHolder
+{
+    width:100px;
+    height:100px;
+    float:left;
+    margin-top:20px;
+    margin-left:20px;
+    background-color:lightblue;
+    padding:20px;
+}
+
+.notebookHolder p
+{
+    margin:0px;
+}
+
+
+/* 
+***  Styles for pageView ***
+*/
+
+/* Selector on left to change page */
+#pageSelectorView
+{
+    float:left;
+    background-color:magenta;
+    width:200px;
+}
+
+/* Elements in selector on left */
+.pageView
+{
+    background-color:green;
+    min-height:150px;
+    margin-left:20px;
+    margin-right:20px;
+    margin-top:20px;
+}
+
+.pageView p
+{
+    padding:20px;
+    margin:0px;
+}
+
+/* tools inside pageview toolview */
+.pagesTool
+{
+    background-color:pink;
+    height:40px;
+    margin-top:20px;
+}
+
+.pagesTool p 
+{
+    text-align:center;
+    margin:0px;
+    padding:6px;
+}
+
+/* Div behind Rendered page view on far right */
+#currentPageView
+{
+    overflow:hidden;
+    background-color:gray;
+    padding:20px;
+}
+
+/* selected page view */
+#selectedPage
+{
+    background-color:coral;
+    margin: 0 auto;
+    width:90%;
+    height:500px;
+}
