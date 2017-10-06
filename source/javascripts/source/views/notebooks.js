@@ -1,7 +1,7 @@
-import DataEntry from "../models/dataentry.js";
 import pageView from "./pages.js";
 import loginView from "./login.js";
 import Notebook from "../models/notebook.js";
+import NewNotebookForm from "../forms/createnotebook.js";
 
 const notebookView = {
 
@@ -27,25 +27,38 @@ const notebookView = {
 	    "<p> CREATE NEW NOTEBOOK </p>" +
 	    "</div>" +
 	    "</div>" +
+	    "<div id='overlay' style='position:absolute; top:50%; left:50%; width:0; height:0; background-color: rgba(0, 0, 0, 0.5); z-index:10; display:none'>" +
+	    "<div id='root' style='position:absolute; top:20%; left: 20%; width: 60%; height:60%; background-color: white'></div>" +
+	    "</div>" +
 	    "</div>");
 
     body.append(content);
 
     content.show(500);
 
+		const element = <NewNotebookForm />;
+		ReactDOM.render(
+			element,
+			document.getElementById("root")
+		);
+
+		const overlay = $("#overlay");
+
     // Other init logic here
 
+		console.log("HERE1");
     // Onclick Setup
     // Onclick for new notebook
     // Re add onclick for addnote
-    $("#addNote").on("click", function(e, e1, e2)
+    $("#addNote").on("click", function(e)
     {
+		console.log("HERE");
+	    overlay.show();
+
+	    overlay.animate({"top": "0%", "left": "0%", "width": "100%", "height": "100%"}, 150);
+
+	    e.preventDefault();
       // alert("Creat new notebook");
-      body.find("#notebookMainView").hide(500, function()
-      {
-        body.html('');
-        pageView.init();
-      });
       e.preventDefault();
     });
 
@@ -112,7 +125,7 @@ const notebookView = {
           $(notebookId).on("click", function(e, e1, e2)
           {
             // alert("notebook with id " + notebook.id);
-
+			console.log($(this));
             body.find("#notebookMainView").hide(500, function() 
             {
               body.html('');

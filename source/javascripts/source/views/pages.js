@@ -78,8 +78,6 @@ const pageView = {
 
 		const overlay = $("#overlay");
 
-		console.log(overlay);
-
         $("button[type='submit']").on('click', function(e) {
 			overlay.show();
 
