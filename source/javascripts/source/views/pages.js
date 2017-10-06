@@ -87,6 +87,9 @@ const pageView = {
 	    overlay.animate({"top": "50%", "left": "50%", "width": "0", "height": "0"}, 150, function() {$(this).hide()});
 	    $("#pageSelectorView").append(dataEntry.getHTMLForEntrySel());
 
+	    $("#selectedPage").html('');
+	    $("#selectedPage").append($("<h4>" + dataEntry.date_created + "</h4><p>" + dataEntry.text + "</p><img src='" + dataEntry.image + "' /><p>" + dataEntry.caption +"</p><p>" + dataEntry.author + "</p>"));
+
 	    var entryId = "#entry" + dataEntry.id;
 	    $(entryId).on("click", function(e)
 	    {
