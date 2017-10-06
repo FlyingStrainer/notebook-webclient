@@ -11,8 +11,15 @@ $(document).ready(function() {
 	if(body.hasClass("dataEntryView"))
 	{
 //		dataEntryForm.init(document.getElementById("root"));
-		
-		const element = <DataEntryForm />;
+		var cancel = function() {
+			console.log("Cancel");
+		}		
+
+		var submit = function() {
+			console.log("Submit");
+		}		
+
+		const element = <DataEntryForm cancelCallback={cancel} submitCallback={submit} />;
 		ReactDOM.render(
 			element,
 			document.getElementById("root")

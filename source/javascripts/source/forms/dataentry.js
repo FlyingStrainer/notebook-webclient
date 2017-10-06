@@ -8,15 +8,17 @@ export default class DataEntryForm extends React.Component {
 		this.state = {};
 		this.dataEntry = new DataEntryModel("", "", "", "", "");
 		this.submitCallback = props.submitCallback;
-		this.cancelCallback - props.cancelCallback;
+		this.cancelCallback = props.cancelCallback;
 	}
 
 	render() {
-		<div className="data-form" id="data-entry-header">
-			<h1 class="data-form" id="header-text">Create new entry</h1>
-			<input className="data-form" id="cancel-button" onClick={this.cancelCallback}/>
-		</div>
-		return <DataEntryFields dataEntry={this.dataEntry}/>;
+		return <div>
+				<div className="data-form" id="data-entry-header">
+					<h1 className="data-form" id="header-text">Create new entry</h1>
+					<input className="data-form" id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
+				</div>
+				<DataEntryFields dataEntry={this.dataEntry} submitCallback={this.submitCallback} />;
+			</div>
 	}
 }
 
@@ -28,6 +30,7 @@ class DataEntryFields extends React.Component {
 		this.dataEntry = props.dataEntry;
 		this.submitPage = this.submitPage.bind(this);
 		this.fileSelected = this.fileSelected.bind(this);
+		this.submitCallback = props.submitCallback;
 	}
 	
 	fileSelected(input) {
@@ -69,6 +72,7 @@ class DataEntryFields extends React.Component {
 			},
 			body: this
 		});
+		this.submitCallback();
 	}
 
 	render() {
