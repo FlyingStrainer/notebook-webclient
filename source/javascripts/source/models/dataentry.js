@@ -1,5 +1,5 @@
 
-class DataEntry {
+export default class DataEntry {
 	constructor(text, image, caption, tags, author) {
     this.id = "";
 		this.text = text;
@@ -44,5 +44,3 @@ class DataEntry {
 
 	}
 }
-
-module.exports =  DataEntry;

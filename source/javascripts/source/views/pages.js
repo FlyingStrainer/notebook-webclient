@@ -1,6 +1,6 @@
 import DataEntry from "../models/dataentry.js";
 import loginView from "./login.js";
-import Page from "../models/page.js";
+import DataEntryForm from "../forms/dataentry.js";
 import notebookView from "./notebooks.js";
 
 const pageView = {
@@ -68,11 +68,15 @@ const pageView = {
 
     content.show(500);
 
+		const element = <DataEntryForm />;
+		ReactDOM.render(
+			element,
+			document.getElementById("root")
+		);
+
     // Onclick setup
 
 		const overlay = $("#overlay");
-
-		console.log(overlay);
 
         $("button[type='submit']").on('click', function(e) {
 			overlay.show();
@@ -111,10 +115,10 @@ const pageView = {
     function testRenderDataToBar()
     {
       let nB = [new DataEntry("text1", "image1", "cap1", "tag1", "author"), new DataEntry("text2", "image2", "cap2", "tag2", "John Doe")];
-      nB[0].id = "id1";
-      nB[1].id = "id2";
+      notebooks[0].id = "id1";
+      notebooks[1].id = "id2";
 
-      renderDataEntryToToolbar(nB);
+      renderDataEntryToToolbar(notebooks);
     }
 
     // Given an array of notebook objects render them to notebook view

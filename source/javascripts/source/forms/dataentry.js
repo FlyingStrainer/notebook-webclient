@@ -1,13 +1,12 @@
 import * as form from "./form.js";
-const DataEntry = require('../models/dataentry.js');
+import DataEntryModel from '../models/dataentry.js';
 export * from "./form.js";
-var rootObject;
 
-class DataEntryForm extends React.Component {
+export default class DataEntryForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
-		this.dataEntry = new DataEntry("", "", "", "", "");
+		this.dataEntry = new DataEntryModel("", "", "", "", "");
 	}
 
 	render() {
@@ -89,5 +88,3 @@ class DataEntryFields extends React.Component {
 			</div>);	
 	}
 }
-
-module.exports = DataEntryForm;
