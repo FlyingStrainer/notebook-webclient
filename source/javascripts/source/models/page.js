@@ -20,6 +20,18 @@ export default class Page
     var cP = "</p>";
     var cDiv = "</div>";
     var ret = oDiv + oDelDiv + oP + "x" + cP + cDelDiv + oP + this.timestamp + cP + cDiv;
+
+	  iv = oDelDivO + "delPage" + this.id + oDelDivC;
+	  var cDelDiv = "</div>";
+	  var oP = "<p>";
+	  var cP = "</p>";
+	  var cDiv = "</div>";
+	  var ret = oDiv + oDelDiv + oP + "x" + cP + cDelDiv + oP + this.timestamp + cP + cDiv;iv = oDelDivO + "delPage" + this.id + oDelDivC;
+	  var cDelDiv = "</div>";
+	  var oP = "<p>";
+	  var cP = "</p>";
+	  var cDiv = "</div>";
+	  var ret = oDiv + oDelDiv + oP + "x" + cP + cDelDiv + oP + this.timestamp + cP + cDiv;
     return ret;
   }
 }
