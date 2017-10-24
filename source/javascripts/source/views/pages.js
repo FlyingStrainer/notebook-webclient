@@ -83,21 +83,113 @@ const pageView = {
 
     const dataEntryForm = <DataEntryForm cancelCallback={function() {
 	    overlay.animate({"top": "50%", "left": "50%", "width": "0", "height": "0"}, 150, function() {$(this).hide()});
-    }} submitCallback={function(dataEntry){
-	    overlay.animate({"top": "50%", "left": "50%", "width": "0", "height": "0"}, 150, function() {$(this).hide()});
-	    $("#pageSelectorView").append(dataEntry.getHTMLForEntrySel());
-
-	    let content = "<h4>" + dataEntry.date_created + "</h4><p>" + dataEntry.text + "</p><img src='" + dataEntry.image + "' /><p>" + dataEntry.caption +"</p><p>" + dataEntry.author + "</p>"
-
-	    $("#selectedPage").html('');
-	    $("#selectedPage").append($(content));
-
-		notebook.dataEntries.push(dataEntry);
-
-	    var entryId = "#entry" + dataEntry.id;
+ /   }} submitCallback={function(dataEntry){
+//	    overlay.animate({"top": "50%", "left": "50%", "width": "0", "height": "0"}, 150, function() {$(this).hide()});
+//	    $("#pageSelectorView").append(dataEntry.getHTMLForEntrySel());
+//
+/	    let content = "<h4>" + dataEntry.date_created + "</h4><p>" + dataEntry.text + "</p><img src='" + dataEntry.image + "' /><p>" + dataEntry.caption +"</p><p>" + dataEntry.author + "</p>"
+//
+//	    $("#selectedPage").html('');
+//	    $("#selectedPage").append($(content));
+//
+//		notebook.dataEntries.push(dataEntry);
+//
+//	    var entryId = "#entry" + dataEntry.id;
 	    $(entryId).on("click", function(e)
 	    {
-	    	console.log("here");
+		    "<div id=\"selectedPage\">" +
+
+		    "</div>" +
+		    "</div>" +
+		    "<button type='submit' title='New Data Entry' class='register button button--primary button--normal' style='position:absolute; bottom: 100px; width: 200px; height: 60px; left: 50%'>" +
+		    "<span>New Data Entry</span>" +
+		    "</button>" +
+		    "<div id='overlay' style='position:absolute; top:50%; left:50%; width:0; height:0; background-color: rgba(0, 0, 0, 0.5); z-index:10; display:none'>" +
+		    "<div id='root' style='position:absolute; top:20%; left: 20%; width: 60%; height:60%; background-color: white'></div>" +
+		    "</div>" +
+		    "</div>");
+
+		    body.append(content);
+
+		    content.show(500);
+
+
+		    const overlay = $("#overlay");
+		    "<div id=\"selectedPage\">" +
+
+		    "</div>" +
+		    "</div>" +
+		    "<button type='submit' title='New Data Entry' class='register button button--primary button--normal' style='position:absolute; bottom: 100px; width: 200px; height: 60px; left: 50%'>" +
+		    "<span>New Data Entry</span>" +
+		    "</button>" +
+		    "<div id='overlay' style='position:absolute; top:50%; left:50%; width:0; height:0; background-color: rgba(0, 0, 0, 0.5); z-index:10; display:none'>" +
+		    "<div id='root' style='position:absolute; top:20%; left: 20%; width: 60%; height:60%; background-color: white'></div>" +
+		    "</div>" +
+		    "</div>");
+
+		    body.append(content);
+
+		    content.show(500);
+
+
+		    const overlay = $("#overlay");	    "<div id=\"selectedPage\">" +
+
+	    "</div>" +
+	    "</div>" +
+	    "<button type='submit' title='New Data Entry' class='register button button--primary button--normal' style='position:absolute; bottom: 100px; width: 200px; height: 60px; left: 50%'>" +
+	    "<span>New Data Entry</span>" +
+	    "</button>" +
+	    "<div id='overlay' style='position:absolute; top:50%; left:50%; width:0; height:0; background-color: rgba(0, 0, 0, 0.5); z-index:10; display:none'>" +
+	    "<div id='root' style='position:absolute; top:20%; left: 20%; width: 60%; height:60%; background-color: white'></div>" +
+	    "</div>" +
+	    "</div>");
+
+		    body.append(content);
+
+		    content.show(500);
+
+
+		    const overlay = $("#overlay");	    "<div id=\"selectedPage\">" +
+
+	    "</div>" +
+	    "</div>" +
+	    "<button type='submit' title='New Data Entry' class='register button button--primary button--normal' style='position:absolute; bottom: 100px; width: 200px; height: 60px; left: 50%'>" +
+	    "<span>New Data Entry</span>" +
+	    "</button>" +
+	    "<div id='overlay' style='position:absolute; top:50%; left:50%; width:0; height:0; background-color: rgba(0, 0, 0, 0.5); z-index:10; display:none'>" +
+	    "<div id='root' style='position:absolute; top:20%; left: 20%; width: 60%; height:60%; background-color: white'></div>" +
+	    "</div>" +
+	    "</div>");
+
+		    body.append(content);
+
+		    content.show(500);
+
+
+		    const overlay = $("#overlay");	    "<div id=\"selectedPage\">" +
+
+	    "</div>" +
+	    "</div>" +
+	    "<button type='submit' title='New Data Entry' class='register button button--primary button--normal' style='position:absolute; bottom: 100px; width: 200px; height: 60px; left: 50%'>" +
+	    "<span>New Data Entry</span>" +
+	    "</button>" +
+	    "<div id='overlay' style='position:absolute; top:50%; left:50%; width:0; height:0; background-color: rgba(0, 0, 0, 0.5); z-index:10; display:none'>" +
+	    "<div id='root' style='position:absolute; top:20%; left: 20%; width: 60%; height:60%; background-color: white'></div>" +
+	    "</div>" +
+	    "</div>");
+
+		    body.append(content);
+
+		    content.show(500);
+
+
+		    const overlay = $("#overlay");
+
+
+
+
+
+
 		    if(dataEntry.redacted === 1)
 		    {
 			    $("#selectedPage").attr("style", "background-color: gray");
@@ -115,6 +207,12 @@ const pageView = {
 	    $(entryId).on("click", function(e)
 	    {
 
+
+	    	//
+		    //
+		    //
+		    //
+		    //
 		    dataEntry.redacted = 1;
 
 		    //deleteDataEntry.show();
@@ -138,12 +236,57 @@ const pageView = {
 	    });
     }} />;
 
+		"<div id=\"selectedPage\">" +
+
+		"</div>" +
+		"</div>" +
+		"<button type='submit' title='New Data Entry' class='register button button--primary button--normal' style='position:absolute; bottom: 100px; width: 200px; height: 60px; left: 50%'>" +
+		"<span>New Data Entry</span>" +
+		"</button>" +
+		"<div id='overlay' style='position:absolute; top:50%; left:50%; width:0; height:0; background-color: rgba(0, 0, 0, 0.5); z-index:10; display:none'>" +
+		"<div id='root' style='position:absolute; top:20%; left: 20%; width: 60%; height:60%; background-color: white'></div>" +
+		"</div>" +
+		"</div>");
+
+		body.append(content);
+
+		content.show(500);
+
+
+		const overlay = $("#overlay");
+
+
+
 		ReactDOM.render(
 			dataEntryForm,
 			document.getElementById("root")
 		);
 
-    // Onclick setup
+    // Onclic
+		//
+		// k setup
+
+
+
+
+		const overlay = $("#overlay");
+
+
+
+		ReactDOM.render(
+			dataEntryForm,
+			document.getElementById("root")
+		);
+
+		const overlay = $("#overlay");
+
+
+
+		ReactDOM.render(
+			dataEntryForm,
+			document.getElementById("root")
+		);v
+
 
         $("button[type='submit']").on('click', function(e) {
 
@@ -219,19 +362,19 @@ const pageView = {
 		      $("#selectedPage").attr("style", "");
       }
 
-      // add onclick for each data entry id is "entry" + id of entry
-      data.forEach( function (entry)
-      {
-        var entryId = "#entry" + entry.id;
-        $(entryId).on("click", function(e)
-        {
-        	console.log(entry);
-        	if(entry.redacted === 1)
-	        {
-	        	$("#selectedPage").attr("style", "background-color: gray");
-	        }
-	        else
-		        $("#selectedPage").attr("style", "");
+      /// add onclick for each data entry id is "entry" + id of entry
+//      /data.forEach( function (entry)
+  /    {/
+   /     /var entryId = "#entry" + entry.id;
+    /    /$(entryId).on("click", function(e)
+     /   /{
+        ///	//console.log(entry);
+      /  	/if(entry.redacted === 1)
+	   /    /// {
+	    /    /	$("#selectedPage").attr("style", "background-color: gray");
+	     /   /}
+	      / / else
+		   /     $("#selectedPage").attr("style", "");
 
         	$("#selectedPage").html('');
         	$("#selectedPage").append($("<h4>" + entry.date_created + "</h4><p>" + entry.text + "</p><img src='" + entry.image + "' /><p>" + entry.caption +"</p><p>" + entry.author + "</p>"));
@@ -272,9 +415,9 @@ const pageView = {
 
     // TODO delete test
     // Replace with the moc objects and call renderDataEntry
-    // dEntries are entries pass from another place to page/data view
-    if (dataEntries !== undefined)
-    {
+    /// dEntries are entries pass from another place to page/data view
+    /i//f (dataEntries !== undefined)
+   // {
       renderDataEntryToToolbar(dataEntries);
     }
     // testRenderDataToBar();

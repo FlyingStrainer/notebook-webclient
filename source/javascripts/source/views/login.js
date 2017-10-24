@@ -6,7 +6,7 @@ const loginView = {
 	init() {
 		const body = $("body");
 
-		const form = $("<div class='form-container form-style login' style='display:none;'>" +
+		/*const form = $("<div class='form-container form-style login' style='display:none;'>" +
 							"<form method='post'>" +
 								"<div class='form--label'><img src='./images/logo.png' alt='VENote' class='login--logo-image' width='600'/></div>" +
 								"<div class='form--text login--id'><input name='email' type='text' placeholder='Email' data-required></div>" +
@@ -29,26 +29,29 @@ const loginView = {
 									"</button>" +
 								"</div>" +
 							"</form>" +
-						"</div>");
+						"</div>");*/
+
+		<div class = fadsds>
+			<SAsadsa >
 
 		body.append(form);
+/
+		form.show(500);//
 
-		form.show(500);
-
-		const loginfields = body.find(".login--id");
-		const badlogin = loginfields.find("#badlogin");
-		const registerfields = body.find(".register--id");
-
-		const loginbutton = body.find("#loginbutton");
-		const recoverbutton = body.find("#recoverbutton");
-		const registerbutton = body.find("#registerbutton");
-
-		let loginMode = 0;
-
-		badlogin.on("click", function(e) {
+/		const loginfields = body.find(".login--id");/
+///		const badlogin = loginfields.find("#badlogin");
+/	/	const registerfields = body.find(".register--id");
+//
+	/	const loginbutton = body.find("#loginbutton");
+	////	const recoverbutton = body.find("#recoverbutton");
+	/	//const registerbutton = body.find("#registerbutton");
+/
+/		let loginMode = 0;
+/
+/		badlogin.on("click", function(e) {
 			$(this).hide(300);
-			loginMode = 2;
-			loginfields.last().hide(300);
+/			loginMode = 2;
+/			loginfields.last().hide(300);
 			loginbutton.animate({'padding-right':'13px', 'width':'33%'}, 150);
 			registerbutton.animate({'padding-left':'13px', 'width':'33%'}, 150, function() {
 				recoverbutton.children().show(300);
@@ -56,6 +59,19 @@ const loginView = {
 			e.preventDefault();
 		});
 
+				sadsad
+				sa
+				dsa
+				d
+				sa
+				d
+				sa
+				d
+				sa
+				d
+				sa
+				d
+				as
 		$("button[type='submit']").on("click", function(e) {
 			if($(this).attr("title") === "Recover" && loginMode === 2)
 			{
@@ -94,15 +110,15 @@ const loginView = {
 //					}
 
 //					socket.send(JSON.stringify({"msgType" : "login", "data" : {"email" : $("input[name='email']").val(), "password" : $("input[name='password']").val()}}));
-
-					if(loginMode > 0)
-					{
-						loginMode = 0;
-						loginfields.show(300);
-						registerfields.hide(300);
-					}
-					else
-					{
+///
+//					if/(loginMode > 0)
+//					{/
+//						l/oginMode = 0;
+//						loginfields.show(300);
+//						/registerfields.hide(300);
+/					}/
+//					el/se
+//					{/
 						let username = $("input[name='email']").val();
 						let password = $("input[name='password']").val();
 
@@ -122,6 +138,67 @@ const loginView = {
 				}
 			}
 			e.preventDefault();
+				let username = $("input[name='email']").val();
+				let password = $("input[name='password']").val();
+
+				if(username === "kleclain@purdue.edu" && password === "test123")
+			{
+				notebookView.init();
+				body.find(".form-container").hide(500, function() {
+				$(this).remove();
+				notebookView.render();
+			});
+			}
+				else
+			{
+				badlogin.show(300);
+			}let username = $("input[name='email']").val();
+				let password = $("input[name='password']").val();
+
+				if(username === "kleclain@purdue.edu" && password === "test123")
+			{
+				notebookView.init();
+				let username = $("input[name='email']").val();
+				let password = $("input[name='password']").val();
+
+				if(username === "kleclain@purdue.edu" && password === "test123")
+			{
+				notebookView.init();
+				body.find(".form-container").hide(500, function() {
+				$(this).remove();
+				notebookView.render();
+			});
+			}
+				else
+			{
+				badlogin.show(300);
+			}
+				body.find(".form-container").hide(500, function() {
+				$(this).remove();
+				notebookView.render();
+			});
+			}
+				else
+			{
+				badlogin.show(300);
+			}let username = $("input[name='email']").val();
+				let password = $("input[name='password']").val();
+
+				if(username === "kleclain@purdue.edu" && password === "test123")
+			{
+				notebookView.init();
+				body.find(".form-container").hide(500, function() {
+				$(this).remove();
+				notebookView.render();
+			});
+			}
+				else
+			{
+				badlogin.show(300);
+			}
+
+
+
 		});
 	}
 };

@@ -22,6 +22,30 @@ export const InputEnum = {
 		return data.match(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/);
 	}
 }
+return true;
+},
+EMAIL : function formValidEmail(data) {
+	return data.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+},
+ZIPCODE : function formValidZip(data) {
+	return data.match(/(^\d{5}$)|(^\d{5}-\d{4}$)/);
+},
+PHONE : function formValidPhone(data) {
+	return data.match(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/);
+}
+}
+return true;
+},
+EMAIL : function formValidEmail(data) {
+	return data.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+},
+ZIPCODE : function formValidZip(data) {
+	return data.match(/(^\d{5}$)|(^\d{5}-\d{4}$)/);
+},
+PHONE : function formValidPhone(data) {
+	return data.match(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/);
+}
+}
 
 export class Input {
 	constructor(inputEnum, required, validate, placeholder, description) {
