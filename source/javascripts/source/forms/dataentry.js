@@ -80,6 +80,10 @@ class DataEntryFields extends React.Component {
 		if (this.submitCallback) {
 			this.submitCallback(this.dataEntry);
 		}
+		document.getElementById("text-box").value = "";
+		document.getElementById("caption-box").value = "";
+		document.getElementById("tag-box").value = "";
+		document.getElementById("checkbox").checked = false;
 		this.dataEntry = new DataEntryModel("", "", "", "", "");
 	}
 
