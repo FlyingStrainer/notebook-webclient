@@ -35,6 +35,7 @@ class DataEntryFields extends React.Component {
 		this.author=props.author;
 	}
 	
+	// Select file from image selector
 	fileSelected(input) {
 		console.log("File Selected:");
 		console.log(input.target.value);
@@ -51,6 +52,7 @@ class DataEntryFields extends React.Component {
 		}
 	}
 
+	// submit page to api
 	submitPage() {
 		var checkbox = document.getElementById("checkbox");
 		if (!checkbox.checked)
@@ -80,6 +82,8 @@ class DataEntryFields extends React.Component {
 		if (this.submitCallback) {
 			this.submitCallback(this.dataEntry);
 		}
+
+		// Clear form for future use
 		document.getElementById("text-box").value = "";
 		document.getElementById("caption-box").value = "";
 		document.getElementById("tag-box").value = "";
