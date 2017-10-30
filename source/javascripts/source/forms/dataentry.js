@@ -94,17 +94,18 @@ class DataEntryFields extends React.Component {
 	render() {
 		return (<div className="data-form" id="form-div">
 				<form className="data-form" id="form">
-					Describe your work:<br />
-					<textarea className="data-form" id="text-box"></textarea><br /><br />
+					<TextInput label="Describe your work:" />
+
 					Include an image:<br />
 					<input type="file" ref="file" className="data-form" id="image-upload" accept="image/*" onChange={(event)=>{this.fileSelected(event)}} /><br />
 					<img className="data-form" id="image" src={this.state.imgSrc} /><br />
-					Caption the image:<br />
-					<textarea className="data-form" id="caption-box"></textarea><br /><br />
+
+					<TextInput label="Caption the image:" />
 
 					Add image tags:<br />
 					(Write tags as a comma separated list, for example: "Wheels, Drive Train, Movement")<br />
 					<textarea className="data-form" id="tag-box"></textarea><br /><br />
+					<TextInput label="Add image tags:\n(Write tags as a comma separated list, for example: 'Wheels, Drive Train, Movement')" />
 					<label>	
 						<input className="data-form" id="checkbox" type="checkbox" value="Hi"/>
 						By checking this you confirm the accuracy of this entry.<br /><br />
@@ -112,5 +113,44 @@ class DataEntryFields extends React.Component {
 					<input className="data-form" id="submit-button" type="button" value="Submit" onClick={this.submitPage} /><br /><br />
 				</form>
 			</div>);	
+	}
+}
+
+
+class TextInput extends React.Component {
+	constructor(props) {
+		super(props);
+		this.label = props.label
+	}
+	
+	render() {
+		var text = this.label
+		return <div>
+		        {text.split("\\n").map(i => {
+          			return <div>{i}</div>;
+        		})}
+			<textarea className="data-form" id="text-box"></textarea><br />
+		</div>
+
+	}
+}
+
+class ImageInput extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+	
+	render() {
+
+	}
+}
+
+class SubmitButton extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+	
+	render() {
+
 	}
 }
