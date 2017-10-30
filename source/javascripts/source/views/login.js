@@ -1,12 +1,37 @@
 import notebookView from "./notebooks.js";
 import socket from "../network.js";
 
+import React from "../../lib/react.js";
+import Button from "./subviews/button.js";
+
+class LoginView extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+		return <div class="login-view form-container form-style">
+			<form method="post">
+				<div class="form--label"><img src="./images/logo.png" alt="VENote" class="login--logo-image" width="600" /></div>
+				<div class="form--text login--id"><input name="email" type="text" placeholder="Email" data-required /></div>
+				<div class="form--text login--id"><input name="password" type="password" placeholder="Password" data-required /></div>
+				<div class='form--text register--id'><input name='confirmpassword' type='password' placeholder='Confirm Password' data-required /></div>
+				<div class='form--text register--id'><input name='companyid' type='number' placeholder='Company ID' data-required/></div>
+
+				<Button wrapperClass="login" type="submit" title="Login" />
+				<Button wrapperClass="login--recover" type="submit" title="Recover" />
+				<Button wrapperClass="login--register" type="submit" title="Register"/>
+			</form>
+		</div>
+	}
+}
+
 const loginView = {
 
 	init() {
-		const body = $("body");
+		const body = $("#root");
 
-		const form = $("<div class='form-container form-style login' style='display:none;'>" +
+		/*const form = $("<div class='form-container form-style login' style='display:none;'>" +
 							"<form method='post'>" +
 								"<div class='form--label'><img src='./images/logo.png' alt='VENote' class='login--logo-image' width='600'/></div>" +
 								"<div class='form--text login--id'><input name='email' type='text' placeholder='Email' data-required></div>" +
@@ -31,7 +56,15 @@ const loginView = {
 							"</form>" +
 						"</div>");
 
-		body.append(form);
+		body.append(form);*/
+
+		ReactDOM.render(
+			<LoginView />,
+			body[0]
+		);
+
+		const form = $(".form-container.login");
+
 
 		form.show(500);
 

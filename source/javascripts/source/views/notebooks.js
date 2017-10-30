@@ -4,7 +4,45 @@ import Notebook from "../models/notebook.js";
 import DataEntry from "../models/dataentry.js";
 import CreateNotebookForm from "../forms/createnotebook.js";
 
+import React from "../../lib/react.js";
+import ToolbarView from "./subviews/toolbar"
+
 let notebooks;
+
+class NotebooksView extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+		return <div class="notebooks-view">
+			<ToolbarView />
+			<div class="notebooks--list-view">
+				<NotebookListView />
+			</div>
+		</div>
+	}
+}
+
+class NotebookListView extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+
+	}
+}
+
+class NotebookView extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+
+	}
+}
 
 const notebookView = {
 

@@ -4,8 +4,49 @@ import DataEntryForm from "../forms/dataentry.js";
 import DeleteDataEntryForm from "../forms/deletedataentry.js";
 import notebookView from "./notebooks.js";
 
+import React from "../../lib/react.js";
+import ToolbarView from "./subviews/toolbar.js";
+
 let dataEntries;
 let notebook;
+
+class PagesView extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+		return <div class="pages">
+			<ToolbarView />
+			<div class="pages--list-view">
+				<PageListView />
+			</div>
+			<div class="pages--selected-view">
+				<PageView />
+			</div>
+		</div>
+	}
+}
+
+class PageListView extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+
+	}
+}
+
+class PageView extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+
+	}
+}
 
 const pageView = {
 
