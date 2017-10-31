@@ -7,22 +7,46 @@ import Button from "./subviews/button.js";
 class LoginView extends React.Component {
 	constructor(props) {
 		super(props);
+
+		this.loginMode = 0;
+
+		this.state = {buttonState: ""};
+
+		this.loginCallback = this.login.bind(this);
+		this.recoverCallback = this.recover.bind(this);
+		this.registerCallback = this.register.bind(this);
 	}
 
-	render() {
-		return <div class="login-view form-container form-style">
-			<form method="post">
-				<div class="form--label"><img src="./images/logo.png" alt="VENote" class="login--logo-image" width="600" /></div>
-				<div class="form--text login--id"><input name="email" type="text" placeholder="Email" data-required /></div>
-				<div class="form--text login--id"><input name="password" type="password" placeholder="Password" data-required /></div>
-				<div class='form--text register--id'><input name='confirmpassword' type='password' placeholder='Confirm Password' data-required /></div>
-				<div class='form--text register--id'><input name='companyid' type='number' placeholder='Company ID' data-required/></div>
+	login(event) {
+        console.log("LOGIN");
 
-				<Button wrapperClass="login" type="submit" title="Login" />
-				<Button wrapperClass="login--recover" type="submit" title="Recover" />
-				<Button wrapperClass="login--register" type="submit" title="Register"/>
+        this.setState({buttonState: "stateThirds "});
+    }
+
+    recover(event) {
+
+    }
+
+    register(event) {
+	    console.log("REGISTER");
+
+        this.setState({buttonState: ""});
+    }
+
+	render() {
+		return (<div className="login-view form-container form-style">
+			<form method="post">
+				<div className="form--label"><img src="./images/logo.png" alt="VENote" class="login--logo-image" width="600" /></div>
+				<div className="form--text login--id"><input name="email" type="text" placeholder="Email" data-required /></div>
+				<div className="form--text login--id"><input name="password" type="password" placeholder="Password" data-required /></div>
+				<div className='form--text register--id'><input name='confirmpassword' type='password' placeholder='Confirm Password' data-required /></div>
+				<div className='form--text register--id'><input name='companyid' type='number' placeholder='Company ID' data-required/></div>
+
+				<Button wrapperClass={this.state.buttonState + "login"} type="submit" title="Login" onClick={this.loginCallback}/>
+				<Button wrapperClass={this.state.buttonState + "login--recover"} type="submit" title="Recover" onClick={this.recoverCallback}/>
+				<Button wrapperClass={this.state.buttonState + "login--register"} type="submit" title="Register" onClick={this.registerCallback}/>
 			</form>
-		</div>
+		</div>);
 	}
 }
 
@@ -63,7 +87,7 @@ const loginView = {
 			body[0]
 		);
 
-		const form = $(".form-container.login");
+		/*const form = $(".form-container.login");
 
 
 		form.show(500);
@@ -151,7 +175,7 @@ const loginView = {
 				}
 			}
 			e.preventDefault();
-		});
+		});*/
 	}
 };
 

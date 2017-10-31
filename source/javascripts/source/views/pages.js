@@ -58,7 +58,7 @@ const pageView = {
 	render( ) {
     const body = $("body");
 
-    const content = $(
+    /*const content = $(
 	    "<div class=\"mainView\" id=\"pageMainView\" style='display:none;'>" +
 	    "<div class=\"topBarView\">" +
 	    "<div id=\"titleHolder\">" +
@@ -97,7 +97,7 @@ const pageView = {
 	     "<div class=\"notebookTool\">" +
 	     "<p>Tool 5</p>" +
 	     "</div>" +
-	     "</div>" + */
+	     "</div>" +
 
 	    "<!-- This div holds a view for looking at a current page and/or rendering -->" +
 	    "<div id=\"currentPageView\">" +
@@ -114,7 +114,7 @@ const pageView = {
 	    "</div>" +
 	    "</div>");
 
-    body.append(content);
+    body.append(content);*/
 
     content.show(500);
 

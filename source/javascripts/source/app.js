@@ -3,7 +3,6 @@ import pages from "./views/pages.js";
 import DataEntryForm from "./forms/dataentry.js";
 
 
-
 $(document).ready(function() {
 	const body = $("body");
 	if(body.hasClass("pageview"))

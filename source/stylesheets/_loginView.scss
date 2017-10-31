@@ -1,0 +1,89 @@
+@import "utils";
+
+.login--button{
+  padding-right:10px;
+  width:50%;
+  margin-left:0;
+  margin-right:0;
+  float:left;
+
+  @include transition-timing(ease);
+  @include transition(padding-right 150ms 300ms, width 150ms 300ms);
+
+  button {
+    background:forestgreen;
+    margin-top:20px;
+  }
+}
+
+.stateThirds.login--button {
+
+  padding-right:5px;
+  width: 33%;
+
+  @include transition(padding-right 150ms 0ms, width 150ms 0ms);
+}
+
+.login--recover--button {
+  width: 33%;
+  margin-left: 0;
+  margin-right: 0;
+  float:left;
+  padding-left: 5px;
+  padding-right: 5px;
+
+  height:0;
+  @include transition-timing(ease);
+
+  button {
+    background:orange;
+    margin-top:20px;
+
+    visibility:hidden;
+    height: 0;
+    opacity: 0;
+    width: 0;
+
+    @include transition(width 300ms 0ms);
+  }
+}
+
+.stateThirds.login--recover--button {
+  height:auto;
+
+  @include transition(height 0s 150ms);
+
+  button {
+    visibility:visible;
+    height: auto;
+    width: 100%;
+    opacity: 1;
+
+    @include transition(visibility 0s 150ms, opacity 0s 150ms, height 0s 150ms, width 300ms 150ms);
+  }
+}
+
+.login--register--button {
+  padding-left:0;
+  width:50%;
+  margin-left:0;
+  margin-right:0;
+  float:right;
+
+  @include transition-timing(ease);
+  @include transition(padding-left 150ms 300ms, width 150ms 300ms);
+
+  button {
+    background:indianred;
+    margin-top:20px;
+
+    @include transition(width 150ms 300ms);
+  }
+}
+
+.stateThirds.login--register--button {
+  padding-left:5px;
+  width: 33%;
+
+  @include transition(padding-left 150ms 0ms, width 150ms 0ms);
+}
