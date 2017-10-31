@@ -1,9 +1,9 @@
 export default class User 
 {
-  constructor( uuid, userHash, userName, permissions, dateAccountCreated, lastLogin)
+  constructor( uuid, user_hash, userName, permissions, dateAccountCreated, lastLogin)
   {
     this.uuid = uuid;
-    this.userHash = userHash;
+    this.user_hash = user_hash;
     this.userName = userName;
     this.permissions = permissions;
     this.dateAccountCreated = dateAccountCreated;
