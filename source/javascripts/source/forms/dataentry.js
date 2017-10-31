@@ -2,7 +2,7 @@ import * as form from "./form.js";
 import DataEntryModel from '../models/dataentry.js';
 export * from "./form.js";
 
-export default class DataEntryForm extends React.Component {
+export class DataEntryForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -109,7 +109,7 @@ class DataEntryFields extends React.Component {
 }
 
 
-class TextInput extends React.Component {
+export class TextInput extends React.Component {
 	constructor(props) {
 		super(props);
 		this.label = props.label
@@ -127,7 +127,7 @@ class TextInput extends React.Component {
 	}
 }
 
-class ImageInput extends React.Component {
+export class ImageInput extends React.Component {
 	constructor(props) {
 		super(props);
 		this.imageHandler = props.imageHandler;
@@ -162,7 +162,7 @@ class ImageInput extends React.Component {
 	}
 }
 
-class SubmitButton extends React.Component {
+export class SubmitButton extends React.Component {
 	constructor(props) {
 		super(props);
 		this.message = props.message;
