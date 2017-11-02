@@ -1,26 +1,89 @@
-import pageView from "./pages.js";
-import loginView from "./login.js";
-import Notebook from "../models/notebook.js";
-import DataEntry from "../models/dataentry.js";
-import CreateNotebookForm from "../forms/createnotebook.js";
-
 import React from "../../lib/react.js";
-import ToolbarView from "./subviews/toolbar"
+import ToolbarView from "./subviews/toolbar";
+import Notebook from "../models/notebook.js";
 
-let notebooks;
-
-class NotebooksView extends React.Component {
+export default class NotebooksView extends React.Component {
 	constructor(props) {
 		super(props);
+
+		this.user = props.user;
+		this.getNotebooks = props.getNotebooks;
+		this.setNotebooks = props.setNotebooks;
+
+
+		this.state = {notebookList : ""};
+	}
+
+	componentDidMount() {
+		if(this.getNotebooks() === undefined)
+		{
+			fetch("http://endor-vm1.cs.purdue.edu/getnotebooks", {
+				method: "POST",
+				headers: {
+					"Accept": "application/json",
+					"Content-Type": "application/json"
+				},
+				body: {
+					"user_hash" : this.user()
+				}
+			}).then(function(response) {
+				if(response.ok) {
+					return response.json();
+				}
+				throw new Error("Network response was not ok.");
+			}).then(function(json) {
+				console.log(json);
+
+				let notebookCount = json.notebooks.length;
+				let notebooks = [];
+
+				json.notebooks.forEach(function(notebook_uuid) {
+					fetch("http://endor-vm1.cs.purdue.edu/getnotebook", {
+						method: "POST",
+						headers: {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						body: {
+							"notebook_uuid" : notebook_uuid
+						}
+					}).then(function(response) {
+						if(response.ok) {
+							return response.json();
+						}
+						throw new Error("Network response was not ok.");
+					}).then(function(json) {
+						console.log(json);
+
+						notebooks.push(new Notebook(notebook_uuid, json.name, json.managers, json.date_created, json.date_modified, json.permissions, json.tags));
+
+						notebookCount--;
+						if(notebookCount === 0)
+						{
+							this.setNotebooks(notebooks);
+						}
+					}.bind(this)).catch(function(error) {
+
+					}.bind(this));
+				});
+
+			}.bind(this)).catch(function(error) {
+				console.log(error.message);
+			}.bind(this));
+		}
+		else
+		{
+			this.setState({notebookList : this.getNotebooks()});
+		}
 	}
 
 	render() {
-		return <div class="notebooks-view">
+		return (<div class="notebooks-view">
 			<ToolbarView />
 			<div class="notebooks--list-view">
-				<NotebookListView />
+				<NotebookListView notebooks={this.state.notebookList}/>
 			</div>
-		</div>
+		</div>);
 	}
 }
 
@@ -30,7 +93,7 @@ class NotebookListView extends React.Component {
 	}
 
 	render() {
-
+		return (<div></div>);
 	}
 }
 
@@ -44,7 +107,7 @@ class NotebookView extends React.Component {
 	}
 }
 
-const notebookView = {
+/*const notebookView = {
 
 	init() {
 
@@ -54,9 +117,9 @@ const notebookView = {
 			console.log("HERE");
 		}
 
-		$.get("http://endor-vm1.cs.purdue.edu/", {"msgType" : "getNotebooks"}, function(data) {
+		/*$.get("http://endor-vm1.cs.purdue.edu/", {"msgType" : "getNotebooks"}, function(data) {
 			console.log(data);
-		});
+		});*
 
 	},
 
@@ -131,7 +194,7 @@ const notebookView = {
 			 {
 			 body.html('');
 			 pageView.init(notebooks, null);
-			 });*/
+			 });*
 			e.preventDefault();
 		});
 
@@ -189,7 +252,7 @@ const notebookView = {
         {
           body.html('');
           pageView.init(notebooks, null);
-        });*/
+        });*
         e.preventDefault();
       });
 
@@ -234,6 +297,6 @@ const notebookView = {
 
 	}
 
-};
+};*/
 
-export default notebookView;
+//export default notebookView;

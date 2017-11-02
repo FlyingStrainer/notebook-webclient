@@ -1,50 +1,120 @@
-import notebookView from "./notebooks.js";
-import socket from "../network.js";
-
 import React from "../../lib/react.js";
 import Button from "./subviews/button.js";
+import * as Form from "../forms/form.js";
 
-class LoginView extends React.Component {
+export default class LoginView extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.loginMode = 0;
+		this.callback = props.callback;
+		console.log(this.callback);
 
-		this.state = {buttonState: ""};
+		this.loginState = 0;
+		this.storedValues = {};
 
-		this.loginCallback = this.login.bind(this);
-		this.recoverCallback = this.recover.bind(this);
-		this.registerCallback = this.register.bind(this);
+		this.state = {buttonState: "stateLoad "};
+
+		this.handleChange = this.handleChange.bind(this);
+		this.login = this.login.bind(this);
+		this.recover = this.recover.bind(this);
+		this.register = this.register.bind(this);
+
+		console.log("LOGIN VIEW");
+	}
+
+	componentDidMount() {
+		setTimeout(function() {
+            this.setState({buttonState: "stateLoad stateTransition "});
+            setTimeout(function() {
+            	this.setState({buttonState: ""});
+            }.bind(this), 300);
+		}.bind(this), 300);
+
+	}
+
+	handleChange(event) {
+	    this.storedValues[event.target.name] = event.target.value;
 	}
 
 	login(event) {
-        console.log("LOGIN");
-
-        this.setState({buttonState: "stateThirds "});
+	    if(this.loginState === 0)
+        {
+        	if(Form.InputEnum.EMAIL(this.storedValues["email"]) && Form.InputEnum.TEXT(this.storedValues["password"]))
+	        {
+		        fetch("http://endor-vm1.cs.purdue.edu/user", {
+			        method: "POST",
+			        headers: {
+				        "Accept": "application/json",
+				        "Content-Type": "application/json"
+			        },
+			        body: {
+				        "username" : this.storedValues["email"],
+				        "password" : this.storedValues["password"]
+			        }
+		        }).then(function(response) {
+			        if(response.ok) {
+				        return response.json();
+			        }
+			        throw new Error("Network response was not ok.");
+		        }).then(function(json) {
+			        this.setState({buttonState : "stateExit stateTransition "});
+			        setTimeout(function(){
+			        	this.callback(json);
+			        }.bind(this), 300);
+		        }.bind(this)).catch(function(error) {
+			        this.setState({buttonState: "stateLoginInvalid "});
+			        console.log(error.message);
+		        }.bind(this));
+	        }
+	        else
+	        {
+		        this.setState({buttonState: "stateLoginInvalid "});
+	        }
+        }
+        else
+        {
+            this.setState({buttonState: ""});
+            this.loginState = 0;
+        }
     }
 
     recover(event) {
+		if(this.loginState === 0)
+		{
+			this.setState({buttonState : "stateRecovery "});
+			this.loginState = 1;
+		}
+        else if(this.loginState === 1)
+        {
 
+        }
     }
 
     register(event) {
 	    console.log("REGISTER");
+	    if(this.loginState === 2)
+        {
 
-        this.setState({buttonState: ""});
+        }
+        else
+            this.setState({buttonState: "stateRegister "});
+
+        this.loginState = 2;
     }
 
 	render() {
-		return (<div className="login-view form-container form-style">
+		return (<div className={this.state.buttonState + "login-view form-container form-style"}>
 			<form method="post">
 				<div className="form--label"><img src="./images/logo.png" alt="VENote" class="login--logo-image" width="600" /></div>
-				<div className="form--text login--id"><input name="email" type="text" placeholder="Email" data-required /></div>
-				<div className="form--text login--id"><input name="password" type="password" placeholder="Password" data-required /></div>
-				<div className='form--text register--id'><input name='confirmpassword' type='password' placeholder='Confirm Password' data-required /></div>
-				<div className='form--text register--id'><input name='companyid' type='number' placeholder='Company ID' data-required/></div>
+				<div className="form--text login--email"><input name="email" type="text" placeholder="Email" onChange={this.handleChange} /></div>
+				<div className="form--text login--password"><input name="password" type="password" placeholder="Password" onChange={this.handleChange} /></div>
+				<div className="form--label login--invalid"><a onClick={this.recover}>Your email/password was incorrect</a></div>
+				<div className="form--text register--password"><input name="confirmpassword" type="password" placeholder="Confirm Password" onChange={this.handleChange} /></div>
+				<div className="form--text register--company"><input name="companyid" type="number" placeholder="Company ID" onChange={this.handleChange} /></div>
 
-				<Button wrapperClass={this.state.buttonState + "login"} type="submit" title="Login" onClick={this.loginCallback}/>
-				<Button wrapperClass={this.state.buttonState + "login--recover"} type="submit" title="Recover" onClick={this.recoverCallback}/>
-				<Button wrapperClass={this.state.buttonState + "login--register"} type="submit" title="Register" onClick={this.registerCallback}/>
+				<Button wrapperClass="login" type="submit" title="Login" onClick={this.login}/>
+				<Button wrapperClass="login--recover" type="submit" title="Recover" onClick={this.recover}/>
+				<Button wrapperClass="login--register" type="submit" title="Register" onClick={this.register}/>
 			</form>
 		</div>);
 	}
@@ -53,7 +123,7 @@ class LoginView extends React.Component {
 const loginView = {
 
 	init() {
-		const body = $("#root");
+		const body = $("#renderview");
 
 		/*const form = $("<div class='form-container form-style login' style='display:none;'>" +
 							"<form method='post'>" +
@@ -179,5 +249,5 @@ const loginView = {
 	}
 };
 
-export * from  "../forms/form.js";
-export default loginView;
+//export * from  "../forms/form.js";
+//export default loginView;

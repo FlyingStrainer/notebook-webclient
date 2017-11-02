@@ -1,8 +1,26 @@
 @import "utils";
 
+.register--password, .register--company {
+  visibility: hidden;
+  max-height: 0;
+  width: 0;
+
+  @include transition-timing(ease);
+  @include transition(visibility 0s 450ms, max-height 150ms 300ms, width 300ms 0ms);
+
+  input {
+    padding: 7px 0;
+    @include transition(padding 300ms 0ms);
+  }
+}
+
+.form--label.login--invalid {
+  display: none;
+}
+
 .login--button{
   padding-right:10px;
-  width:50%;
+  width:300px;
   margin-left:0;
   margin-right:0;
   float:left;
@@ -16,56 +34,36 @@
   }
 }
 
-.stateThirds.login--button {
-
-  padding-right:5px;
-  width: 33%;
-
-  @include transition(padding-right 150ms 0ms, width 150ms 0ms);
-}
-
 .login--recover--button {
-  width: 33%;
+  width: 0;
   margin-left: 0;
   margin-right: 0;
   float:left;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 0;
+  padding-right: 0;
 
-  height:0;
+  height:auto;
   @include transition-timing(ease);
+
+  @include transition(width 0ms 300ms, padding-left 0ms 300ms, padding-right 0ms 300ms);
 
   button {
     background:orange;
     margin-top:20px;
 
     visibility:hidden;
-    height: 0;
+    height: auto;
     opacity: 0;
     width: 0;
+    padding: 8px 0;
 
-    @include transition(width 300ms 0ms);
-  }
-}
-
-.stateThirds.login--recover--button {
-  height:auto;
-
-  @include transition(height 0s 150ms);
-
-  button {
-    visibility:visible;
-    height: auto;
-    width: 100%;
-    opacity: 1;
-
-    @include transition(visibility 0s 150ms, opacity 0s 150ms, height 0s 150ms, width 300ms 150ms);
+    @include transition(visibility 0s 300ms, opacity 0s 300ms, padding 300ms 0ms, width 300ms 0ms);
   }
 }
 
 .login--register--button {
   padding-left:0;
-  width:50%;
+  width:300px;
   margin-left:0;
   margin-right:0;
   float:right;
@@ -81,9 +79,102 @@
   }
 }
 
-.stateThirds.login--register--button {
-  padding-left:5px;
-  width: 33%;
+.stateLoad {
+  opacity: 0;
+  right: 300px;
 
-  @include transition(padding-left 150ms 0ms, width 150ms 0ms);
+  .register--password, .register--company {
+    @include transition(width 0ms 0ms);
+  }
+
+  .login--button{
+    @include transition(padding-right 0ms 0ms, width 0ms 0ms);
+  }
+
+  .login--recover--button {
+    @include transition(padding 0ms 0ms, width 0ms 0ms);
+  }
+
+}
+
+.stateLoad.stateTransition {
+  opacity: 1;
+  right: 0;
+
+  @include transition-timing(ease);
+  @include transition(right 300ms 0ms, opacity 300ms 0ms);
+}
+
+.stateExit.stateTransition {
+  opacity: 0;
+  left: 300px;
+
+  @include transition-timing(ease);
+  @include transition(left 300ms 0ms, opacity 300ms 0ms);
+}
+
+.stateLoginInvalid {
+  .form--label.login--invalid {
+    display: inline;
+  }
+}
+
+.stateRecovery {
+
+  .login--button {
+
+    padding-right:6.667px;
+    width: 200px;
+
+    @include transition(padding-right 150ms 0ms, width 150ms 0ms);
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .login--recover--button {
+    height:auto;
+    width:200px;
+    padding-left: 3.333px;
+    padding-right: 3.333px;
+
+    @include transition(width 300ms 150ms, height 300ms 150ms, padding-left 300ms 150ms, padding-right 300ms 150ms);
+
+    button {
+      visibility:visible;
+      height: auto;
+      width: 100%;
+      opacity: 1;
+      padding: 8px 10px;
+
+      @include transition(visibility 0s 150ms, opacity 0s 150ms, height 0s 150ms, padding 300ms 150ms, width 300ms 150ms);
+    }
+  }
+
+  .login--register--button {
+    padding-left:6.667px;
+    width: 200px;
+
+    @include transition(padding-left 150ms 0ms, width 150ms 0ms);
+
+    button {
+      width: 100%;
+    }
+  }
+}
+
+.stateRegister {
+  .register--password, .register--company {
+    visibility: visible;
+    max-height: 1000px;
+    width: 100%;
+
+    @include transition(max-height 150ms 0s, width 300ms 150ms);
+
+    input {
+      padding: 7px;
+      @include transition(padding 300ms 0ms);
+    }
+  }
 }
