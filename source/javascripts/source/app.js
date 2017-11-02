@@ -6,7 +6,7 @@ class VENote extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.user = undefined;
+		this.user = "user_hash1";
 		this.notebooks = undefined;
 
 		this.state = {view : props.view, user : ""};
@@ -16,8 +16,13 @@ class VENote extends React.Component {
 
 		this.notebook = this.notebook.bind(this);
 		this.getNotebooks = this.getNotebooks.bind(this);
+		this.setNotebooks = this.setNotebooks.bind(this);
 
 		this.back = this.back.bind(this);
+		this.logout = this.logout.bind(this);
+
+		this.parentHandler = {getUser : this.getUser, getNotebooks : this.getNotebooks, setNotebooks : this.setNotebooks,
+                                back : this.back, logout : this.logout};
 	}
 
 	componentDidMount() {
@@ -49,13 +54,17 @@ class VENote extends React.Component {
 	}
 
 
-	back() {
+	back(e) {
 
 	}
 
+	logout(e) {
+
+    }
+
 	render() {
 		return (<div id="venoteview">
-			<div id="renderview">{this.state.view === "notebookView" ? <Notebooks callback={this.notebook} user={this.getUser} getNotebooks={this.getNotebooks} setNotebooks={this.setNotebooks} />
+			<div id="renderview">{this.state.view === "notebookView" ? <Notebooks callback={this.notebook} parentHandler={this.parentHandler}/>
 				: <LoginView callback={this.login} />}</div>
 			<div id="pushview"></div>
 		</div>);

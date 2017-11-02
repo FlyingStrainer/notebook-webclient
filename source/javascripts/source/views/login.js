@@ -7,7 +7,6 @@ export default class LoginView extends React.Component {
 		super(props);
 
 		this.callback = props.callback;
-		console.log(this.callback);
 
 		this.loginState = 0;
 		this.storedValues = {};
@@ -29,7 +28,6 @@ export default class LoginView extends React.Component {
             	this.setState({buttonState: ""});
             }.bind(this), 300);
 		}.bind(this), 300);
-
 	}
 
 	handleChange(event) {

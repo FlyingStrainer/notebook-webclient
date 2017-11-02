@@ -1,85 +1,87 @@
 @import "utils";
-
-.register--password, .register--company {
-  visibility: hidden;
-  max-height: 0;
-  width: 0;
-
-  @include transition-timing(ease);
-  @include transition(visibility 0s 450ms, max-height 150ms 300ms, width 300ms 0ms);
-
-  input {
-    padding: 7px 0;
-    @include transition(padding 300ms 0ms);
-  }
-}
-
-.form--label.login--invalid {
-  display: none;
-}
-
-.login--button{
-  padding-right:10px;
-  width:300px;
-  margin-left:0;
-  margin-right:0;
-  float:left;
-
-  @include transition-timing(ease);
-  @include transition(padding-right 150ms 300ms, width 150ms 300ms);
-
-  button {
-    background:forestgreen;
-    margin-top:20px;
-  }
-}
-
-.login--recover--button {
-  width: 0;
-  margin-left: 0;
-  margin-right: 0;
-  float:left;
-  padding-left: 0;
-  padding-right: 0;
-
-  height:auto;
-  @include transition-timing(ease);
-
-  @include transition(width 0ms 300ms, padding-left 0ms 300ms, padding-right 0ms 300ms);
-
-  button {
-    background:orange;
-    margin-top:20px;
-
-    visibility:hidden;
-    height: auto;
-    opacity: 0;
+.login-view {
+  .register--password, .register--company {
+    visibility: hidden;
+    max-height: 0;
     width: 0;
-    padding: 8px 0;
 
-    @include transition(visibility 0s 300ms, opacity 0s 300ms, padding 300ms 0ms, width 300ms 0ms);
+    @include transition-timing(ease);
+    @include transition(visibility 0s 450ms, max-height 150ms 300ms, width 300ms 0ms);
+
+    input {
+      padding: 7px 0;
+      @include transition(padding 300ms 0ms);
+    }
+  }
+
+  .form--label.login--invalid {
+    display: none;
+  }
+
+  .login--button {
+    padding-right: 10px;
+    width: 300px;
+    margin-left: 0;
+    margin-right: 0;
+    float: left;
+
+    @include transition-timing(ease);
+    @include transition(padding-right 150ms 300ms, width 150ms 300ms);
+
+    button {
+      background: forestgreen;
+      margin-top: 20px;
+      width:100%;
+    }
+  }
+
+  .login--recover--button {
+    width: 0;
+    margin-left: 0;
+    margin-right: 0;
+    float: left;
+    padding-left: 0;
+    padding-right: 0;
+
+    height: auto;
+    @include transition-timing(ease);
+
+    @include transition(width 0ms 300ms, padding-left 0ms 300ms, padding-right 0ms 300ms);
+
+    button {
+      background: orange;
+      margin-top: 20px;
+
+      visibility: hidden;
+      height: auto;
+      opacity: 0;
+      width: 0;
+      padding: 8px 0;
+
+      @include transition(visibility 0s 300ms, opacity 0s 300ms, padding 300ms 0ms, width 300ms 0ms);
+    }
+  }
+
+  .login--register--button {
+    padding-left: 0;
+    width: 300px;
+    margin-left: 0;
+    margin-right: 0;
+    float: right;
+
+    @include transition-timing(ease);
+    @include transition(padding-left 150ms 300ms, width 150ms 300ms);
+
+    button {
+      background: indianred;
+      margin-top: 20px;
+
+      @include transition(width 150ms 300ms);
+    }
   }
 }
 
-.login--register--button {
-  padding-left:0;
-  width:300px;
-  margin-left:0;
-  margin-right:0;
-  float:right;
-
-  @include transition-timing(ease);
-  @include transition(padding-left 150ms 300ms, width 150ms 300ms);
-
-  button {
-    background:indianred;
-    margin-top:20px;
-
-    @include transition(width 150ms 300ms);
-  }
-}
-
-.stateLoad {
+.login-view.stateLoad {
   opacity: 0;
   right: 300px;
 
@@ -97,7 +99,7 @@
 
 }
 
-.stateLoad.stateTransition {
+.login-view.stateLoad.stateTransition {
   opacity: 1;
   right: 0;
 
@@ -105,7 +107,7 @@
   @include transition(right 300ms 0ms, opacity 300ms 0ms);
 }
 
-.stateExit.stateTransition {
+.login-view.stateExit.stateTransition {
   opacity: 0;
   left: 300px;
 
@@ -113,13 +115,13 @@
   @include transition(left 300ms 0ms, opacity 300ms 0ms);
 }
 
-.stateLoginInvalid {
+.login-view.stateLoginInvalid {
   .form--label.login--invalid {
     display: inline;
   }
 }
 
-.stateRecovery {
+.login-view.stateRecovery {
 
   .login--button {
 
@@ -164,7 +166,7 @@
   }
 }
 
-.stateRegister {
+.login-view.stateRegister {
   .register--password, .register--company {
     visibility: visible;
     max-height: 1000px;
