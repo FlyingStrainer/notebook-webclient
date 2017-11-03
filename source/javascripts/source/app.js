@@ -10,12 +10,30 @@ import React from "../lib/react.js";
 
 import PushNotification from "./views/subviews/pushnotification.js";
 
+import User from "./models/user.js";
+
 class VENote extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.user = "user_hash1";
-		this.notebooks = [new Notebook("notebook_hash1", "Notebook name 1", [], new Date(), new Date(), null, null)];
+		this.user = new User("user_hash1", {
+			role : "manager",
+			create_notebooks : false,
+			notebooks : [
+				{
+					notebook_hash : "--notebook-key-1",
+					read : true,
+					write : false,
+					manager : true
+				},
+				{
+					notebook_hash : "--notebook-key-2",
+					read : true,
+					write : true,
+					manager : false
+				}]
+		}, "SCC", ["--notebook-key-1", "--notebook-key-2"]);
+		this.notebooks = [new Notebook("--notebook-key-1", "Notebook name 1", [], new Date(), new Date(), null, null)];
 		this.currentNotebook = this.notebooks[0];
 
 		this.state = {view : props.view, pushView : false};
@@ -40,7 +58,7 @@ class VENote extends React.Component {
 		//user_hash
 		//notebooks -> Array [uuid, name, creation_date, modified_date, ]
 
-		this.user = responseJson.user_hash;
+		this.user = new User(responseJson.user_hash, responseJson.permissions, responseJson.company_name, responseJson.notebooks);
 
 		this.socket = new WebSocket("ws://endor-vm1.cs.purdue.edu/");
 

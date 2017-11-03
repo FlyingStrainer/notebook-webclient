@@ -52,8 +52,7 @@ export default class PushNotification extends React.Component {
 	}
 
     componentWillReceiveProps(nextProps) {
-	    console.log(nextProps);
-        if (nextProps.data.notebook_hash !== this.props.data.notebook_hash || nextProps.data.entry_hash !== this.props.entry_hash) {
+        if (nextProps.data.notebook_hash !== this.notebook_hash || nextProps.data.entry_hash !== this.entry_hash) {
             this.notebook_hash = nextProps.data.notebook_hash;
             this.entry_hash = nextProps.data.entry_hash;
 

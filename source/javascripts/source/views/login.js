@@ -55,10 +55,29 @@ export default class LoginView extends React.Component {
 			        }
 			        throw new Error("Network response was not ok.");
 		        }).then(function(json) {
-			        this.setState({buttonState : "stateExit stateTransition "});
-			        setTimeout(function(){
-			        	this.callback(json);
-			        }.bind(this), 300);
+                    fetch("http://endor-vm1.cs.purdue.edu/user", {
+                        method: "POST",
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            user_hash : json.user_hash
+                        })
+                    }).then(function(response) {
+                        if(response.ok) {
+                            return response.json();
+                        }
+                        throw new Error("Network response was not ok.");
+                    }).then(function(json) {
+                        this.setState({buttonState : "stateExit stateTransition "});
+                        setTimeout(function(){
+                            this.callback(json);
+                        }.bind(this), 300);
+                    }.bind(this)).catch(function(error) {
+                        this.setState({buttonState: "stateLoginInvalid "});
+                        console.log(error.message);
+                    }.bind(this));
 		        }.bind(this)).catch(function(error) {
 			        this.setState({buttonState: "stateLoginInvalid "});
 			        console.log(error.message);

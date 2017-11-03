@@ -37,7 +37,7 @@ export default class NotebooksView extends React.Component {
 					"Content-Type": "application/json"
 				},
 				body: JSON.stringify({
-					user_hash : this.parent.getUser()
+					user_hash : this.parent.getUser().user_hash
 				})
 			}).then(function(response) {
 				if(response.ok) {
@@ -57,7 +57,7 @@ export default class NotebooksView extends React.Component {
 							"Content-Type" : "application/json"
 						},
 						body: JSON.stringify({
-							user_hash : this.parent.getUser(),
+							user_hash : this.parent.getUser().user_hash,
 							notebook_hash : notebook_uuid
 						})
 					}).then(function(response) {
@@ -97,7 +97,7 @@ export default class NotebooksView extends React.Component {
     }
 
     toggleCreateNotebook() {
-        if(this.state.createNotebookState === "stateHide " || this.state.createNotebookState === "stateLoad ")
+        if((this.state.createNotebookState === "stateHide " || this.state.createNotebookState === "stateLoad ") && this.parent.getUser().permissions.create_notebooks)
         {
         	this.notebookNameInput.value = "";
 	        this.setState({createNotebookState : "stateShow "});
@@ -135,9 +135,10 @@ export default class NotebooksView extends React.Component {
 		return (<div className="notebooks-view">
 			<ToolbarView page="SCC" parentHandler={this.parentToolbar} visible={this.state.close} hasBack={false}/>
             <div className="list-view">
+	            {this.parent.getUser().permissions.create_notebooks ?
 	            <div className="notebooks--notebook notebooks--create-notebook" onClick={this.toggleCreateNotebook}>
 		            <div className="notebook--create-icon" />
-	            </div>
+	            </div> : null}
                 <div className="notebooks--notebook-list">
                     {this.state.notebookList.map(notebook => (
                         <NotebookView parentHandler={this.parentNotebook} notebook={notebook} visible={this.state.close}/>

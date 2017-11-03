@@ -1,14 +1,9 @@
 import DataEntry from "../models/dataentry.js";
-import loginView from "./login.js";
 import DataEntryForm from "../forms/dataentry.js";
-import DeleteDataEntryForm from "../forms/deletedataentry.js";
-import notebookView from "./notebooks.js";
-import User from "../models/user.js";
+import ReviewEntryForm from "../forms/reviewdataentry.js";
 
 import React from "../../lib/react.js";
 import ToolbarView from "./subviews/toolbar.js";
-
-import Entry from "./subviews/entry.js";
 
 export default class NotebookPagesView extends React.Component {
 
@@ -16,6 +11,13 @@ export default class NotebookPagesView extends React.Component {
 		super(props);
 
 		this.parent = props.parentHandler;
+
+		this.notebook_permissions = this.parent.getUser().permissions.notebooks.find(function(notebook_permissions) {
+			console.log(this.parent.getCurrentNotebook().notebook_hash + " " + notebook_permissions.notebook_hash);
+			if(notebook_permissions.notebook_hash === this.parent.getCurrentNotebook().notebook_hash)
+				return true;
+			return false;
+		}.bind(this));
 
 		this.state = {entriesList : [], newEntryState : "stateLoad ", deleteEntry : undefined, deleteEntryState : "stateLoad ", close : false};
 
@@ -40,7 +42,7 @@ export default class NotebookPagesView extends React.Component {
             },
             body: JSON.stringify({
 	            user_hash : this.parent.getUser(),
-	            notebook_hash : this.parent.getCurrentNotebook().uuid
+	            notebook_hash : this.parent.getCurrentNotebook().notebook_hash
             })
         }).then(function(response) {
             if(response.ok) {
@@ -57,7 +59,7 @@ export default class NotebookPagesView extends React.Component {
                     },
                     body: JSON.stringify({
 						user_hash : this.parent.getUser(),
-                        notebook_hash : this.parent.getCurrentNotebook().uuid,
+                        notebook_hash : this.parent.getCurrentNotebook().notebook_hash,
 	                    entry_hash : entry_uuid
                     })
                 }).then(function(response) {
@@ -81,7 +83,7 @@ export default class NotebookPagesView extends React.Component {
 
     }
 
-    toggleNewEntry(entry) {
+    toggleNewEntry() {
         if(this.state.newEntryState === "stateHide " || this.state.newEntryState === "stateLoad ")
         {
             this.setState({newEntryState : "stateShow "});
@@ -92,7 +94,7 @@ export default class NotebookPagesView extends React.Component {
         }
     }
 
-    toggleDeleteEntry() {
+    toggleDeleteEntry(entry) {
         if(this.state.deleteEntryState === "stateHide " || this.state.deleteEntryState === "stateLoad ")
         {
             this.setState({deleteEntry : entry, deleteEntryState : "stateShow "});
@@ -123,9 +125,10 @@ export default class NotebookPagesView extends React.Component {
 		return <div className="pages">
 			<ToolbarView page={this.parent.getCurrentNotebook().name} parentHandler={this.parentToolbar} visibile={this.state.close} hasBack={true} />
 			<div className="list-view">
+				{this.notebook_permissions.write ?
 				<div className="notebooks--notebook notebooks--create-notebook" onClick={this.toggleNewEntry}>
 					<div className="notebook--create-icon" />
-				</div>
+				</div> : null}
 				<div className="pages--entry-list">
 					{this.state.entriesList.map(entry => (
 						<PageView parentHandler={this.parentEntry} entry={entry} visible={this.state.close}/>
@@ -133,8 +136,13 @@ export default class NotebookPagesView extends React.Component {
 				</div>
 			</div>
             <div className={this.state.newEntryState + "overlay"} onClick={this.toggleNewEntry}>
-                <div className="overlay--create-notebook form-style" onClick={e => (e.stopPropagation())}>
+                <div className="overlay--new-entry form-style" onClick={e => (e.stopPropagation())}>
                     <DataEntryForm />
+                </div>
+            </div>
+            <div className={this.state.deleteEntryState + "overlay"} onClick={this.toggleDeleteEntry}>
+                <div className="overlay--review-entry form-style" onClick={e => {e.stopPropagation()}}>
+                    <ReviewEntryForm/>
                 </div>
             </div>
 		</div>
