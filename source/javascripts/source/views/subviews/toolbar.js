@@ -6,6 +6,7 @@ export default class ToolbarView extends React.Component {
 
 		this.parent = props.parentHandler;
 		this.name = props.page;
+		this.hasBack = props.hasBack;
 
 		this.state = {toolbarState : "stateLoad ", searchBarState : "stateHide "};
 
@@ -39,13 +40,13 @@ export default class ToolbarView extends React.Component {
 
 	render() {
 		return <div className={this.state.toolbarState + "toolbar-view"}>
-            <a className="toolbar--back" href="#" onClick={e => (e.preventDefault(), this.parent.backCallback(e))} />
+            {this.hasBack === true ? <a className="toolbar--back" href="#" onClick={e => (e.preventDefault(), this.parent.backCallback(e))} /> : null}
 			<div className="toolbar--title">
 				{this.name}
 			</div>
             <div className="toolbar--right-icons">
                 <a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.parent.toggleSearchBar(e))} />
-                <a className="toolbar--logout" href="#" onClick={e => (e.preventDefault(), this.parent.logout(e))} />
+                <a className="toolbar--logout" href="#" onClick={e => (e.preventDefault(), this.parent.logoutCallback(e))} />
             </div>
 		</div>
 	}
