@@ -1,3 +1,7 @@
+import pages from "./views/pages.js";
+import { DataEntryForm } from "./forms/dataentry.js";
+import { SignEntryForm } from "./forms/sign.js";
+import { CosignEntryForm } from "./forms/cosign.js";
 import LoginView from "./views/login.js";
 import Notebook from "./models/notebook.js";
 import Notebooks from "./views/notebooks.js";
