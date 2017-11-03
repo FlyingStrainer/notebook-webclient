@@ -3,6 +3,7 @@ import loginView from "./login.js";
 import DataEntryForm from "../forms/dataentry.js";
 import DeleteDataEntryForm from "../forms/deletedataentry.js";
 import notebookView from "./notebooks.js";
+import User from "../models/user.js";
 
 import React from "../../lib/react.js";
 import ToolbarView from "./subviews/toolbar.js";
