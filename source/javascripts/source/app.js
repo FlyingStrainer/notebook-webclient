@@ -8,6 +8,8 @@ import Notebooks from "./views/notebooks.js";
 import NotebookPages from "./views/pages.js";
 import React from "../lib/react.js";
 
+import PushNotification from "./views/subviews/pushnotification.js";
+
 class VENote extends React.Component {
 	constructor(props) {
 		super(props);
@@ -16,7 +18,7 @@ class VENote extends React.Component {
 		this.notebooks = [new Notebook("notebook_hash1", "Notebook name 1", [], new Date(), new Date(), null, null)];
 		this.currentNotebook = this.notebooks[0];
 
-		this.state = {view : props.view, user : ""};
+		this.state = {view : props.view, pushView : false, user : ""};
 
 		this.login = this.login.bind(this);
 		this.getUser = this.getUser.bind(this);
@@ -39,6 +41,33 @@ class VENote extends React.Component {
 		//notebooks -> Array [uuid, name, creation_date, modified_date, ]
 
 		this.user = responseJson.user_hash;
+
+		this.socket = new WebSocket("ws://endor-vm1.cs.purdue.edu/");
+
+		this.socket.onopen = function(event) {
+			this.socket.send(JSON.stringify({type : "login", user_hash : this.user}));
+		}.bind(this);
+
+		this.socket.onmessage = function(event) {
+			let msg = JSON.parse(event.data);
+
+			if(msg.type === "failed")
+			{
+				this.socket.close();
+				this.socket = undefined;
+			}
+			else if(msg.type === "login")
+			{
+				this.socket.send(JSON.stringify({type:"testpush"}));
+			}
+			else if(msg.type === "push")
+			{
+				this.push_data = {notebook_hash : msg.msg.notebook_hash, entry_hash : msg.msg.entry_hash};
+				this.setState({pushView : true});
+			}
+			console.log(event);
+		}.bind(this);
+
 		this.setState({view : "notebookView"});
 	}
 
@@ -85,7 +114,9 @@ class VENote extends React.Component {
 			<div id="renderview">{this.state.view === "notebookView" ? <Notebooks callback={this.notebook} parentHandler={this.parentHandler}/>
 				: this.state.view === "pageView" ? <NotebookPages parentHandler={this.parentHandler} /> :
                     <LoginView callback={this.login} />}</div>
-			<div id="pushview"></div>
+			<div id="pushview">
+				{this.state.pushView ? <PushNotification parentHandler={this.parentHandler} data={this.push_data} /> : null}
+			</div>
 		</div>);
 	}
 }

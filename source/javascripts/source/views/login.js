@@ -39,16 +39,16 @@ export default class LoginView extends React.Component {
         {
         	if(Form.InputEnum.EMAIL(this.storedValues["email"]) && Form.InputEnum.TEXT(this.storedValues["password"]))
 	        {
-		        fetch("http://endor-vm1.cs.purdue.edu/user", {
+		        fetch("http://endor-vm1.cs.purdue.edu/login", {
 			        method: "POST",
 			        headers: {
 				        "Accept": "application/json",
 				        "Content-Type": "application/json"
 			        },
-			        body: {
-				        "username" : this.storedValues["email"],
-				        "password" : this.storedValues["password"]
-			        }
+			        body: JSON.stringify({
+				        email : this.storedValues["email"],
+				        password : this.storedValues["password"]
+			        })
 		        }).then(function(response) {
 			        if(response.ok) {
 				        return response.json();

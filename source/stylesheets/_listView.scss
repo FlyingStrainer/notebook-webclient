@@ -15,7 +15,7 @@
   width: 100%;
   height: auto;
 
-  .notebooks--notebook {
+  .notebooks--notebook, .entries--entry {
     width: 215px;
     height: 260px;
     float: left;
@@ -27,9 +27,16 @@
     @include transition-timing(ease);
     @include transition(padding 200ms 0ms);
 
-    .notebook--title {
+    .notebook--title, .entry--title {
       text-align: center;
       margin-bottom: 5px;
+      font-size: 16px;
+    }
+
+    .entry--date {
+      text-align: center;
+      margin-bottom: 5px;
+      font-size: 12px;
     }
 
     .notebook--scribbles {
@@ -44,7 +51,7 @@
     }
   }
 
-  .notebooks--notebook:hover {
+  .notebooks--notebook:hover, .entries--entry:hover {
     padding: 10px 10px;
 
     .notebook--scribbles {
@@ -67,19 +74,19 @@
     opacity: .8;
   }
 
-  .stateLoad.notebooks--notebook {
+  .stateLoad.notebooks--notebook, .stateLoad.entries--entry {
     opacity: 0;
   }
 
-  .stateTransition.notebooks--notebook {
+  .stateTransition.notebooks--notebook, .stateTransition.entries--entry{
     @include transition(opacity 200ms 0ms);
   }
 
-  .stateLoad.stateTransition.notebooks--notebook {
+  .stateLoad.stateTransition.notebooks--notebook, .stateLoad.stateTransition.entries--entry {
     opacity: 1;
   }
 
-  .stateExit.stateTransition.notebooks--notebook {
+  .stateExit.stateTransition.notebooks--notebook, .stateExit.stateTransition.entries--entry {
     opacity: 0;
   }
 

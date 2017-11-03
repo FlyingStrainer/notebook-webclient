@@ -10,7 +10,7 @@ export default class NotebooksView extends React.Component {
 		this.parent = props.parentHandler;
 		this.callback = props.callback;
 
-		this.state = {notebookList : [], close : false, createNotebookState : "stateHide "};
+		this.state = {notebookList : [], close : false, createNotebookState : "stateLoad "};
 
 		this.notebookListSearch = this.notebookListSearch.bind(this);
 
@@ -96,7 +96,7 @@ export default class NotebooksView extends React.Component {
     }
 
     toggleCreateNotebook() {
-        if(this.state.createNotebookState === "stateHide ")
+        if(this.state.createNotebookState === "stateHide " || this.state.createNotebookState === "stateLoad ")
         {
         	this.notebookNameInput.value = "";
 	        this.setState({createNotebookState : "stateShow "});
@@ -109,10 +109,13 @@ export default class NotebooksView extends React.Component {
 
     register() {
 		console.log("REGISTER");
+
+		this.notebookNameInput.value = "";
+		this.setState({createNotebookState : "stateHide "});
     }
 
     openNotebook(notebook) {
-	    this.setState({notebookList : this.state.notebookList.slice(), close : true});
+	    this.setState({notebookList : this.state.notebookList.slice(), createNotebookState : "stateHide ", close : true});
 
 	    setTimeout(function(){
 		    this.callback(notebook);
@@ -120,7 +123,7 @@ export default class NotebooksView extends React.Component {
     }
 
     logout(event) {
-	    this.setState({notebookList : this.state.notebookList.slice(), close : true});
+	    this.setState({notebookList : this.state.notebookList.slice(), createNotebookState : "stateHide ", close : true});
 
 	    setTimeout(function(){
             this.parent.logout(event);

@@ -3,7 +3,7 @@ import NotebookModel from "../models/notebook.js";
 export * from "./form.js";
 import { SignEntryFields } from "./sign.js";
 
-export class CosignEntryForm extends React.Component {
+export default class CosignEntryForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};

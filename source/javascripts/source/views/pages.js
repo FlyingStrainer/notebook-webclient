@@ -22,11 +22,13 @@ export default class NotebookPagesView extends React.Component {
 		this.pageListSearch = this.pageListSearch.bind(this);
 
 		this.toggleNewEntry = this.toggleNewEntry.bind(this);
+		this.displayEntry = this.displayEntry.bind(this);
 
 		this.back = this.back.bind(this);
 		this.logout = this.logout.bind(this);
 
         this.parentToolbar = {searchHandler : this.pageListSearch, backCallback : this.back, logoutCallback : this.logout};
+        this.parentEntry = {displayEntry : this.displayEntry};
 	}
 
 	componentDidMount() {
@@ -47,7 +49,6 @@ export default class NotebookPagesView extends React.Component {
             throw new Error("Network response was not ok.");
         }).then(function(json) {
             json.data_entries.forEach(function(entry_uuid) {
-            	console.log(entry_uuid);
                 fetch("http://endor-vm1.cs.purdue.edu/getEntry", {
                     method: "POST",
                     headers: {
@@ -65,7 +66,6 @@ export default class NotebookPagesView extends React.Component {
                     }
                     throw new Error("Network response was not ok.");
                 }).then(function(json) {
-                	console.log(json);
                     this.setState({entriesList : this.state.entriesList.concat(new DataEntry(json.text, json.image, json.caption, json.tags, json.author))});
                 }.bind(this)).catch(function(error) {
 					console.log(error.message);
@@ -84,6 +84,10 @@ export default class NotebookPagesView extends React.Component {
     toggleNewEntry() {
 
     }
+
+	displayEntry() {
+
+	}
 
     back(event) {
 	    this.setState({entriesList : this.state.entriesList.slice(), close : true});
@@ -108,9 +112,11 @@ export default class NotebookPagesView extends React.Component {
 				<div className="notebooks--notebook notebooks--create-notebook" onClick={this.toggleNewEntry}>
 					<div className="notebook--create-icon" />
 				</div>
-			</div>
-			<div className="pages--selected-view">
-				<PageView />
+				<div className="pages--entry-list">
+					{this.state.entriesList.map(entry => (
+						<PageView parentHandler={this.parentEntry} entry={entry} visible={this.state.close}/>
+					))}
+				</div>
 			</div>
 		</div>
 	}
@@ -119,10 +125,38 @@ export default class NotebookPagesView extends React.Component {
 class PageView extends React.Component {
 	constructor(props) {
 		super(props);
+
+		this.parent = props.parentHandler;
+		this.entry = props.entry;
+
+		console.log(this.entry);
+
+		this.state = {entryState : "stateLoad "};
+	}
+
+	componentDidMount() {
+		setTimeout(function() {
+			this.setState({entryState: "stateLoad stateTransition "});
+			setTimeout(function() {
+				if(this.state.entryState === "stateLoad stateTransition ")
+					this.setState({entryState: ""});
+			}.bind(this), 300);
+		}.bind(this), 300);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.visible !== this.props.visible) {
+			this.setState({notebookState: "stateExit stateTransition "});
+		}
 	}
 
 	render() {
-        return (<div></div>);
+		return (<a className={this.state.entryState + "entries--entry"} onClick={e => (e.preventDefault(), this.parent.openNotebook(this.notebook))}>
+			<div className="entry--title">{this.entry.author}</div>
+            <div className="entry--date">{this.entry.date_created.getDate() + "/" + this.entry.date_created.getMonth() + "/" + this.entry.date_created.getFullYear() + ", " +
+            this.entry.date_created.getHours() + ":" + this.entry.date_created.getMinutes() + ":" + this.entry.date_created.getSeconds()}</div>
+			<div className="notebook--scribbles" />
+		</a>);
 	}
 }
 

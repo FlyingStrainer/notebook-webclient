@@ -11,13 +11,18 @@
   pointer-events: none;
 
   @include transition-timing(ease);
-  @include transition(opacity 300ms 0ms);
 }
 
 .stateShow.overlay {
   opacity: .5;
 
   pointer-events: auto;
-  justify-content: center;
-  display:flex;
+  
+  @include transition(opacity 300ms 0ms);
+}
+
+.stateHide.overlay {
+  opacity: 0;
+
+  @include transition(opacity 300ms 0ms);
 }
