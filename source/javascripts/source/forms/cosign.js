@@ -12,30 +12,14 @@ export class CosignEntryForm extends React.Component {
 	}
 
 	render() {
-		return <div className="forms" id="">
-				<div className="forms header" id="">
-					<h1 className="forms header" id="">Sign Entry</h1>
-					<input className="forms header" id="" type="button" value="Cancel" onClick={this.cancelCallback}/>
+		return <div>
+				<div className="forms header" id="container">
+					<h1 className="forms header" id="header-text">Sign Entry</h1>
+					<input className="forms header" id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
 				</div>
+				<br />
+				<br />
 				<SignEntryFields submitCallback={this.submitCallback} author={this.author}/>
 			</div>;
-	}
-}
-
-class CosignEntryFields extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {};
-		this.submitCallback=props.submitCallback;
-	}
-	
-	render() {
-		return <div id="">
-				<form id="">
-					<input className="forms" id="" /><br /><br />
-
-					<input className="forms" id="" type="button" value="Submit" onClick={this.postNewNotebook} /><br /><br />
-				</form>
-			</div>;	
 	}
 }

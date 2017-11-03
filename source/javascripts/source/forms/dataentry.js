@@ -16,7 +16,7 @@ export class DataEntryForm extends React.Component {
 		return <div>
 				<div>
 					<h1 className="forms" id="header-text">Create new entry</h1>
-					<input className="forms" id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
+					<input className="forms header" id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
 				</div>
 				<DataEntryFields dataEntry={this.dataEntry} submitCallback={this.submitCallback} author={this.author}/>
 			</div>
@@ -91,7 +91,7 @@ class DataEntryFields extends React.Component {
 
 	render() {
 		return <div>
-				<form>
+				<form className="forms">
 					<TextInput label="Describe your work:" textHandler={this.textChanged} />
 					< br />
 
@@ -122,7 +122,7 @@ export class TextInput extends React.Component {
 		        {text.split("\\n").map(i => {
           			return <div>{i}</div>;
         		})}
-			<textarea className="forms" onChange={this.textHandler}></textarea><br />
+			<textarea className="forms textInput" onChange={this.textHandler}></textarea><br />
 		</div>
 	}
 }
@@ -155,8 +155,10 @@ export class ImageInput extends React.Component {
 	
 	render() {
 		return <div>
-			<input type="file" ref="file" className="forms" id="image-upload" accept="image/*" onChange={(event)=>{this.fileSelected(event)}} /><br />
-			<img className="forms" id="image" src={this.state.imgSrc} /><br />
+			<input type="file" ref="file" className="forms imageInput" id="image-upload" accept="image/*" onChange={(event)=>{this.fileSelected(event)}} /><br />
+			<div className="forms" id="imageContainer">
+				<img className="forms imageInput" id="image" src={this.state.imgSrc} /><br />
+			</div>
 
 		</div>
 	}
@@ -186,10 +188,10 @@ export class SubmitButton extends React.Component {
 	render() {
 		return <div>
 			<label>	
-				<input className="forms" id="checkbox" type="checkbox"/>
+				<input className="forms submitButton" id="checkbox" type="checkbox"/>
 				{this.message} <br /><br />
 			</label>
-			<input className="forms" type="button" value={this.label} onClick={this.submit} /><br />
+			<input className="forms submitButton" type="button" value={this.label} onClick={this.submit} /><br />
 		</div>
 	}
 }

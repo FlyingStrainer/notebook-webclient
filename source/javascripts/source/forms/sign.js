@@ -13,11 +13,12 @@ export class SignEntryForm extends React.Component {
 	}
 
 	render() {
-		return 	<div id="container">
-				<div>
+		return 	<div>
+				<div className="forms header" id="container">
 					<h1 className="forms header" id="header-text">Sign Entry</h1>
 					<input className="forms header" id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
 				</div>
+				<br />
 				<br />
 				<SignEntryFields className="forms" submitCallback={this.submitCallback} author={this.author}/>
 			</div>;
@@ -34,9 +35,11 @@ export class SignEntryFields extends React.Component {
 	
 	render() {
 		return 	<div>
-				<TextInput label="By entering your full name you confirm the validity of this entry." />
+				<div id="signature">
+					<TextInput className="forms signature" label="By entering your full name you confirm the validity of this entry." />
+				</div>
 				<br />
-				<input className="forms" type="submit" value="sign" onClick={this.submitCallback}/>
+				<input className="forms submitButton" type="submit" value="Sign" onClick={this.submitCallback}/>
 			</div>;	
 	}
 }
