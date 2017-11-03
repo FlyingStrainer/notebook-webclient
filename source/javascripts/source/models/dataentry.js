@@ -23,6 +23,11 @@ export default class DataEntry {
 
 	}
 
+	getDate() {
+        return this.date_created.getDate() + "/" + this.date_created.getMonth() + "/" + this.date_created.getFullYear() + ", " +
+            this.date_created.getHours() + ":" + this.date_created.getMinutes() + ":" + this.date_created.getSeconds();
+    }
+
   getHTMLForEntrySel()
   {
     var oDivO = "<div id=\"";

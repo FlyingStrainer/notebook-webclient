@@ -1,0 +1,29 @@
+@import "utils";
+
+.push--notification--box {
+  position:fixed;
+
+  right : 40px;
+
+  @include transition-timing(ease);
+
+  button {
+    background: indianred;
+  }
+}
+
+.stateLoad.push--notification--box {
+  bottom : -42px;
+}
+
+.stateHide.push--notification--box {
+  bottom : -42px;
+
+  @include transition(bottom 200ms 0ms);
+}
+
+.stateShow.push--notification--box {
+  bottom : 40px;
+
+  @include transition(bottom 300ms 0ms);
+}

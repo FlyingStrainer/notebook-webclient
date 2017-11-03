@@ -2,7 +2,7 @@ import * as form from "./form.js";
 import DataEntryModel from '../models/dataentry.js';
 export * from "./form.js";
 
-export class DataEntryForm extends React.Component {
+export default class DataEntryForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};

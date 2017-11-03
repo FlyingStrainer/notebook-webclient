@@ -1,4 +1,7 @@
 import React from "../../../lib/react.js";
+import Button from "./button.js";
+
+import DataEntry from "../../models/dataentry.js";
 import Cosign from "../../forms/cosign.js";
 
 export default class PushNotification extends React.Component {
@@ -7,10 +10,13 @@ export default class PushNotification extends React.Component {
 
 		this.parent = props.parentHandler;
 
-		this.notebook_hash = props.notebook_hash;
-		this.entry_hash = props.entry_hash;
+		this.notebook_hash = props.data.notebook_hash;
+		this.entry_hash = props.data.entry_hash;
 
 		this.state = {stateCosign : "stateLoad ", stateNotification : "stateLoad ", entry : false};
+
+		console.log(this.notebook_hash);
+		console.log(this.entry_hash);
 
 		this.toggleCosign = this.toggleCosign.bind(this);
 	}
@@ -54,7 +60,7 @@ export default class PushNotification extends React.Component {
 
 	render() {
 		return (<div className="push--notification">
-			<div className={this.state.stateNotification + "push--notification--box"}>
+			<div className={this.state.stateNotification + "push--notification--box form-style"}>
 				<form>
 					<Button wrapperClass="notification--cosign" type="submit" title="Cosign Data Entry" onClick={this.toggleCosign}/>
 				</form>
