@@ -1,8 +1,10 @@
 import * as form from "./form.js";
 import NotebookModel from "../models/notebook.js"
+import { TextInput } from "./dataentry.js";
+import { SubmitButton } from "./dataentry.js";
 export * from "./form.js";
 
-export default class CreateNotebookForm extends React.Component {
+export class SignEntryForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -11,50 +13,30 @@ export default class CreateNotebookForm extends React.Component {
 	}
 
 	render() {
-		return <div className="create-notebook-form" id="container">
-				<div className="create-notebook-form" id="notebook-header">
-					<h1 className="create-notebook-form" id="header-text">Create new notebook</h1>
-					<input className="create-notebook-form" id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
+		return 	<div id="container">
+				<div>
+					<h1 id="header-text">Sign Entry</h1>
+					<input id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
 				</div>
-				<CreateNotebookFields submitCallback={this.submitCallback} author={this.author}/>
-			</div>
+				<br />
+				<SignEntryFields submitCallback={this.submitCallback} author={this.author}/>
+			</div>;
 	}
 }
 
-class CreateNotebookFields  extends React.Component {
+export class SignEntryFields extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
-		this.postNewNotebook = this.postNewNotebook.bind(this);
 		this.submitCallback=props.submitCallback;
 		this.author=props.author;
 	}
 	
-	postNewNotebook() {
-		console.log("Creating new notebook");
-		var notebook = new NotebookModel(document.getElementById("notebook-text-box").value, "id", [], this.author);
-
-		fetch('PLACEHOLDER_URL', {
-			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'appication/json'
-			},
-			body: notebook
-		});
-		if(this.submitCallback) {
-			this.submitCallback(notebook);
-		}
-	}
-
 	render() {
-		return (<div className="create-notebook-form" id="notebook-form-div">
-				<form className="create-notebook-form" id="notebook-form">
-					Notebook Name:<br />
-					<input className="create-notebook-form" id="notebook-text-box" /><br /><br />
-
-					<input className="create-notebook-form" id="notebook-submit-button" type="button" value="Submit" onClick={this.postNewNotebook} /><br /><br />
-				</form>
-			</div>);	
+		return 	<div>
+				<TextInput label="By entering your full name you confirm the validity of this entry." />
+				<br />
+				<input type="submit" value="sign" onClick={this.submitCallback}/>
+			</div>;	
 	}
 }
