@@ -24,14 +24,42 @@ function getUserWithHash( userHash )
               }, 
               body: JSON.stringify({
                 user_hash : this.parent.getUser(),
-                notebook_hash : this.parent.getCurrentNotebook().uuid
               }), 
   };
 
   // Since this is a promise you use getUserWithHash as follows
   // getUserWithHash( userhash ).then(function(user) { dosomething(); });
 
-  return fetch("http://endor-vm1.cs.purdue.edu/getEntries", userReqInit).then(function(response) 
+  return fetch("http://endor-vm1.cs.purdue.edu/user", userReqInit).then(function(response) 
+  {
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error("Network respose was not ok.");
+  })
+  .then(function(jsonResponse) 
+  {
+    let user = userFromJson(jsonResponse);
+  });
+}
+
+function setUser( user )
+{
+  var myHeaders = new Headers();
+  var userReqInit = { method: 'POST', headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+              }, 
+              body: JSON.stringify({
+                user_hash : user.user_hash,
+                company_name : user.company_name
+              }), 
+  };
+
+  // Since this is a promise you use getUserWithHash as follows
+  // getUserWithHash( userhash ).then(function(user) { dosomething(); });
+
+  return fetch("http://endor-vm1.cs.purdue.edu/setuser", userReqInit).then(function(response) 
   {
     if (response.ok) {
       return response.json();
