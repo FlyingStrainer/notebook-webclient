@@ -1,162 +1,187 @@
-import DataEntry from "../forms/dataentry.js";
-import Page from "../models/page.js";
-import notebookView from "./notebooks.js";
+import DataEntry from "../models/dataentry.js";
+import DataEntryForm from "../forms/dataentry.js";
+import ReviewEntryForm from "../forms/reviewdataentry.js";
 
-const pageView = {
+import React from "../../lib/react.js";
+import ToolbarView from "./subviews/toolbar.js";
 
-	init() {
-    const body = $("body");
+export default class NotebookPagesView extends React.Component {
 
-    const content = $(
-	    "<div class=\"mainView\" id=\"pageMainView\" style='display:none;'>" +
-	    "<div class=\"topBarView\">" +
-	    "<div id=\"titleHolder\">" +
-	    "<h1 class=\"title\">Page View</h1>" +
-	    "<h2 id=\"backBtn\" class=\"subtitle\">Go Back</h2>" +
-	    "</div>" +
-	    "<div class=\"topBarButton\">" +
-	    "<p>Logout</p>" +
-	    "</div>" +
-	    "</div>" +
+	constructor(props) {
+		super(props);
 
-	    "<!-- This div holds all pages in notebook to let users select page open -->" +
-	    "<div id=\"pageSelectorView\">" +
-	    "<!-- This page should be clicked to make a new page --> " +
-	    "<div class=\"pageView\">" +
-	    "<p>Page 1</p>" +
-	    "<p>Meta Data?</p>" +
-	    "</div>" +
-	    "<div class=\"pageView\">" +
-	    "<p>Page 2</p>" +
-	    "<p>Meta Data?</p>" +
-	    "</div>" +
-	    "</div>" +
+		this.parent = props.parentHandler;
 
-	    /*"!-- This is the div that will hold all the modules relating to edting pages -->" +
-	     "<div class=\"toolsView\" id=\"pageTools\">" +
-	     "<!-- Sign pages -->" +
-	     "<div class=\"notebookTool\" id=\"signPage\">" +
-	     "<p>Sign Page</p>" +
-	     "</div>" +
+		this.notebook_permissions = this.parent.getUser().permissions.notebooks.find(function(notebook_permissions) {
+			console.log(this.parent.getCurrentNotebook().notebook_hash + " " + notebook_permissions.notebook_hash);
+			if(notebook_permissions.notebook_hash === this.parent.getCurrentNotebook().notebook_hash)
+				return true;
+			return false;
+		}.bind(this));
 
-	     "<div class=\"notebookTool\">" +
-	     "<p>Tool 2</p>" +
-	     "</div>" +
+		this.state = {entriesList : [], newEntryState : "stateLoad ", deleteEntry : undefined, deleteEntryState : "stateLoad ", close : false};
 
-	     "<div class=\"notebookTool\">" +
-	     "<p>Tool 3</p>" +
-	     "</div>" +
+		this.pageListSearch = this.pageListSearch.bind(this);
 
-	     "<div class=\"notebookTool\">" +
-	     "<p>Tool 4</p>" +
-	     "</div>" +
+		this.toggleNewEntry = this.toggleNewEntry.bind(this);
+		this.toggleDeleteEntry = this.toggleDeleteEntry.bind(this);
 
-	     "<div class=\"notebookTool\">" +
-	     "<p>Tool 5</p>" +
-	     "</div>" +
-	     "</div>" + */
+		this.back = this.back.bind(this);
+		this.logout = this.logout.bind(this);
 
-	    "<!-- This div holds a view for looking at a current page and/or rendering -->" +
-	    "<div id=\"currentPageView\">" +
-	    "<!-- this view will be dynalically populated through js to show the currently selected page -->" +
-	    "<div id=\"selectedPage\">" +
-
-	    "</div>" +
-	    "</div>" +
-	    "<button type='submit' title='New Data Entry' class='register button button--primary button--normal' style='position:absolute; bottom: 100px; width: 200px; height: 60px; left: 50%'>" +
-	    "<span>New Data Entry</span>" +
-	    "</button>" +
-	    "<div id='overlay' style='position:absolute; top:50%; left:50%; width:0; height:0; background-color: rgba(0, 0, 0, 0.5); z-index:10; display:none'>" +
-	    "<div id='root' style='position:absolute; top:20%; left: 20%; width: 60%; height:60%; background-color: white'></div>" +
-	    "</div>" +
-	    "</div>");
-
-    body.append(content);
-
-    content.show(500);
-
-    // Onclick setup
-
-		const overlay = $("#overlay");
-
-		console.log(overlay);
-
-        $("button[type='submit']").on('click', function(e) {
-			overlay.show();
-
-			overlay.animate({"top": "0%", "left": "0%", "width": "100%", "height": "100%"}, 150);
-
-        	e.preventDefault();
-        });
-   
-    // Handle click for logout
-    $("#logoutBtn").on("click", function(e, e1, e2)
-    {
-      alert("Logout");
-      e.preventDefault();
-    });
-
-    // Handle click for back button
-    // Re add onclick for addnote
-    $("#backBtn").on("click", function(e, e1, e2)
-    {
-      // alert("backbtn");
-      body.find("#pageMainView").hide(500, function()
-      {
-        body.html('');
-        notebookView.init();
-      });
-      e.preventDefault();
-    });
-
-    // Functions
-    // TODO delete test
-    function testRenderPagesToBar()
-    {
-      let nB = [new Page(), new Page()];
-      nB[0].dataEntry = "test1";
-      nB[0].timestamp = "june 3";
-      nB[0].id = "1234";
-      nB[1].dataEntry = "test2";
-      nB[1].timestamp = "april 6";
-      nB[1].id = "2243";
-
-      renderPagesToToolbar(nB);
-    }
-
-    // Given an array of notebook objects render them to notebook view
-    function renderPagesToToolbar( pages )
-    {
-      var htmlToRender = "";
-
-      pages.forEach( function (page)
-      {
-        htmlToRender = htmlToRender + page.getHTMLForPageSel();
-      });
-
-      // Add html to innerHTML
-      document.getElementById("pageSelectorView").innerHTML = htmlToRender;
-
-      // add onclick for each page id is "page" + id of page
-      pages.forEach( function (page)
-      {
-        var pageId = "#page" + page.id;
-        $(pageId).on("click", function(e, e1, e2)
-        {
-          alert("Page with id " + page.id);
-          e.preventDefault();
-        });
-      });
-    }
-
-    // TODO delete test
-    testRenderPagesToBar();
-},
-
-	transition() {
-
+        this.parentToolbar = {searchHandler : this.pageListSearch, backCallback : this.back, logoutCallback : this.logout};
+        this.parentEntry = {toggleDeleteEntry : this.toggleDeleteEntry};
 	}
 
-};
+	componentDidMount() {
+        fetch("http://endor-vm1.cs.purdue.edu/getEntries", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+	            user_hash : this.parent.getUser(),
+	            notebook_hash : this.parent.getCurrentNotebook().notebook_hash
+            })
+        }).then(function(response) {
+            if(response.ok) {
+                return response.json();
+            }
+            throw new Error("Network response was not ok.");
+        }).then(function(json) {
+            json.data_entries.forEach(function(entry_uuid) {
+                fetch("http://endor-vm1.cs.purdue.edu/getEntry", {
+                    method: "POST",
+                    headers: {
+                        "Accept" : "application/json",
+                        "Content-Type" : "application/json"
+                    },
+                    body: JSON.stringify({
+						user_hash : this.parent.getUser(),
+                        notebook_hash : this.parent.getCurrentNotebook().notebook_hash,
+	                    entry_hash : entry_uuid
+                    })
+                }).then(function(response) {
+                    if(response.ok) {
+                        return response.json();
+                    }
+                    throw new Error("Network response was not ok.");
+                }).then(function(json) {
+                    this.setState({entriesList : this.state.entriesList.concat(new DataEntry(json.text, json.image, json.caption, json.tags, json.author))});
+                }.bind(this)).catch(function(error) {
+					console.log(error.message);
+                }.bind(this));
+            }.bind(this));
 
-export default pageView;
+        }.bind(this)).catch(function(error) {
+            console.log(error.message);
+        }.bind(this));
+    }
+
+	pageListSearch(event) {
+
+    }
+
+    toggleNewEntry() {
+        if(this.state.newEntryState === "stateHide " || this.state.newEntryState === "stateLoad ")
+        {
+            this.setState({newEntryState : "stateShow "});
+        }
+        else
+        {
+            this.setState({newEntryState : "stateHide "});
+        }
+    }
+
+    toggleDeleteEntry(entry) {
+        if(this.state.deleteEntryState === "stateHide " || this.state.deleteEntryState === "stateLoad ")
+        {
+            this.setState({deleteEntry : entry, deleteEntryState : "stateShow "});
+        }
+        else
+        {
+            this.setState({deleteEntry : entry, deleteEntryState : "stateHide "});
+        }
+    }
+
+    back(event) {
+	    this.setState({entriesList : this.state.entriesList.slice(), close : true});
+
+	    setTimeout(function(){
+		    this.parent.back(event);
+	    }.bind(this), 300);
+    }
+
+	logout(event) {
+	    this.setState({entriesList : this.state.entriesList.slice(), close : true});
+
+        setTimeout(function(){
+            this.parent.logout(event);
+        }.bind(this), 300);
+    }
+
+	render() {
+		return <div className="pages">
+			<ToolbarView page={this.parent.getCurrentNotebook().name} parentHandler={this.parentToolbar} visibile={this.state.close} hasBack={true} />
+			<div className="list-view">
+				{this.notebook_permissions.write ?
+				<div className="notebooks--notebook notebooks--create-notebook" onClick={this.toggleNewEntry}>
+					<div className="notebook--create-icon" />
+				</div> : null}
+				<div className="pages--entry-list">
+					{this.state.entriesList.map(entry => (
+						<PageView parentHandler={this.parentEntry} entry={entry} visible={this.state.close}/>
+					))}
+				</div>
+			</div>
+            <div className={this.state.newEntryState + "overlay"} onClick={this.toggleNewEntry}>
+                <div className="overlay--new-entry form-style" onClick={e => (e.stopPropagation())}>
+                    <DataEntryForm />
+                </div>
+            </div>
+            <div className={this.state.deleteEntryState + "overlay"} onClick={this.toggleDeleteEntry}>
+                <div className="overlay--review-entry form-style" onClick={e => {e.stopPropagation()}}>
+                    <ReviewEntryForm/>
+                </div>
+            </div>
+		</div>
+	}
+}
+
+class PageView extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.parent = props.parentHandler;
+		this.entry = props.entry;
+
+		console.log(this.entry.getHTMLForEntrySel());
+
+		this.state = {entryState : "stateLoad "};
+	}
+
+	componentDidMount() {
+		setTimeout(function() {
+			this.setState({entryState: "stateLoad stateTransition "});
+			setTimeout(function() {
+				if(this.state.entryState === "stateLoad stateTransition ")
+					this.setState({entryState: ""});
+			}.bind(this), 300);
+		}.bind(this), 300);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.visible !== this.props.visible) {
+			this.setState({notebookState: "stateExit stateTransition "});
+		}
+	}
+
+	render() {
+		return (<a className={this.state.entryState + "entries--entry"} onClick={e => (e.preventDefault(), this.parent.toggleDeleteEntry(this.entry))}>
+			<div className="entry--title">{this.entry.author}</div>
+            <div className="entry--date">{this.entry.getDate()}</div>
+			<div className="notebook--scribbles" />
+		</a>);
+	}
+}
