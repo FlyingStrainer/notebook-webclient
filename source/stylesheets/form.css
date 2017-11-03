@@ -1,0 +1,97 @@
+.forms{
+	font-family: "Avenir";
+	color: gray;	
+	display: block;
+	float: center;
+	text-align: center;
+}
+div.forms {
+	width: 600px;
+}
+
+.forms.textInput{
+	width: 600px;
+	height: 200px;
+	margin: auto;
+}
+
+#signature textarea{
+	width: 150px;
+	height: 50px;
+	color: gray;
+	float: center;
+}
+
+.forms.imageInput{
+	margin: 0 auto;	
+	display: inline-block;
+	text-align: left;
+}
+
+.forms.submitButton{
+	width: 400px;
+	height: 50px;
+	margin: 0 auto;
+	text-align: center;
+	float: center;
+	background-color: orange;
+	color: white;
+	font-size: 150%;
+}
+
+.forms#caption-box{
+	width: 600px;
+	height: 100px;
+	margin: 0 auto;
+}
+
+
+.forms.header{
+	float: center;
+	text-align: center;
+	/*display: block;*/
+	/*background-color: blue;*/
+}
+
+.forms.header#container{
+	width: 600px;
+	/*background-color: blue;*/
+	/*display: block;*/
+	text-align: center;
+}
+
+.forms.header#header-text{
+	display: inline-block;
+	/*margin-left: 50%;*/
+	/*transform: translate(-50%);*/
+	text-align: center;
+	float: center;
+	font-size: 300%;
+	/*background-color: green;*/
+}
+
+.forms#check-box{
+	text-align: center;
+}
+
+.forms#imageContainer{
+	max-width: 600px;
+	text-align: center;
+	display: inline-block;
+	float: center;
+}
+
+.forms#image{
+	width: 100%;
+}
+
+.forms.header#cancel-button{
+	/*margin: 10px 10px 10px 10px;*/
+	display: inline-block;
+	text-align: right;
+	vertical-align: top;
+	float: right;
+	width: 120px;
+	height: 30px;
+}
+
