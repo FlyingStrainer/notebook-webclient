@@ -1,10 +1,10 @@
 import * as form from "./form.js";
 import NotebookModel from "../models/notebook.js"
-import Text from "./dataentry.js";
-import Button from "./dataentry.js";
+import { TextInput } from "./dataentry.js";
+import { SubmitButton } from "./dataentry.js";
 export * from "./form.js";
 
-export default class SignEntryForm extends React.Component {
+export class SignEntryForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -13,19 +13,18 @@ export default class SignEntryForm extends React.Component {
 	}
 
 	render() {
-		return <div id="container">
+		return 	<div id="container">
 				<div>
 					<h1 id="header-text">Sign Entry</h1>
 					<input id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
 				</div>
-				HELLO WORLD	
-				<SignEntryFields.SignEntryFields submitCallback={this.submitCallback} author={this.author}/>
-				GOODBYE
-			</div>
+				<br />
+				<SignEntryFields submitCallback={this.submitCallback} author={this.author}/>
+			</div>;
 	}
 }
 
-class SignEntryFields extends React.Component {
+export class SignEntryFields extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -34,13 +33,10 @@ class SignEntryFields extends React.Component {
 	}
 	
 	render() {
-		return (<div>
-				WHAT
-					<Text.TextInput label="By entering your full name you confirm the validity of this entry." />
-				WHY
-					<br />
-					<Submit.SubmitButton label="Sign" submissionHandler={this.submitCallback} />
-				HOW
-			</div>);	
+		return 	<div>
+				<TextInput label="By entering your full name you confirm the validity of this entry." />
+				<br />
+				<input type="submit" value="sign" onClick={this.submitCallback}/>
+			</div>;	
 	}
 }
