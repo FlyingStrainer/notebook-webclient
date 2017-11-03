@@ -76,7 +76,8 @@ class VENote extends React.Component {
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
-	ReactDOM.render(<VENote view={document.body.className} />, document.getElementById("root"));
+	//ReactDOM.render(<VENote view={document.body.className} />, document.getElementById("root"));
+	ReactDOM.render(<CosignEntryForm />, document.getElementById("root"));
 });
 /*
 $(document).ready(function() {

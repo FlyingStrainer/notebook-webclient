@@ -13,10 +13,10 @@ export class DataEntryForm extends React.Component {
 	}
 
 	render() {
-		return <div className="data-form" id="container">
-				<div className="data-form" id="data-entry-header">
-					<h1 className="data-form" id="header-text">Create new entry</h1>
-					<input className="data-form" id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
+		return <div>
+				<div>
+					<h1 className="forms" id="header-text">Create new entry</h1>
+					<input className="forms" id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
 				</div>
 				<DataEntryFields dataEntry={this.dataEntry} submitCallback={this.submitCallback} author={this.author}/>
 			</div>
@@ -90,8 +90,8 @@ class DataEntryFields extends React.Component {
 	}
 
 	render() {
-		return (<div className="data-form" id="form-div">
-				<form className="data-form" id="form">
+		return <div>
+				<form>
 					<TextInput label="Describe your work:" textHandler={this.textChanged} />
 					< br />
 
@@ -104,7 +104,7 @@ class DataEntryFields extends React.Component {
 					<br />
 					<SubmitButton message="By checking this you confirm the accuracy of this entry." label="Submit" submissionHandler={this.submitPage}/>
 				</form>
-			</div>);	
+			</div>;	
 	}
 }
 
@@ -122,7 +122,7 @@ export class TextInput extends React.Component {
 		        {text.split("\\n").map(i => {
           			return <div>{i}</div>;
         		})}
-			<textarea onChange={this.textHandler}></textarea><br />
+			<textarea className="forms" onChange={this.textHandler}></textarea><br />
 		</div>
 	}
 }
@@ -155,8 +155,8 @@ export class ImageInput extends React.Component {
 	
 	render() {
 		return <div>
-			<input type="file" ref="file" className="data-form" id="image-upload" accept="image/*" onChange={(event)=>{this.fileSelected(event)}} /><br />
-			<img className="data-form" id="image" src={this.state.imgSrc} /><br />
+			<input type="file" ref="file" className="forms" id="image-upload" accept="image/*" onChange={(event)=>{this.fileSelected(event)}} /><br />
+			<img className="forms" id="image" src={this.state.imgSrc} /><br />
 
 		</div>
 	}
@@ -186,10 +186,10 @@ export class SubmitButton extends React.Component {
 	render() {
 		return <div>
 			<label>	
-				<input id="checkbox" type="checkbox"/>
+				<input className="forms" id="checkbox" type="checkbox"/>
 				{this.message} <br /><br />
 			</label>
-			<input type="button" value={this.label} onClick={this.submit} /><br />
+			<input className="forms" type="button" value={this.label} onClick={this.submit} /><br />
 		</div>
 	}
 }

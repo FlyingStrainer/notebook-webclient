@@ -12,10 +12,10 @@ export class CosignEntryForm extends React.Component {
 	}
 
 	render() {
-		return <div className="" id="">
-				<div className="" id="">
-					<h1 className="" id="">Sign Entry</h1>
-					<input className="" id="" type="button" value="Cancel" onClick={this.cancelCallback}/>
+		return <div className="forms" id="">
+				<div className="forms header" id="">
+					<h1 className="forms header" id="">Sign Entry</h1>
+					<input className="forms header" id="" type="button" value="Cancel" onClick={this.cancelCallback}/>
 				</div>
 				<SignEntryFields submitCallback={this.submitCallback} author={this.author}/>
 			</div>;
@@ -30,11 +30,11 @@ class CosignEntryFields extends React.Component {
 	}
 	
 	render() {
-		return <div className="" id="">
-				<form className="" id="">
-					<input className="" id="" /><br /><br />
+		return <div id="">
+				<form id="">
+					<input className="forms" id="" /><br /><br />
 
-					<input className="" id="" type="button" value="Submit" onClick={this.postNewNotebook} /><br /><br />
+					<input className="forms" id="" type="button" value="Submit" onClick={this.postNewNotebook} /><br /><br />
 				</form>
 			</div>;	
 	}
