@@ -48,20 +48,20 @@ div.forms {
 
 .forms.header{
 	float: center;
-	color: black;
-	display: block;
+	text-align: center;
+	/*display: block;*/
 	/*background-color: blue;*/
 }
 
 .forms.header#container{
 	width: 600px;
 	/*background-color: blue;*/
-	display: inline-block;
+	/*display: block;*/
 	text-align: center;
 }
 
 .forms.header#header-text{
-	display: block;
+	display: inline-block;
 	/*margin-left: 50%;*/
 	/*transform: translate(-50%);*/
 	text-align: center;

@@ -10,17 +10,48 @@ export class SignEntryForm extends React.Component {
 		this.state = {};
 		this.cancelCallback = props.cancelCallback;
 		this.submitCallback = props.submitCallback;
+		this.sign = this.sign.bind(this);
 	}
 
+	sign() {
+		console.log("cosign");
+
+		var body = JSON.stringify({
+                	user_hash: this.entry["user_hash"],
+	                notebook_hash: this.notebook["notebook_hash"],
+		         entry_hash: this.entry["entry_hash"]
+		});
+		console.log(body);
+		fetch('http://endor-vm1.cs.purdue.edu/cosignEntry', {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: body
+		}).then(function(response){
+			if (response.ok) {
+				//var json = response.json();
+				//console.log(json);
+				//return json;
+			}
+			//console.log("Cosign failed");
+		});	
+
+		if (this.submitCallback) {
+			this.submitCallback();
+		}
+	}
+
+	//<input className="forms header" id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
 	render() {
 		return 	<div>
 				<div className="forms header" id="container">
 					<h1 className="forms header" id="header-text">Sign Entry</h1>
-					<input className="forms header" id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
 				</div>
 				<br />
 				<br />
-				<SignEntryFields className="forms" submitCallback={this.submitCallback} author={this.author}/>
+				<SignEntryFields submitCallback={this.sign} author={this.author}/>
 			</div>;
 	}
 }

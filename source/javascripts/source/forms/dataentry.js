@@ -12,11 +12,11 @@ export class DataEntryForm extends React.Component {
 		this.author = props.author;
 	}
 
+	//<input className="forms header" id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
 	render() {
 		return <div>
-				<div>
-					<h1 className="forms" id="header-text">Create new entry</h1>
-					<input className="forms header" id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
+				<div className="forms header" id="container" >
+					<h1 className="forms header" id="header-text">Create new entry</h1>
 				</div>
 				<DataEntryFields dataEntry={this.dataEntry} submitCallback={this.submitCallback} author={this.author}/>
 			</div>
