@@ -133,7 +133,7 @@ export default class NotebooksView extends React.Component {
 
 	render() {
 		return (<div className="notebooks-view">
-			<ToolbarView page="SCC" parentHandler={this.parentToolbar} visible={this.state.close} hasBack={false}/>
+			<ToolbarView page={this.parent.getUser().company_name} parentHandler={this.parentToolbar} visible={this.state.close} hasBack={false}/>
             <div className="list-view">
 	            {this.parent.getUser().permissions.create_notebooks ?
 	            <div className="notebooks--notebook notebooks--create-notebook" onClick={this.toggleCreateNotebook}>
@@ -145,13 +145,12 @@ export default class NotebooksView extends React.Component {
                     ))}
                 </div>
             </div>
-			<div className={this.state.createNotebookState + "overlay"} onClick={this.toggleCreateNotebook}>
-				<div className="overlay--create-notebook form-style" onClick={e => (e.stopPropagation())}>
-					<form>
-						<div className="form--text notebooks--name"><input name="name" type="text" placeholder="Notebook Name" onChange={this.handleChange} ref={(input) => {this.notebookNameInput = input}}/></div>
-						<Button wrapperClass="notebooks--create" type="submit" title="Create Notebook" onClick={this.register}/>
-					</form>
-				</div>
+			<div className={this.state.createNotebookState + "overlay"} onClick={this.toggleCreateNotebook} />
+			<div className={this.state.createNotebookState + "overlay--create-notebook form-style"} onClick={e => (e.stopPropagation())}>
+				<form>
+					<div className="form--text notebooks--name"><input name="name" type="text" placeholder="Notebook Name" onChange={this.handleChange} ref={(input) => {this.notebookNameInput = input}}/></div>
+					<Button wrapperClass="notebooks--create" type="submit" title="Create Notebook" onClick={this.register}/>
+				</form>
 			</div>
 		</div>);
 	}
