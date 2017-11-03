@@ -30,7 +30,7 @@ export default class NotebooksView extends React.Component {
 	componentDidMount() {
 		//if(this.parent.getNotebooks() === undefined)
 		//{
-			fetch("http://endor-vm1.cs.purdue.edu/getNotebooks", {
+			/*fetch("http://endor-vm1.cs.purdue.edu/getNotebooks", {
 				method: "POST",
 				headers: {
 					"Accept": "application/json",
@@ -45,11 +45,11 @@ export default class NotebooksView extends React.Component {
 				}
 				throw new Error("Network response was not ok.");
 			}).then(function(json) {
-
-				let notebookCount = json.notebooks.length;
+*/
+				let notebookCount = this.parent.getUser().notebooks.length;
 				let notebooks = [];
 
-				json.notebooks.forEach(function(notebook_uuid) {
+				this.parent.getUser().notebooks.forEach(function(notebook_uuid) {
 					fetch("http://endor-vm1.cs.purdue.edu/getNotebook", {
 						method: "POST",
 						headers: {
@@ -80,11 +80,11 @@ export default class NotebooksView extends React.Component {
 						console.log(error.message);
 					}.bind(this));
 				}.bind(this));
-
+/*
 			}.bind(this)).catch(function(error) {
 				console.log(error.message);
 				this.setState({createReady : true});
-			}.bind(this));
+			}.bind(this));*/
 		//}
 		//else
 		//{

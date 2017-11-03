@@ -18,19 +18,19 @@ class VENote extends React.Component {
 
 		this.user = new User("user_hash1", {
 			role : "manager",
-			create_notebooks : false,
+			create_notebooks : true,
 			notebooks : [
 				{
 					notebook_hash : "--notebook-key-1",
 					read : true,
 					write : false,
-					manager : true
+					manager : false
 				},
 				{
 					notebook_hash : "--notebook-key-2",
 					read : true,
 					write : true,
-					manager : false
+					manager : true
 				}]
 		}, "SCC", ["--notebook-key-1", "--notebook-key-2"]);
 		this.notebooks = [new Notebook("--notebook-key-1", "Notebook name 1", [], new Date(), new Date(), null, null)];
@@ -60,34 +60,37 @@ class VENote extends React.Component {
 
 		this.user = new User(responseJson.user_hash, responseJson.permissions, responseJson.company_name, responseJson.notebooks);
 
-		this.socket = new WebSocket("ws://endor-vm1.cs.purdue.edu/");
+		if(this.user.permissions.role === "manager")
+		{
+			this.socket = new WebSocket("ws://endor-vm1.cs.purdue.edu/");
 
-		this.socket.onopen = function(event) {
-			this.socket.send(JSON.stringify({type : "login", user_hash : this.user}));
-		}.bind(this);
+			this.socket.onopen = function() {
+				this.socket.send(JSON.stringify({type : "login", user_hash : this.user}));
+			}.bind(this);
 
-		this.socket.onmessage = function(event) {
-			let msg = JSON.parse(event.data);
+			this.socket.onmessage = function(event) {
+				let msg = JSON.parse(event.data);
 
-			if(msg.type === "failed")
-			{
-				this.socket.close();
-				this.socket = undefined;
-			}
-			else if(msg.type === "login")
-			{
-                this.socket.send(JSON.stringify({type:"testpush"}));
-			    setTimeout(function() {
-                    this.socket.send(JSON.stringify({type:"testpush"}));
-                }.bind(this), 5000);
-			}
-			else if(msg.type === "push")
-			{
-				this.push_data = {notebook_hash : msg.msg.notebook_hash, entry_hash : msg.msg.entry_hash};
-				this.setState({pushView : true});
-			}
-			console.log(event);
-		}.bind(this);
+				if(msg.type === "failed")
+				{
+					this.socket.close();
+					this.socket = undefined;
+				}
+				else if(msg.type === "login")
+				{
+					this.socket.send(JSON.stringify({type:"testpush"}));
+					setTimeout(function() {
+						this.socket.send(JSON.stringify({type:"testpush"}));
+					}.bind(this), 5000);
+				}
+				else if(msg.type === "push")
+				{
+					this.push_data = {notebook_hash : msg.msg.notebook_hash, entry_hash : msg.msg.entry_hash};
+					this.setState({pushView : true});
+				}
+				console.log(event);
+			}.bind(this);
+		}
 
 		this.setState({view : "notebookView"});
 	}
