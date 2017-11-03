@@ -1,7 +1,6 @@
 import React from "../../lib/react.js";
 import Button from "./subviews/button.js";
 import * as Form from "../forms/form.js";
-import TagsInput from "../../lib/react-tagsinput.js";
 
 export default class LoginView extends React.Component {
 	constructor(props) {
@@ -12,7 +11,7 @@ export default class LoginView extends React.Component {
 		this.loginState = 0;
 		this.storedValues = {};
 
-		this.state = {buttonState: "stateLoad ", tags : []};
+		this.state = {buttonState: "stateLoad "};
 
 		this.handleChange = this.handleChange.bind(this);
 		this.login = this.login.bind(this);
@@ -107,7 +106,6 @@ export default class LoginView extends React.Component {
 				<div className="form--label"><img src="./images/logo.png" alt="VENote" class="login--logo-image" width="600" /></div>
 				<div className="form--text login--email"><input name="email" type="text" placeholder="Email" onChange={this.handleChange} /></div>
 				<div className="form--text login--password"><input name="password" type="password" placeholder="Password" onChange={this.handleChange} /></div>
-                <TagsInput value={this.state.tags} onChange={e => (this.setState({tags : e}))}  />
 				<div className="form--label login--invalid"><a onClick={this.recover}>Your email/password was incorrect</a></div>
 				<div className="form--text register--password"><input name="confirmpassword" type="password" placeholder="Confirm Password" onChange={this.handleChange} /></div>
 				<div className="form--text register--company"><input name="companyid" type="number" placeholder="Company ID" onChange={this.handleChange} /></div>
