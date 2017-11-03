@@ -123,7 +123,7 @@ export default class NotebookPagesView extends React.Component {
 
 	render() {
 		return <div className="pages">
-			<ToolbarView page={this.parent.getCurrentNotebook().name} parentHandler={this.parentToolbar} visibile={this.state.close} hasBack={true} />
+			<ToolbarView page={this.parent.getUser().company_name + " < " + this.parent.getCurrentNotebook().name} parentHandler={this.parentToolbar} visibile={this.state.close} hasBack={true} />
 			<div className="list-view">
 				{this.notebook_permissions.write ?
 				<div className="notebooks--notebook notebooks--create-notebook" onClick={this.toggleNewEntry}>
@@ -135,11 +135,10 @@ export default class NotebookPagesView extends React.Component {
 					))}
 				</div>
 			</div>
-            <div className={this.state.newEntryState + "overlay"} onClick={this.toggleNewEntry}>
-                <div className="overlay--new-entry form-style" onClick={e => (e.stopPropagation())}>
-                    <DataEntryForm />
-                </div>
-            </div>
+            <div className={this.state.newEntryState + "overlay"} onClick={this.toggleNewEntry} />
+			<div className={this.state.newEntryState + "overlay--new-entry form-style"} onClick={e => (e.stopPropagation())}>
+				<DataEntryForm submitCallback={this.toggleNewEntry} />
+			</div>
             <div className={this.state.deleteEntryState + "overlay"} onClick={this.toggleDeleteEntry}>
                 <div className="overlay--review-entry form-style" onClick={e => {e.stopPropagation()}}>
                     <ReviewEntryForm/>

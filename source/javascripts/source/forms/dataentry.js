@@ -1,33 +1,12 @@
 import * as form from "./form.js";
 import DataEntryModel from '../models/dataentry.js';
-export * from "./form.js";
+import TagsInput from "../../lib/react-tagsinput.js";
 
 export default class DataEntryForm extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {hasImage: false, file: [], imgSrc: null, tags : []};
 		this.dataEntry = new DataEntryModel("", "", "", "", "");
-		this.submitCallback = props.submitCallback;
-		this.cancelCallback = props.cancelCallback;
-		this.author = props.author;
-	}
-
-	//<input className="forms header" id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
-	render() {
-		return <div>
-				<div className="forms header" id="container" >
-					<h1 className="forms header" id="header-text">Create new entry</h1>
-				</div>
-				<DataEntryFields dataEntry={this.dataEntry} submitCallback={this.submitCallback} author={this.author}/>
-			</div>
-	}
-}
-
-class DataEntryFields extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {hasImage: false, file: [], imgSrc: null};
-		this.dataEntry = props.dataEntry;
 		this.submitPage = this.submitPage.bind(this);
 		this.submitCallback = props.submitCallback;
 		this.author=props.author;
@@ -90,26 +69,20 @@ class DataEntryFields extends React.Component {
 	}
 
 	render() {
-		return <div>
-				<form className="forms">
-					<TextInput label="Describe your work:" textHandler={this.textChanged} />
-					< br />
+		return <form>
+					<TextAreaInput label="Describe your work:" textHandler={this.textChanged} />
 
-					Include an image:<br />
 					<ImageInput imageHandler={this.imageChanged} />
 
-					<TextInput label="Caption the image:" textHandler={this.captionChanged} />
-					<br />
-					<TextInput label="Add image tags:\n(Write tags as a comma separated list, for example: 'Wheels, Drive Train, Movement')" textHandler={this.tagsChanged}/>	
-					<br />
+					<TextInput label="Caption the image" textHandler={this.captionChanged} />
+					<TagsInput name="Tags" value={this.state.tags} onChange={e => (this.setState({tags : e}))} />
 					<SubmitButton message="By checking this you confirm the accuracy of this entry." label="Submit" submissionHandler={this.submitPage}/>
-				</form>
-			</div>;	
+				</form>;
 	}
 }
 
 
-export class TextInput extends React.Component {
+export class TextAreaInput extends React.Component {
 	constructor(props) {
 		super(props);
 		this.label = props.label
@@ -117,12 +90,22 @@ export class TextInput extends React.Component {
 	}
 	
 	render() {
-		var text = this.label
-		return <div>
-		        {text.split("\\n").map(i => {
-          			return <div>{i}</div>;
-        		})}
-			<textarea className="forms textInput" onChange={this.textHandler}></textarea><br />
+		return <div class="form--textarea">
+			<textarea placeholder={this.label} onChange={this.textHandler} />
+		</div>
+	}
+}
+
+export class TextInput extends React.Component {
+	constructor(props) {
+		super(props);
+		this.label = props.label
+		this.textHandler = props.textHandler;
+	}
+
+	render() {
+		return <div class="form--textarea">
+			<input type="text" placeholder={this.label} onChange={this.textHandler} />
 		</div>
 	}
 }
@@ -143,7 +126,6 @@ export class ImageInput extends React.Component {
 			var file = this.refs.file.files[0];
 			var reader = new FileReader();
 			reader.onloadend = function (e) {
-				console.log("Hi");
 				this.imageHandler(reader.result);
 				this.setState({
 					imgSrc: [reader.result]
@@ -155,11 +137,10 @@ export class ImageInput extends React.Component {
 	
 	render() {
 		return <div>
-			<input type="file" ref="file" className="forms imageInput" id="image-upload" accept="image/*" onChange={(event)=>{this.fileSelected(event)}} /><br />
+			<input type="file" ref="file" title="Choose an Image:" className="forms imageInput" id="image-upload" accept="image/*" onChange={(event)=>{this.fileSelected(event)}} />
 			<div className="forms" id="imageContainer">
-				<img className="forms imageInput" id="image" src={this.state.imgSrc} /><br />
+				<img className="forms imageInput" id="image" src={this.state.imgSrc} />
 			</div>
-
 		</div>
 	}
 }
@@ -189,9 +170,9 @@ export class SubmitButton extends React.Component {
 		return <div>
 			<label>	
 				<input className="forms submitButton" id="checkbox" type="checkbox"/>
-				{this.message} <br /><br />
+				{this.message}
 			</label>
-			<input className="forms submitButton" type="button" value={this.label} onClick={this.submit} /><br />
+			<input className="forms submitButton" type="button" value={this.label} onClick={this.submit} />
 		</div>
 	}
 }
