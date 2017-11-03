@@ -31,6 +31,7 @@ class DataEntryFields extends React.Component {
 		this.submitPage = this.submitPage.bind(this);
 		this.submitCallback = props.submitCallback;
 		this.author=props.author;
+		this.notebook_hash = props.notebook_hash;
 
 		this.textChanged = this.textChanged.bind(this);
 		this.captionChanged = this.captionChanged.bind(this);
@@ -70,16 +71,25 @@ class DataEntryFields extends React.Component {
 		this.dataEntry.date_created = new Date();
 		//Need to set author
 
+		var body = JSON.stringify({
+			user_hash: this.author,
+			notebook_hash: this.notebook_hash,
+			entry: this.dataEntry	
+		});
+
 		console.log(this.dataEntry);
-		fetch('PLACEHOLDER_URL', {
+		fetch('http://endor-vm1.cs.purdue.edu/addEntry', {
 			method: 'POST',
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'appication/json'
 			},
-			body: this
+			body: body
+		}).then( function(response) {
+			if (response.ok) {
+				console.log(response.json());
+			}	
 		});
-
 
 		if (this.submitCallback) {
 			this.submitCallback(this.dataEntry);
