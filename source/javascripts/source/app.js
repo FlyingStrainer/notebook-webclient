@@ -1,5 +1,7 @@
 import LoginView from "./views/login.js";
+import Notebook from "./models/notebook.js";
 import Notebooks from "./views/notebooks.js";
+import NotebookPages from "./views/pages.js";
 import React from "../lib/react.js";
 
 class VENote extends React.Component {
@@ -7,7 +9,8 @@ class VENote extends React.Component {
 		super(props);
 
 		this.user = "user_hash1";
-		this.notebooks = undefined;
+		this.notebooks = [new Notebook("notebook_hash1", "Notebook name 1", [], new Date(), new Date(), null, null)];
+		this.currentNotebook = this.notebooks[0];
 
 		this.state = {view : props.view, user : ""};
 
@@ -18,15 +21,13 @@ class VENote extends React.Component {
 		this.getNotebooks = this.getNotebooks.bind(this);
 		this.setNotebooks = this.setNotebooks.bind(this);
 
+		this.getCurrentNotebook = this.getCurrentNotebook.bind(this);
+
 		this.back = this.back.bind(this);
 		this.logout = this.logout.bind(this);
 
 		this.parentHandler = {getUser : this.getUser, getNotebooks : this.getNotebooks, setNotebooks : this.setNotebooks,
-                                back : this.back, logout : this.logout};
-	}
-
-	componentDidMount() {
-		console.log("MOUNTED");
+                                getCurrentNotebook : this.getCurrentNotebook, back : this.back, logout : this.logout};
 	}
 
 	login(responseJson) {
@@ -41,8 +42,11 @@ class VENote extends React.Component {
 		return this.user;
 	}
 
-	notebook() {
-
+	notebook(notebook) {
+        console.log(this.notebooks);
+        this.currentNotebook = notebook;
+        console.log(this.currentNotebook);
+        this.setState({view : "pageView"});
 	}
 
 	getNotebooks() {
@@ -53,19 +57,30 @@ class VENote extends React.Component {
 		this.notebooks = notebooks;
 	}
 
+	getCurrentNotebook() {
+	    return this.currentNotebook;
+    }
 
 	back(e) {
-
+        if(this.state.view === "pageView")
+        {
+            this.currentNotebook = undefined;
+            this.setState({view : "notebookView"});
+        }
 	}
 
 	logout(e) {
+        this.user = "user_hash1";
+        this.notebooks = undefined;
 
+        this.setState({view : ""});
     }
 
 	render() {
 		return (<div id="venoteview">
 			<div id="renderview">{this.state.view === "notebookView" ? <Notebooks callback={this.notebook} parentHandler={this.parentHandler}/>
-				: <LoginView callback={this.login} />}</div>
+				: this.state.view === "pageView" ? <NotebookPages parentHandler={this.parentHandler} /> :
+                    <LoginView callback={this.login} />}</div>
 			<div id="pushview"></div>
 		</div>);
 	}
@@ -74,37 +89,3 @@ class VENote extends React.Component {
 document.addEventListener("DOMContentLoaded", function(event) {
 	ReactDOM.render(<VENote view={document.body.className} />, document.getElementById("root"));
 });
-/*
-$(document).ready(function() {
-	const body = $("body");
-	if(body.hasClass("pageview"))
-	{
-		pages.init();
-	}
-	if(body.hasClass("dataEntryView"))
-	{
-//		dataEntryForm.init(document.getElementById("root"));
-		var cancel = function() {
-			console.log("Cancel");
-		}		
-
-		var submit = function(dataEntry) {
-			console.log("Submit: " + dataEntry.text);
-		}		
-
-		const element = <DataEntryForm cancelCallback={cancel} submitCallback={submit} />;
-		ReactDOM.render(
-			element,
-			document.getElementById("root")
-		);
-	}
-	else if(body.hasClass("notebookView"))
-	{
-        notebooks.init();
-        notebooks.render();
-	}
-	else
-	{
-		loginView.init();
-	}
-});*/

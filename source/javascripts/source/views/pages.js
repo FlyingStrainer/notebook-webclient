@@ -7,34 +7,112 @@ import notebookView from "./notebooks.js";
 import React from "../../lib/react.js";
 import ToolbarView from "./subviews/toolbar.js";
 
-let dataEntries;
-let notebook;
+//let dataEntries;
+//let notebook;
 
-class PagesView extends React.Component {
+export default class NotebookPagesView extends React.Component {
+
 	constructor(props) {
 		super(props);
+
+		this.parent = props.parentHandler;
+
+		this.state = {entriesList : [], close : false};
+
+		this.pageListSearch = this.pageListSearch.bind(this);
+
+		this.toggleNewEntry = this.toggleNewEntry.bind(this);
+
+		this.back = this.back.bind(this);
+		this.logout = this.logout.bind(this);
+
+        this.parentToolbar = {searchHandler : this.pageListSearch, backCallback : this.back, logoutCallback : this.logout};
 	}
 
+	componentDidMount() {
+        fetch("http://endor-vm1.cs.purdue.edu/getEntries", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+	            user_hash : this.parent.getUser(),
+	            notebook_hash : this.parent.getCurrentNotebook().uuid
+            })
+        }).then(function(response) {
+            if(response.ok) {
+                return response.json();
+            }
+            throw new Error("Network response was not ok.");
+        }).then(function(json) {
+            json.data_entries.forEach(function(entry_uuid) {
+            	console.log(entry_uuid);
+                fetch("http://endor-vm1.cs.purdue.edu/getEntry", {
+                    method: "POST",
+                    headers: {
+                        "Accept" : "application/json",
+                        "Content-Type" : "application/json"
+                    },
+                    body: JSON.stringify({
+						user_hash : this.parent.getUser(),
+                        notebook_hash : this.parent.getCurrentNotebook().uuid,
+	                    entry_hash : entry_uuid
+                    })
+                }).then(function(response) {
+                    if(response.ok) {
+                        return response.json();
+                    }
+                    throw new Error("Network response was not ok.");
+                }).then(function(json) {
+                	console.log(json);
+                    this.setState({entriesList : this.state.entriesList.concat(new DataEntry(json.text, json.image, json.caption, json.tags, json.author))});
+                }.bind(this)).catch(function(error) {
+					console.log(error.message);
+                }.bind(this));
+            }.bind(this));
+
+        }.bind(this)).catch(function(error) {
+            console.log(error.message);
+        }.bind(this));
+    }
+
+	pageListSearch(event) {
+
+    }
+
+    toggleNewEntry() {
+
+    }
+
+    back(event) {
+	    this.setState({entriesList : this.state.entriesList.slice(), close : true});
+
+	    setTimeout(function(){
+		    this.parent.back(event);
+	    }.bind(this), 300);
+    }
+
+	logout(event) {
+	    this.setState({entriesList : this.state.entriesList.slice(), close : true});
+
+        setTimeout(function(){
+            this.parent.logout(event);
+        }.bind(this), 300);
+    }
+
 	render() {
-		return <div class="pages">
-			<ToolbarView />
-			<div class="pages--list-view">
-				<PageListView />
+		return <div className="pages">
+			<ToolbarView page={this.parent.getCurrentNotebook().name} parentHandler={this.parentToolbar} visibile={this.state.close} hasBack={true} />
+			<div className="list-view">
+				<div className="notebooks--notebook notebooks--create-notebook" onClick={this.toggleNewEntry}>
+					<div className="notebook--create-icon" />
+				</div>
 			</div>
-			<div class="pages--selected-view">
+			<div className="pages--selected-view">
 				<PageView />
 			</div>
 		</div>
-	}
-}
-
-class PageListView extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-
-	render() {
-
 	}
 }
 
@@ -44,11 +122,11 @@ class PageView extends React.Component {
 	}
 
 	render() {
-
+        return (<div></div>);
 	}
 }
 
-const pageView = {
+/*const pageView = {
 
 	init(nb) {
 		notebook = nb;
@@ -114,7 +192,7 @@ const pageView = {
 	    "</div>" +
 	    "</div>");
 
-    body.append(content);*/
+    body.append(content);*
 
     content.show(500);
 
@@ -327,4 +405,4 @@ const pageView = {
 
 };
 
-export default pageView;
+export default pageView;*/

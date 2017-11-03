@@ -12,11 +12,11 @@
 
   //padding:8px 10px;
   font-family: 'Kollektif', 'Arial Black', 'sans-serif';
-  font-size: 32px;
+  font-size: 28px;
   background: #f8f4da;
   text-decoration:none;
   letter-spacing:3px;
-  border-bottom:2px solid #daac00;
+  box-shadow: rgba(0, 0, 0, .43) 0 0 15px 0;
   display: inline-block;
 
   .toolbar--back {
@@ -30,6 +30,8 @@
   }
 
   .toolbar--title {
+    padding-left: 10px;
+    margin-top: 3px;
     width: auto;
     height:100%;
     float:left;
@@ -67,17 +69,20 @@
 
 .toolbar-view.stateLoad {
   top:-50px;
+  box-shadow: rgba(0, 0, 0, 0) 0 0 15px 0;
 }
 
 .toolbar-view.stateTransition {
   @include transition-timing(ease);
-  @include transition(top 300ms 0ms);
+  @include transition(top 300ms 0ms, box-shadow 300ms 0ms);
 }
 
 .toolbar-view.stateLoad.stateTransition {
   top:0;
+  box-shadow: rgba(0, 0, 0, .43) 0 0 15px 0;
 }
 
 .toolbar-view.stateExit.stateTransition {
   top:-50px;
+  box-shadow: rgba(0, 0, 0, 0) 0 0 15px 0;
 }

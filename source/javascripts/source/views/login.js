@@ -102,7 +102,7 @@ export default class LoginView extends React.Component {
 
 	render() {
 		return (<div className={this.state.buttonState + "login-view form-container form-style"}>
-			<form method="post">
+			<form>
 				<div className="form--label"><img src="./images/logo.png" alt="VENote" class="login--logo-image" width="600" /></div>
 				<div className="form--text login--email"><input name="email" type="text" placeholder="Email" onChange={this.handleChange} /></div>
 				<div className="form--text login--password"><input name="password" type="password" placeholder="Password" onChange={this.handleChange} /></div>

@@ -1,0 +1,23 @@
+@import "utils";
+
+.overlay {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+
+  background-color: #000000;
+  opacity: 0;
+
+  pointer-events: none;
+
+  @include transition-timing(ease);
+  @include transition(opacity 300ms 0ms);
+}
+
+.stateShow.overlay {
+  opacity: .5;
+
+  pointer-events: auto;
+  justify-content: center;
+  display:flex;
+}

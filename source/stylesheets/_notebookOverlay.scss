@@ -1,0 +1,27 @@
+.overlay {
+  .overlay--create-notebook {
+    position: absolute;
+
+    opacity: 1;
+    width: 300px;
+    height:100px;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    margin: auto;
+    text-align:center;
+
+
+
+    .notebooks--create--button {
+
+      button {
+        background: forestgreen;
+        margin-top: 20px;
+        width:100%;
+      }
+    }
+  }
+}
