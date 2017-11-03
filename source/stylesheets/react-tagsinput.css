@@ -6,6 +6,18 @@
   padding-top: 5px;
 }
 
+.forms#imageContainer{
+	max-width: 100%;
+	text-align: center;
+	display: inline-block;
+	float: center;
+}
+
+.forms#image{
+	width: 100%;
+}
+
+
 .react-tagsinput--focused {
   border-color: #a5d24a;
 }
