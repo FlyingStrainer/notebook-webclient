@@ -83,7 +83,11 @@ export default class NotebookPagesView extends React.Component {
 
     }
 
-    toggleNewEntry() {
+    toggleNewEntry(entry) {
+		if(entry !== undefined && entry.text !== undefined)
+		{
+
+		}
         if(this.state.newEntryState === "stateHide " || this.state.newEntryState === "stateLoad ")
         {
             this.setState({newEntryState : "stateShow "});
