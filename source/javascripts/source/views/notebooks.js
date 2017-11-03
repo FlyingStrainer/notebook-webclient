@@ -2,6 +2,7 @@ import React from "../../lib/react.js";
 import ToolbarView from "./subviews/toolbar";
 import Notebook from "../models/notebook.js";
 import Button from "./subviews/button.js";
+import User from "../models/user.js";
 
 export default class NotebooksView extends React.Component {
 	constructor(props) {
