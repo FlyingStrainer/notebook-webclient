@@ -1,0 +1,83 @@
+@import "utils";
+
+.toolbar-view {
+  position:absolute;
+
+  top:0;
+  left:0;
+  right:0;
+
+  width:100%;
+  height:50px;
+
+  //padding:8px 10px;
+  font-family: 'Kollektif', 'Arial Black', 'sans-serif';
+  font-size: 32px;
+  background: #f8f4da;
+  text-decoration:none;
+  letter-spacing:3px;
+  border-bottom:2px solid #daac00;
+  display: inline-block;
+
+  .toolbar--back {
+    width:70px;
+    height:50px;
+    padding: 5px 20px 5px 10px;
+
+    float:left;
+    background: url("../images/backArrow.png") no-repeat 10px 5px;
+    background-size: 40px;
+  }
+
+  .toolbar--title {
+    width: auto;
+    height:100%;
+    float:left;
+  }
+
+  .toolbar--right-icons {
+    width:140px;
+    height:50px;
+    float:right;
+  }
+
+  .toolbar--search {
+    width:70px;
+    height:50px;
+    padding: 5px 10px 5px 20px;
+
+    float:left;
+    background: url("../images/search.png") no-repeat 30px 15px;
+    background-size: 20px;
+  }
+
+  .toolbar--logout {
+    width:70px;
+    height:50px;
+    padding: 5px 10px 5px 20px;
+
+    float:left;
+    background: url("../images/logout.png") no-repeat 20px 5px;
+    background-size: 40px;
+  }
+
+  .toolbar--search-bar input {
+  }
+}
+
+.toolbar-view.stateLoad {
+  top:-50px;
+}
+
+.toolbar-view.stateTransition {
+  @include transition-timing(ease);
+  @include transition(top 300ms 0ms);
+}
+
+.toolbar-view.stateLoad.stateTransition {
+  top:0;
+}
+
+.toolbar-view.stateExit.stateTransition {
+  top:-50px;
+}
