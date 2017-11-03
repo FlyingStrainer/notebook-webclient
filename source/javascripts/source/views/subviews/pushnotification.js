@@ -18,32 +18,48 @@ export default class PushNotification extends React.Component {
 		console.log(this.notebook_hash);
 		console.log(this.entry_hash);
 
+		this.fetchEntry = this.fetchEntry.bind(this);
+
 		this.toggleCosign = this.toggleCosign.bind(this);
 	}
 
+	fetchEntry() {
+        fetch("http://endor-vm1.cs.purdue.edu/getEntry", {
+            method: "POST",
+            headers: {
+                "Accept" : "application/json",
+                "Content-Type" : "application/json"
+            },
+            body: JSON.stringify({
+                user_hash : this.parent.getUser(),
+                notebook_hash : this.notebook_hash,
+                entry_hash : this.entry_hash
+            })
+        }).then(function(response) {
+            if(response.ok) {
+                return response.json();
+            }
+            throw new Error("Network response was not ok.");
+        }).then(function(json) {
+            this.setState({stateNotification : "stateShow ", entry : new DataEntry(json.text, json.image, json.caption, json.tags, json.author)});
+        }.bind(this)).catch(function(error) {
+            console.log(error.message);
+        }.bind(this));
+    }
+
 	componentDidMount() {
-		fetch("http://endor-vm1.cs.purdue.edu/getEntry", {
-			method: "POST",
-			headers: {
-				"Accept" : "application/json",
-				"Content-Type" : "application/json"
-			},
-			body: JSON.stringify({
-				user_hash : this.parent.getUser(),
-				notebook_hash : this.notebook_hash,
-				entry_hash : this.entry_hash
-			})
-		}).then(function(response) {
-			if(response.ok) {
-				return response.json();
-			}
-			throw new Error("Network response was not ok.");
-		}).then(function(json) {
-			this.setState({stateNotification : "stateShow ", entry : new DataEntry(json.text, json.image, json.caption, json.tags, json.author)});
-		}.bind(this)).catch(function(error) {
-			console.log(error.message);
-		}.bind(this));
+	    this.fetchEntry();
 	}
+
+    componentWillReceiveProps(nextProps) {
+	    console.log(nextProps);
+        if (nextProps.data.notebook_hash !== this.props.data.notebook_hash || nextProps.data.entry_hash !== this.props.entry_hash) {
+            this.notebook_hash = nextProps.data.notebook_hash;
+            this.entry_hash = nextProps.data.entry_hash;
+
+            this.fetchEntry();
+        }
+    }
 
 	toggleCosign() {
 		this.setState({stateNotification : "stateHide "});

@@ -10,9 +10,6 @@ import ToolbarView from "./subviews/toolbar.js";
 
 import Entry from "./subviews/entry.js";
 
-//let dataEntries;
-//let notebook;
-
 export default class NotebookPagesView extends React.Component {
 
 	constructor(props) {
@@ -85,6 +82,17 @@ export default class NotebookPagesView extends React.Component {
     }
 
     toggleNewEntry(entry) {
+        if(this.state.newEntryState === "stateHide " || this.state.newEntryState === "stateLoad ")
+        {
+            this.setState({newEntryState : "stateShow "});
+        }
+        else
+        {
+            this.setState({newEntryState : "stateHide "});
+        }
+    }
+
+    toggleDeleteEntry() {
         if(this.state.deleteEntryState === "stateHide " || this.state.deleteEntryState === "stateLoad ")
         {
             this.setState({deleteEntry : entry, deleteEntryState : "stateShow "});
@@ -94,17 +102,6 @@ export default class NotebookPagesView extends React.Component {
             this.setState({deleteEntry : entry, deleteEntryState : "stateHide "});
         }
     }
-
-	toggleDeleteEntry(entry) {
-        if(this.state.newEntryState === "stateHide " || this.state.newEntryState === "stateLoad ")
-        {
-            this.setState({newEntryState : "stateShow "});
-        }
-        else
-        {
-            this.setState({newEntryState : "stateHide "});
-        }
-	}
 
     back(event) {
 	    this.setState({entriesList : this.state.entriesList.slice(), close : true});

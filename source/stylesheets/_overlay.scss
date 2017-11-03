@@ -9,6 +9,7 @@
   opacity: 0;
 
   pointer-events: none;
+  z-index: 5;
 
   @include transition-timing(ease);
 }

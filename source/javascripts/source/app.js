@@ -18,7 +18,7 @@ class VENote extends React.Component {
 		this.notebooks = [new Notebook("notebook_hash1", "Notebook name 1", [], new Date(), new Date(), null, null)];
 		this.currentNotebook = this.notebooks[0];
 
-		this.state = {view : props.view, pushView : false, user : ""};
+		this.state = {view : props.view, pushView : false};
 
 		this.login = this.login.bind(this);
 		this.getUser = this.getUser.bind(this);
@@ -58,7 +58,10 @@ class VENote extends React.Component {
 			}
 			else if(msg.type === "login")
 			{
-				this.socket.send(JSON.stringify({type:"testpush"}));
+                this.socket.send(JSON.stringify({type:"testpush"}));
+			    setTimeout(function() {
+                    this.socket.send(JSON.stringify({type:"testpush"}));
+                }.bind(this), 5000);
 			}
 			else if(msg.type === "push")
 			{
@@ -103,10 +106,17 @@ class VENote extends React.Component {
 	}
 
 	logout(e) {
-        this.user = "user_hash1";
+        this.user = undefined;
         this.notebooks = undefined;
+        this.currentNotebook = undefined;
 
-        this.setState({view : ""});
+        if(this.socket !== undefined)
+        {
+            this.socket.close();
+            this.socket = undefined;
+        }
+
+        this.setState({view : "", pushView : false});
     }
 
 	render() {

@@ -123,7 +123,7 @@
     margin-bottom: 8px;
   }
 
-  input[type="text"],
+  input[type="text"]:not(.react-tagsinput-input),
   input[type="password"],
   input[type="date"],
   input[type="datetime"],
@@ -150,7 +150,7 @@
     margin-bottom: 5px;
   }
 
-  input[type="text"]:focus,
+  input[type="text"]:focus:not(.react-tagsinput-input),
   input[type="password"]:focus,
   input[type="date"]:focus,
   input[type="datetime"]:focus,
@@ -163,6 +163,10 @@
   select:focus{
     background: #f7f8f8;
     color:#404040;
+  }
+
+  .react-tagsinput {
+    border : 2px solid #a1a0a0;
   }
 
   select{
