@@ -90,10 +90,12 @@ export default class NotebooksView extends React.Component {
 		//{
 		//	this.setState({notebookList : this.parent.getNotebooks()});
 		//}
+    }
+
+    notebookListSearch() {
+	for (entry : openNotebook.dataEntries) {
+		console.log(entry);
 	}
-
-	notebookListSearch() {
-
     }
 
     toggleCreateNotebook() {

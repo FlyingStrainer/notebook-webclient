@@ -7,10 +7,12 @@ export default class ToolbarView extends React.Component {
 		this.parent = props.parentHandler;
 		this.name = props.page;
 		this.hasBack = props.hasBack;
+		this.searchFunction = props.searchFunction;
 
 		this.state = {toolbarState : "stateLoad ", searchBarState : "stateHide "};
 
 		this.toggleSearchBar = this.toggleSearchBar.bind(this);
+		this.searchFunction = this.searchFunction.bind(this);
 	}
 
 	componentDidMount() {
@@ -20,6 +22,10 @@ export default class ToolbarView extends React.Component {
                 this.setState({toolbarState: ""});
             }.bind(this), 300);
         }.bind(this), 300);
+    }
+
+    searchForText(text){
+	return this.searchFunction(text);	
     }
 
     componentWillReceiveProps(nextProps) {
