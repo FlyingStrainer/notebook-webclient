@@ -75,7 +75,7 @@ div.forms {
 }
 
 .forms#imageContainer{
-	max-width: 600px;
+	max-width: 100%;
 	text-align: center;
 	display: inline-block;
 	float: center;

@@ -116,7 +116,7 @@ class VENote extends React.Component {
 
 	getCurrentNotebook() {
 	    return this.currentNotebook;
-    }
+	}
 
 	back(e) {
         if(this.state.view === "pageView")
@@ -138,7 +138,7 @@ class VENote extends React.Component {
         }
 
         this.setState({view : "", pushView : false});
-    }
+	}
 
 	render() {
 		return (<div id="venoteview">
@@ -153,5 +153,6 @@ class VENote extends React.Component {
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
-	ReactDOM.render(<VENote view={document.body.className} />, document.getElementById("root"));
+	ReactDOM.render(<DataEntryForm >, document.getElementById("root"));
+	//ReactDOM.render(<VENote view={document.body.className} />, document.getElementById("root"));
 });
