@@ -11,6 +11,7 @@ export default class ToolbarView extends React.Component {
 		this.state = {toolbarState : "stateLoad ", searchBarState : "stateHide "};
 
 		this.toggleSearchBar = this.toggleSearchBar.bind(this);
+		this.testButton = this.testButton.bind(this);
 	}
 
 	componentDidMount() {
@@ -28,6 +29,19 @@ export default class ToolbarView extends React.Component {
         }
     }
 
+    testButton() {
+	console.log("Search Initiated");	
+	// Incomplete - needs testing
+        fetch('PLACEHOLDER_URL', {
+                method: 'POST',
+                headers: {
+			'Accept': 'application/json',
+	                'Content-Type': 'appication/json'
+		},
+		body: ""
+        });
+    }
+
     toggleSearchBar(event) {
         if(this.state.searchBarState === "stateHide")
             this.setState({searchBarState : "stateShow "});
@@ -40,7 +54,7 @@ export default class ToolbarView extends React.Component {
 
 	render() {
 		return <div className={this.state.toolbarState + "toolbar-view"}>
-            {this.hasBack === true ? <a className="toolbar--back" href="#" onClick={e => (e.preventDefault(), this.parent.backCallback(e))} /> : null}
+            {this.hasBack === true ? <a className="toolbar--back" href="#" onClick={{this.testButton}, this.parent.backCallback(e))} /> : null}
 			<div className="toolbar--title">
 				{this.name}
 			</div>
