@@ -86,8 +86,9 @@ export default class NotebookPagesView extends React.Component {
     toggleNewEntry(entry) {
 		if(entry !== undefined && entry.text !== undefined)
 		{
-
+			this.setState({entriesList : this.state.entriesList.concat(entry)});
 		}
+
         if(this.state.newEntryState === "stateHide " || this.state.newEntryState === "stateLoad ")
         {
             this.setState({newEntryState : "stateShow "});
@@ -98,7 +99,7 @@ export default class NotebookPagesView extends React.Component {
         }
     }
 
-    toggleDeleteEntry(entry) {
+    toggleDeleteEntry(entry, mode) {
         if(this.state.deleteEntryState === "stateHide " || this.state.deleteEntryState === "stateLoad ")
         {
             this.setState({deleteEntry : entry, deleteEntryState : "stateShow "});
@@ -143,11 +144,11 @@ export default class NotebookPagesView extends React.Component {
 			<div className={this.state.newEntryState + "overlay--new-entry form-style"} onClick={e => (e.stopPropagation())}>
 				<DataEntryForm submitCallback={this.toggleNewEntry} />
 			</div>
-            <div className={this.state.deleteEntryState + "overlay"} onClick={this.toggleDeleteEntry}>
-                <div className="overlay--review-entry form-style" onClick={e => {e.stopPropagation()}}>
-                    <ReviewEntryForm/>
-                </div>
-            </div>
+            <div className={this.state.deleteEntryState + "overlay"} onClick={this.toggleDeleteEntry} />
+			<div className={this.state.deleteEntryState + "overlay--review-entry form-style"} onClick={e => {e.stopPropagation()}}>
+				<ReviewEntryForm entry={this.state.deleteEntry} user={this.parent.getUser()} permissions={this.notebook_permissions}
+				                 deleteCallback={this.toggleDeleteEntry} cosignCallback={this.toggleDeleteEntry} />
+			</div>
 		</div>
 	}
 }

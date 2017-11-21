@@ -1,7 +1,7 @@
 
 export default class DataEntry {
 	constructor(text, image, caption, tags, author) {
-    this.id = "";
+        this.id = "";
 		this.text = text;
 		this.image = image;
 		this.caption = caption;

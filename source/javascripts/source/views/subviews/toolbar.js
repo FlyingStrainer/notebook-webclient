@@ -21,11 +21,20 @@ export default class ToolbarView extends React.Component {
                 this.setState({toolbarState: ""});
             }.bind(this), 300);
         }.bind(this), 300);
+        setTimeout(function() {
+            this.setState({toolbarState: "stateLoad stateTransition "});
+            setTimeout(function() {
+                this.setState({toolbarState: ""});
+            }.bind(this), 300);
+        }.bind(this), 300);
     }
 
     componentWillReceiveProps(nextProps) {
 	    if(nextProps.visible !== this.props.visible) {
 	        this.setState({toolbarState : "stateExit stateTransition "});
+        }
+        else if(nextProps.visible !== this.props.visible) {
+            this.setState({toolbarState : "stateExit stateTransition "});
         }
     }
 
@@ -58,6 +67,10 @@ export default class ToolbarView extends React.Component {
 			<div className="toolbar--title">
 				{this.name}
 			</div>
+            <div className="toolbar--right-icons">
+                <a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.parent.toggleSearchBar(e))} />
+                <a className="toolbar--logout" href="#" onClick={e => (e.preventDefault(), this.parent.logoutCallback(e))} />
+            </div>
             <div className="toolbar--right-icons">
                 <a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.parent.toggleSearchBar(e))} />
                 <a className="toolbar--logout" href="#" onClick={e => (e.preventDefault(), this.parent.logoutCallback(e))} />
