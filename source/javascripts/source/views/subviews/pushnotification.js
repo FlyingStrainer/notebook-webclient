@@ -82,7 +82,7 @@ export default class PushNotification extends React.Component {
 			</div>
 			<div className={this.state.stateCosign + "overlay"} onClick={this.toggleCosign}>
 				<div className="overlay--cosign-entry form-style" onClick={e => (e.stopPropagation())}>
-					{this.state.entry === false ? null : <Cosign />}
+					{this.state.entry === false ? null : <Cosign submitCallback={this.toggleCosign} />}
 				</div>
 			</div>
 		</div>);

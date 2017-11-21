@@ -58,7 +58,7 @@ class VENote extends React.Component {
 		//user_hash
 		//notebooks -> Array [uuid, name, creation_date, modified_date, ]
 
-		this.user = new User(responseJson.user_hash, responseJson.permissions, responseJson.company_name, responseJson.notebooks);
+		//this.user = new User(responseJson.user_hash, responseJson.permissions, responseJson.company_name, responseJson.notebooks);
 
 		if(this.user.permissions.role === "manager")
 		{
@@ -127,7 +127,7 @@ class VENote extends React.Component {
 	}
 
 	logout(e) {
-        this.user = undefined;
+        //this.user = undefined;
         this.notebooks = undefined;
         this.currentNotebook = undefined;
 
