@@ -9,7 +9,7 @@ export default class NotebookPagesView extends React.Component {
 
 	constructor(props) {
 		super(props);
-
+		console.log("NotebookPageView");
 		this.parent = props.parentHandler;
 
 		this.notebook_permissions = this.parent.getUser().permissions.notebooks.find(function(notebook_permissions) {
@@ -31,9 +31,17 @@ export default class NotebookPagesView extends React.Component {
 
         this.parentToolbar = {searchHandler : this.pageListSearch, backCallback : this.back, logoutCallback : this.logout};
         this.parentEntry = {toggleDeleteEntry : this.toggleDeleteEntry};
+
+	// Testing code 
+	var entry = new DataEntry("", "", "", "", "");
+	this.toggleNewEntry(entry);
+	// End testing code
+	
 	}
 
 	componentDidMount() {
+	var entry = new DataEntry("", "", "", "", "");
+	this.setState({entriesList : this.state.entriesList.concat(entry)});
         fetch("http://endor-vm1.cs.purdue.edu/getEntries", {
             method: "POST",
             headers: {
@@ -135,16 +143,19 @@ export default class NotebookPagesView extends React.Component {
 					<div className="notebook--create-icon" />
 				</div> : null}
 				<div className="pages--entry-list">
+					HI
+					{console.log("Entries:" + this.state.entriesList)}
 					{this.state.entriesList.map(entry => (
 						<PageView parentHandler={this.parentEntry} entry={entry} visible={this.state.close}/>
 					))}
+					BYE
 				</div>
 			</div>
-            <div className={this.state.newEntryState + "overlay"} onClick={this.toggleNewEntry} />
+            		<div className={this.state.newEntryState + "overlay"} onClick={this.toggleNewEntry} />
 			<div className={this.state.newEntryState + "overlay--new-entry form-style"} onClick={e => (e.stopPropagation())}>
 				<DataEntryForm submitCallback={this.toggleNewEntry} />
 			</div>
-            <div className={this.state.deleteEntryState + "overlay"} onClick={this.toggleDeleteEntry} />
+            		<div className={this.state.deleteEntryState + "overlay"} onClick={this.toggleDeleteEntry} />
 			<div className={this.state.deleteEntryState + "overlay--review-entry form-style"} onClick={e => {e.stopPropagation()}}>
 				<ReviewEntryForm entry={this.state.deleteEntry} user={this.parent.getUser()} permissions={this.notebook_permissions}
 				                 deleteCallback={this.toggleDeleteEntry} cosignCallback={this.toggleDeleteEntry} />
