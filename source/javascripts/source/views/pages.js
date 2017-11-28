@@ -32,16 +32,18 @@ export default class NotebookPagesView extends React.Component {
         this.parentToolbar = {searchHandler : this.pageListSearch, backCallback : this.back, logoutCallback : this.logout};
         this.parentEntry = {toggleDeleteEntry : this.toggleDeleteEntry};
 
-	// Testing code 
-	var entry = new DataEntry("", "", "", "", "");
-	this.toggleNewEntry(entry);
-	// End testing code
 	
 	}
 
 	componentDidMount() {
-	var entry = new DataEntry("", "", "", "", "");
-	this.setState({entriesList : this.state.entriesList.concat(entry)});
+
+	// Testing code 
+	var image = new Image();
+	image.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Mandarin.duck.arp.jpg/220px-Mandarin.duck.arp.jpg";
+	var entry = new DataEntry("This is the text of the data entry. It is very informative. This text should make the brilliant innovations contained within these pages easy to understand.", image, "This is a picture of brilliance", "Brilliance, Innovations, Creativity", "Ryan");
+	this.toggleNewEntry(entry);
+	// End testing code
+	
         fetch("http://endor-vm1.cs.purdue.edu/getEntries", {
             method: "POST",
             headers: {
@@ -92,10 +94,10 @@ export default class NotebookPagesView extends React.Component {
     }
 
     toggleNewEntry(entry) {
-		if(entry !== undefined && entry.text !== undefined)
-		{
-			this.setState({entriesList : this.state.entriesList.concat(entry)});
-		}
+	if(entry !== undefined && entry.text !== undefined)
+	{
+		this.setState({entriesList : this.state.entriesList.concat(entry)});
+	}
 
         if(this.state.newEntryState === "stateHide " || this.state.newEntryState === "stateLoad ")
         {
