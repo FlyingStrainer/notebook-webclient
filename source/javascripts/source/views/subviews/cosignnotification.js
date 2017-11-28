@@ -3,6 +3,7 @@ import Button from "./button.js";
 
 import DataEntry from "../../models/dataentry.js";
 import Cosign from "../../forms/cosign.js";
+import * as Utils from "../../utils.js";
 
 export default class PushNotification extends React.Component {
 	constructor(props) {
@@ -24,27 +25,13 @@ export default class PushNotification extends React.Component {
 	}
 
 	fetchEntry() {
-        fetch("http://endor-vm1.cs.purdue.edu/getEntry", {
-            method: "POST",
-            headers: {
-                "Accept" : "application/json",
-                "Content-Type" : "application/json"
-            },
-            body: JSON.stringify({
-                user_hash : this.parent.getUser(),
-                notebook_hash : this.notebook_hash,
-                entry_hash : this.entry_hash
-            })
-        }).then(function(response) {
-            if(response.ok) {
-                return response.json();
-            }
-            throw new Error("Network response was not ok.");
-        }).then(function(json) {
-            this.setState({stateNotification : "stateShow ", entry : new DataEntry(json.text, json.image, json.caption, json.tags, json.author)});
-        }.bind(this)).catch(function(error) {
-            console.log(error.message);
-        }.bind(this));
+		Utils.post("getEntry", {
+			user_hash : this.parent.getUser(),
+			notebook_hash : this.notebook_hash,
+			entry_hash : this.entry_hash
+		}, function(json) {
+			this.setState({ stateNotification : "stateShow ", entry : new DataEntry(this.entry_hash, json) });
+		}.bind(this));
     }
 
 	componentDidMount() {
@@ -63,14 +50,7 @@ export default class PushNotification extends React.Component {
 	toggleCosign() {
 		this.setState({stateNotification : "stateHide "});
 
-		if(this.state.stateCosign === "stateHide " || this.state.stateCosign === "stateLoad ")
-		{
-			this.setState({stateCosign : "stateShow "});
-		}
-		else
-		{
-			this.setState({stateCosign : "stateHide "});
-		}
+		this.setState({ stateCosign  : Utils.showHide(this.state.stateCosign) });
 	}
 
 	render() {

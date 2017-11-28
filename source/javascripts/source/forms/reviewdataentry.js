@@ -1,5 +1,6 @@
 import React from "../../lib/react.js";
-import * as DataEntry from "./dataentry.js";
+
+import DataEntry from "./dataentry.js";
 import Button from "../views/subviews/button"
 
 export default class ReviewEntryForm extends React.Component {

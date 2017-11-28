@@ -4,6 +4,7 @@ import ReviewEntryForm from "../forms/reviewdataentry.js";
 
 import React from "../../lib/react.js";
 import ToolbarView from "./subviews/toolbar.js";
+import * as Utils from "../utils.js";
 
 export default class NotebookPagesView extends React.Component {
 
@@ -13,13 +14,10 @@ export default class NotebookPagesView extends React.Component {
 		this.parent = props.parentHandler;
 
 		this.notebook_permissions = this.parent.getUser().permissions.notebooks.find(function(notebook_permissions) {
-			console.log(this.parent.getCurrentNotebook().notebook_hash + " " + notebook_permissions.notebook_hash);
-			if(notebook_permissions.notebook_hash === this.parent.getCurrentNotebook().notebook_hash)
-				return true;
-			return false;
+			return notebook_permissions.notebook_hash === this.parent.getCurrentNotebook().notebook_hash;
 		}.bind(this));
 
-		this.state = {entriesList : [], newEntryState : "stateLoad ", deleteEntry : undefined, deleteEntryState : "stateLoad ", close : false};
+		this.state = { entriesList : [], newEntryState : "stateLoad ", deleteEntry : undefined, deleteEntryState : "stateLoad ", close : false };
 
 		this.pageListSearch = this.pageListSearch.bind(this);
 
@@ -29,54 +27,28 @@ export default class NotebookPagesView extends React.Component {
 		this.back = this.back.bind(this);
 		this.logout = this.logout.bind(this);
 
-        this.parentToolbar = {searchHandler : this.pageListSearch, backCallback : this.back, logoutCallback : this.logout};
-        this.parentEntry = {toggleDeleteEntry : this.toggleDeleteEntry};
+        this.parentToolbar = { searchHandler : this.pageListSearch, backCallback : this.back, logoutCallback : this.logout };
+        this.parentEntry = { toggleDeleteEntry : this.toggleDeleteEntry };
 	}
 
 	componentDidMount() {
-        fetch("http://endor-vm1.cs.purdue.edu/getEntries", {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-	            user_hash : this.parent.getUser(),
-	            notebook_hash : this.parent.getCurrentNotebook().notebook_hash
-            })
-        }).then(function(response) {
-            if(response.ok) {
-                return response.json();
-            }
-            throw new Error("Network response was not ok.");
-        }).then(function(json) {
-            json.data_entries.forEach(function(entry_uuid) {
-                fetch("http://endor-vm1.cs.purdue.edu/getEntry", {
-                    method: "POST",
-                    headers: {
-                        "Accept" : "application/json",
-                        "Content-Type" : "application/json"
-                    },
-                    body: JSON.stringify({
-						user_hash : this.parent.getUser(),
-                        notebook_hash : this.parent.getCurrentNotebook().notebook_hash,
-	                    entry_hash : entry_uuid
-                    })
-                }).then(function(response) {
-                    if(response.ok) {
-                        return response.json();
-                    }
-                    throw new Error("Network response was not ok.");
-                }).then(function(json) {
-                    this.setState({entriesList : this.state.entriesList.concat(new DataEntry(json.text, json.image, json.caption, json.tags, json.author))});
-                }.bind(this)).catch(function(error) {
-					console.log(error.message);
-                }.bind(this));
-            }.bind(this));
+		Utils.post("getEntries", { user_hash : this.parent.getUser(),  notebook_hash : this.parent.getCurrentNotebook().notebook_hash }, function(json) {
 
-        }.bind(this)).catch(function(error) {
-            console.log(error.message);
-        }.bind(this));
+			json.data_entries.forEach(function(entry_uuid) {
+
+				Utils.post("getEntry", {
+					user_hash : this.parent.getUser(),
+					notebook_hash : this.parent.getCurrentNotebook().notebook_hash,
+					entry_hash : entry_uuid
+				}, function(json) {
+
+					this.setState({ entriesList : this.state.entriesList.concat(new DataEntry(entry_uuid, json)) });
+
+				}.bind(this));
+
+			}.bind(this));
+
+		}.bind(this));
     }
 
 	pageListSearch(event) {
@@ -86,32 +58,18 @@ export default class NotebookPagesView extends React.Component {
     toggleNewEntry(entry) {
 		if(entry !== undefined && entry.text !== undefined)
 		{
-			this.setState({entriesList : this.state.entriesList.concat(entry)});
+			this.setState({ entriesList : this.state.entriesList.concat(entry) });
 		}
 
-        if(this.state.newEntryState === "stateHide " || this.state.newEntryState === "stateLoad ")
-        {
-            this.setState({newEntryState : "stateShow "});
-        }
-        else
-        {
-            this.setState({newEntryState : "stateHide "});
-        }
+		this.setState({ newEntryState : Utils.showHide(this.state.newEntryState) });
     }
 
     toggleDeleteEntry(entry, mode) {
-        if(this.state.deleteEntryState === "stateHide " || this.state.deleteEntryState === "stateLoad ")
-        {
-            this.setState({deleteEntry : entry, deleteEntryState : "stateShow "});
-        }
-        else
-        {
-            this.setState({deleteEntry : entry, deleteEntryState : "stateHide "});
-        }
+		this.setState({ deleteEntry : entry, deleteEntryState : Utils.showHide(this.state.deleteEntryState) });
     }
 
     back(event) {
-	    this.setState({entriesList : this.state.entriesList.slice(), close : true});
+	    this.setState({ entriesList : this.state.entriesList.slice(), close : true });
 
 	    setTimeout(function(){
 		    this.parent.back(event);
@@ -119,7 +77,7 @@ export default class NotebookPagesView extends React.Component {
     }
 
 	logout(event) {
-	    this.setState({entriesList : this.state.entriesList.slice(), close : true});
+	    this.setState({ entriesList : this.state.entriesList.slice(), close : true });
 
         setTimeout(function(){
             this.parent.logout(event);
@@ -160,25 +118,24 @@ class PageView extends React.Component {
 		this.parent = props.parentHandler;
 		this.entry = props.entry;
 
-		console.log(this.entry.getHTMLForEntrySel());
-
-		this.state = {entryState : "stateLoad "};
+		this.state = { entryState : "stateLoad " };
 	}
 
 	componentDidMount() {
 		setTimeout(function() {
-			this.setState({entryState: "stateLoad stateTransition "});
+			this.setState({ entryState: "stateLoad stateTransition " });
+
 			setTimeout(function() {
 				if(this.state.entryState === "stateLoad stateTransition ")
 					this.setState({entryState: ""});
+
 			}.bind(this), 300);
 		}.bind(this), 300);
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.visible !== this.props.visible) {
+		if (nextProps.visible !== this.props.visible)
 			this.setState({notebookState: "stateExit stateTransition "});
-		}
 	}
 
 	render() {

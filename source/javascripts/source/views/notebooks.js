@@ -2,6 +2,7 @@ import React from "../../lib/react.js";
 import ToolbarView from "./subviews/toolbar";
 import Notebook from "../models/notebook.js";
 import Button from "./subviews/button.js";
+import * as Utils from "../utils.js";
 import User from "../models/user.js";
 
 export default class NotebooksView extends React.Component {
@@ -11,7 +12,7 @@ export default class NotebooksView extends React.Component {
 		this.parent = props.parentHandler;
 		this.callback = props.callback;
 
-		this.state = {notebookList : [], close : false, createNotebookState : "stateLoad "};
+		this.state = { notebookList : [], close : false, createNotebookState : "stateLoad " };
 
 		this.notebookListSearch = this.notebookListSearch.bind(this);
 
@@ -23,73 +24,29 @@ export default class NotebooksView extends React.Component {
 
 		this.logout = this.logout.bind(this);
 
-        this.parentToolbar = {searchHandler : this.notebookListSearch, backCallback : this.parent.back, logoutCallback : this.logout};
-        this.parentNotebook = {openNotebook : this.openNotebook};
+        this.parentToolbar = { searchHandler : this.notebookListSearch, backCallback : this.parent.back, logoutCallback : this.logout };
+        this.parentNotebook = { openNotebook : this.openNotebook };
 	}
 
 	componentDidMount() {
-		//if(this.parent.getNotebooks() === undefined)
-		//{
-			/*fetch("http://endor-vm1.cs.purdue.edu/getNotebooks", {
-				method: "POST",
-				headers: {
-					"Accept": "application/json",
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify({
-					user_hash : this.parent.getUser().user_hash
-				})
-			}).then(function(response) {
-				if(response.ok) {
-					return response.json();
-				}
-				throw new Error("Network response was not ok.");
-			}).then(function(json) {
-*/
-				let notebookCount = this.parent.getUser().notebooks.length;
-				let notebooks = [];
+		let notebookCount = this.parent.getUser().notebooks.length;
+		let notebooks = [];
 
-				this.parent.getUser().notebooks.forEach(function(notebook_uuid) {
-					fetch("http://endor-vm1.cs.purdue.edu/getNotebook", {
-						method: "POST",
-						headers: {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						},
-						body: JSON.stringify({
-							user_hash : this.parent.getUser().user_hash,
-							notebook_hash : notebook_uuid
-						})
-					}).then(function(response) {
-						if(response.ok) {
-							return response.json();
-						}
-						throw new Error("Network response was not ok.");
-					}).then(function(json) {
-						notebooks.push(new Notebook(notebook_uuid, json.name, json.managers, json.date_created, json.date_modified, json.permissions, json.tags));
+		this.parent.getUser().notebooks.forEach(function(notebook_uuid) {
 
-						this.setState({notebookList : notebooks.slice()});
+			Utils.post("getNotebook", { user_hash : this.parent.getUser().user_hash, notebook_hash : notebook_uuid }, function(json) {
 
-						notebookCount--;
-						if(notebookCount === 0)
-						{
-							this.parent.setNotebooks(notebooks);
-						}
-					}.bind(this)).catch(function(error) {
-						this.setState({createReady : true});
-						console.log(error.message);
-					}.bind(this));
-				}.bind(this));
-/*
-			}.bind(this)).catch(function(error) {
-				console.log(error.message);
-				this.setState({createReady : true});
-			}.bind(this));*/
-		//}
-		//else
-		//{
-		//	this.setState({notebookList : this.parent.getNotebooks()});
-		//}
+				notebooks.push(new Notebook(notebook_uuid, json));
+
+				this.setState({ notebookList : notebooks.slice() });
+
+				notebookCount--;
+				if(notebookCount === 0)
+					this.parent.setNotebooks(notebooks);
+
+			}.bind(this));
+
+		}.bind(this));
 	}
 
 	notebookListSearch() {
@@ -116,7 +73,7 @@ export default class NotebooksView extends React.Component {
     }
 
     openNotebook(notebook) {
-	    this.setState({notebookList : this.state.notebookList.slice(), createNotebookState : "stateHide ", close : true});
+	    this.setState({ notebookList : this.state.notebookList.slice(), createNotebookState : "stateHide ", close : true });
 
 	    setTimeout(function(){
 		    this.callback(notebook);
@@ -124,7 +81,7 @@ export default class NotebooksView extends React.Component {
     }
 
     logout(event) {
-	    this.setState({notebookList : this.state.notebookList.slice(), createNotebookState : "stateHide ", close : true});
+	    this.setState({ notebookList : this.state.notebookList.slice(), createNotebookState : "stateHide ", close : true });
 
 	    setTimeout(function(){
             this.parent.logout(event);
@@ -168,17 +125,20 @@ class NotebookView extends React.Component {
 
 	componentDidMount() {
         setTimeout(function() {
-            this.setState({notebookState: "stateLoad stateTransition "});
+            this.setState({ notebookState: "stateLoad stateTransition " });
+
             setTimeout(function() {
                 if(this.state.notebookState === "stateLoad stateTransition ")
-                    this.setState({notebookState: ""});
+                    this.setState({ notebookState: "" });
+
             }.bind(this), 300);
+
         }.bind(this), 300);
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.visible !== this.props.visible) {
-            this.setState({notebookState: "stateExit stateTransition "});
+            this.setState({ notebookState: "stateExit stateTransition " });
         }
     }
 

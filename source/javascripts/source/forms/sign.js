@@ -1,10 +1,9 @@
-import * as form from "./form.js";
-import NotebookModel from "../models/notebook.js"
-import { TextInput } from "./dataentry.js";
-import { SubmitButton } from "./dataentry.js";
+import React from "../../lib/react.js";
+
+import TextInput from "./dataentry.js";
 export * from "./form.js";
 
-export class SignEntryForm extends React.Component {
+export default class SignEntryForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};

@@ -1,6 +1,7 @@
 import React from "../../lib/react.js";
 import Button from "./subviews/button.js";
 import * as Form from "../forms/form.js";
+import * as Utils from "../utils.js";
 
 export default class LoginView extends React.Component {
 	constructor(props) {
@@ -24,6 +25,7 @@ export default class LoginView extends React.Component {
 	componentDidMount() {
 		setTimeout(function() {
             this.setState({buttonState: "stateLoad stateTransition "});
+
             setTimeout(function() {
             	this.setState({buttonState: ""});
             }.bind(this), 300);
@@ -39,49 +41,23 @@ export default class LoginView extends React.Component {
         {
         	if(Form.InputEnum.EMAIL(this.storedValues["email"]) && Form.InputEnum.TEXT(this.storedValues["password"]))
 	        {
-		        fetch("http://endor-vm1.cs.purdue.edu/login", {
-			        method: "POST",
-			        headers: {
-				        "Accept": "application/json",
-				        "Content-Type": "application/json"
-			        },
-			        body: JSON.stringify({
-				        email : this.storedValues["email"],
-				        password : this.storedValues["password"]
-			        })
-		        }).then(function(response) {
-			        if(response.ok) {
-				        return response.json();
-			        }
-			        throw new Error("Network response was not ok.");
-		        }).then(function(json) {
-                    fetch("http://endor-vm1.cs.purdue.edu/user", {
-                        method: "POST",
-                        headers: {
-                            "Accept": "application/json",
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            user_hash : json.user_hash
-                        })
-                    }).then(function(response) {
-                        if(response.ok) {
-                            return response.json();
-                        }
-                        throw new Error("Network response was not ok.");
-                    }).then(function(json) {
-                        this.setState({buttonState : "stateExit stateTransition "});
-                        setTimeout(function(){
-                            this.callback(json);
-                        }.bind(this), 300);
-                    }.bind(this)).catch(function(error) {
-                        this.setState({buttonState: "stateLoginInvalid "});
-                        console.log(error.message);
-                    }.bind(this));
-		        }.bind(this)).catch(function(error) {
-			        this.setState({buttonState: "stateLoginInvalid "});
-			        console.log(error.message);
-		        }.bind(this));
+	        	const errorFunc = function(error) {
+			        this.setState({buttonState : "stateLoginInvalid "});
+		        }.bind(this);
+
+	        	Utils.post("login", { email : this.storedValues["email"], password : this.storedValues["password"] }, function(json) {
+
+	        		Utils.post("user", { user_hash : json.user_hash }, function(json) {
+
+				        this.setState({buttonState : "stateExit stateTransition "});
+
+				        setTimeout(function(){
+					        this.callback(json);
+				        }.bind(this), 300);
+
+			        }.bind(this), errorFunc);
+
+		        }.bind(this), errorFunc);
 	        }
 	        else
 	        {
@@ -91,6 +67,7 @@ export default class LoginView extends React.Component {
         else
         {
             this.setState({buttonState: ""});
+
             this.loginState = 0;
         }
     }

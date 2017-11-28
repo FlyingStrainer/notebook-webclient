@@ -1,4 +1,5 @@
-import * as form from "./form.js";
+import React from "../../lib/react.js";
+
 import DataEntryModel from '../models/dataentry.js';
 import TagsInput from "../../lib/react-tagsinput.js";
 

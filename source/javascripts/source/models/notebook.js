@@ -11,5 +11,15 @@ export default class Notebook
     this.tags = tags;
   }
 
+  constructor(uuid, json)
+  {
+    this.notebook_hash = uuid;
+    this.name = json.name;
+    this.managers = json.managers;
+    this.dateCreated = json.date_created;
+    this.dateModified = json.date_modified;
+    this.tags = json.tags;
+  }
+
 }
 

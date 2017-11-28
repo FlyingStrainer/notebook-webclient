@@ -1,7 +1,10 @@
+import React from "../../lib/react.js";
+
 import NotebookModel from "../models/notebook.js";
 import DataEntryModel from '../models/dataentry.js';
 export * from "./form.js";
-import { SignEntryFields } from "./sign.js";
+import SignEntryFields from "./sign.js";
+import * as Utils from "../utils.js";
 
 export default class CosignEntryForm extends React.Component {
 	constructor(props) {
@@ -22,33 +25,14 @@ export default class CosignEntryForm extends React.Component {
 	}
 
 	cosign() {
-		console.log("cosign");
+		Utils.post("cosignEntry", {
+			user_hash: this.entry["user_hash"],
+			notebook_hash: this.notebook["notebook_hash"],
+			entry_hash: this.entry["entry_hash"]
+		})
 
-		var body = JSON.stringify({
-                	user_hash: this.entry["user_hash"],
-	                notebook_hash: this.notebook["notebook_hash"],
-		         entry_hash: this.entry["entry_hash"]
-		});
-		console.log(body);
-		fetch('http://endor-vm1.cs.purdue.edu/cosignEntry', {
-			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: body
-		}).then(function(response){
-			if (response.ok) {
-				//var json = response.json();
-				//console.log(json);
-				//return json;
-			}
-			//console.log("Cosign failed");
-		});	
-
-		if (this.submitCallback) {
+		if (this.submitCallback)
 			this.submitCallback();
-		}
 	}
 
 	//<input className="forms header" id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>

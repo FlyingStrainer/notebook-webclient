@@ -1,6 +1,6 @@
-import * as form from "./form.js";
+import React from "../../lib/react.js";
+
 import NotebookModel from "../models/notebook.js"
-export * from "./form.js";
 
 export default class CreateNotebookForm extends React.Component {
 	constructor(props) {
@@ -42,9 +42,9 @@ class CreateNotebookFields  extends React.Component {
 			},
 			body: notebook
 		});
-		if(this.submitCallback) {
+
+		if(this.submitCallback)
 			this.submitCallback(notebook);
-		}
 	}
 
 	render() {
