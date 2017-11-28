@@ -152,7 +152,7 @@ class VENote extends React.Component {
 	}
 }
 
+//ReactDOM.render(<VENote view={document.body.className} />, document.getElementById("root"));
 document.addEventListener("DOMContentLoaded", function(event) {
-	ReactDOM.render(<DataEntryForm >, document.getElementById("root"));
-	//ReactDOM.render(<VENote view={document.body.className} />, document.getElementById("root"));
+	ReactDOM.render(<DataEntryForm />, document.getElementById("root"));
 });

@@ -63,7 +63,7 @@ export default class ToolbarView extends React.Component {
 
 	render() {
 		return <div className={this.state.toolbarState + "toolbar-view"}>
-            {this.hasBack === true ? <a className="toolbar--back" href="#" onClick={{this.testButton}, this.parent.backCallback(e))} /> : null}
+            {this.hasBack === true ? <a className="toolbar--back" href="#" onClick={this.testButton, this.parent.backCallback(e)} /> : null}
 			<div className="toolbar--title">
 				{this.name}
 			</div>
