@@ -8,7 +8,7 @@ import Notebooks from "./views/notebooks.js";
 import NotebookPages from "./views/pages.js";
 import React from "../lib/react.js";
 
-import PushNotification from "./views/subviews/pushnotification.js";
+import PushNotification from "./views/subviews/cosignnotification.js";
 
 import User from "./models/user.js";
 
@@ -153,6 +153,5 @@ class VENote extends React.Component {
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
-	ReactDOM.render(<DataEntryForm >, document.getElementById("root"));
-	//ReactDOM.render(<VENote view={document.body.className} />, document.getElementById("root"));
+	ReactDOM.render(<VENote />, document.getElementById("root"));
 });
