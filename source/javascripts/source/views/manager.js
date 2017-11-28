@@ -8,6 +8,15 @@ export default class ManagerView extends React.Component {
         super(props);
     }
 
+    componentDidMount() {
+        setTimeout(function() {
+            this.setState({buttonState: "stateLoad stateTransition "});
+            setTimeout(function() {
+                this.setState({buttonState: ""});
+            }.bind(this), 300);
+        }.bind(this), 300);
+    }
+
     render() {
         return (<div className="notebooks-view">
             <ToolbarView page={this.parent.getUser().company_name} parentHandler={this.parentToolbar} visible={this.state.close} hasBack={false}/>
