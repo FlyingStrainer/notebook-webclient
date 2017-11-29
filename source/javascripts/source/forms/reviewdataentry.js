@@ -30,8 +30,7 @@ export default class ReviewEntryForm extends React.Component {
                         <h3 className="data-entry--author">{this.state.entry.author}</h3>
                         <h4 className="data-entry--date">{this.state.entry.getDate()}</h4>
                         <p>{this.state.entry.text}</p>
-                        <img className="data-entry--image" src={this.state.entry.image} />
-                        <p className="data-entry--caption">{this.state.entry.caption}</p>
+			<CaptionedImage image={this.state.entry.image} caption={this.state.entry.caption} />
                     </div>
                     {this.permissions.manager ? <div className="form--half"><Button wrapperClass="cosign" type="submit" title="Cosign" onClick={e => (this.cosignCallback(this.entry, "cosign"))} /></div> : null}
                     {this.permissions.write && this.user.user_hash === this.state.entry.author ?
@@ -39,4 +38,19 @@ export default class ReviewEntryForm extends React.Component {
                 </div>}
         </form>);
     }
+}
+
+class CaptionedImage extends React.Component {
+	constructor(props) {
+		super(props);
+		this.image = props.image;
+		this.caption = props.caption;
+	}
+
+	render() {
+		return 	<div className="data-entry--captioned-image">
+            			<img className="data-entry--image" src={this.image} />
+            			<p className="data-entry--caption">{this.caption}</p>
+			</div>;
+	}
 }

@@ -93,8 +93,14 @@
   }
 
   .data-entry--image{
-    width: 100%;
+	  width: 100%;
   }  
+
+  .data-entry--captioned-image{
+    background-color: blue;
+    width: 80%;
+    float: right;
+  }
 }
 
 .stateShow.overlay--review-entry {
