@@ -29,7 +29,7 @@ export default class FeedbackForm extends React.Component {
 
 	render() {
 		return (<div className="dev-feedback-form">
-			<div className={this.state.overlayState + "overlay"} onClick={this.hideReviewEntry} />
+			<div className={this.state.overlayState + "overlay"} onClick={this.hideFeedback} />
 			<div className={this.state.overlayState + "overlay--feedback form-style"}>
 				<form>
 					<div className="form--textarea">

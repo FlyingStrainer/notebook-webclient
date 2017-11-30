@@ -4,50 +4,22 @@ export default class QueryView extends React.Component {
     constructor(props) {
         super(props);
 
-        this.parent = props.parentHandler;
-        this.name = props.page;
-        this.hasBack = props.hasBack;
-
-        this.state = {toolbarState : "stateLoad ", searchBarState : "stateHide "};
-
-        this.toggleSearchBar = this.toggleSearchBar.bind(this);
+        this.state = { queryState : "stateLoad " };
     }
 
-    componentDidMount() {
-        setTimeout(function() {
-            this.setState({toolbarState: "stateLoad stateTransition "});
-            setTimeout(function() {
-                this.setState({toolbarState: ""});
-            }.bind(this), 300);
-        }.bind(this), 300);
+    showQueryInput() {
+        this.setState({ queryState : "stateShow " });
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.visible !== this.props.visible) {
-            this.setState({toolbarState : "stateExit stateTransition "});
-        }
+    hideQueryInput() {
+        this.setState({ queryState : "stateHide " });
     }
-
-    toggleSearchBar(event) {
-        if(this.state.searchBarState === "stateHide")
-            this.setState({searchBarState : "stateShow "});
-        else
-            this.setState({searchBarState : "stateHide "});
-    }
-    /*<div className="toolbar--search-view">
-    <div className="form--text toolbar--search-bar"><input name="search" type="text" placeholder="Search" onChange={this.parent.searchHandler} /></div>
-    </div>*/
 
     render() {
-        return <div className={this.state.toolbarState + "toolbar-view"}>
-            {this.hasBack === true ? <a className="toolbar--back" href="#" onClick={e => (e.preventDefault(), this.parent.backCallback(e))} /> : null}
-            <div className="toolbar--title">
-                {this.name}
-            </div>
-            <div className="toolbar--right-icons">
-                <a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.parent.toggleSearchBar(e))} />
-                <a className="toolbar--logout" href="#" onClick={e => (e.preventDefault(), this.parent.logoutCallback(e))} />
-            </div>
+        return <div className="query--input form-style">
+            <form>
+                <div className="form--text"><input type="password" placeholder="Query..."  /></div>
+            </form>
         </div>
     }
 }
