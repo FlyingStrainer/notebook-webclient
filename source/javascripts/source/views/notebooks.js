@@ -101,7 +101,6 @@ export default class NotebooksView extends React.Component {
             <div data-intro="Click on an existing notebook to add or view data entries inside" data-step="2" className={this.state.notebookState + "list-view"}>
 	            {this.parent.getUser().permissions.create_notebooks ?
 	            <div data-intro="Click to create a new notebook" data-step="1" className="notebooks--notebook create" onClick={() => {
-                  introJs().start();
 	                if(this.parent.getUser().permissions.create_notebooks)
 	                    this.create_notebook.showCreateNotebook();
                 }}>

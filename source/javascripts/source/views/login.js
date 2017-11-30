@@ -37,7 +37,6 @@ export default class LoginView extends React.Component {
 	}
 
 	login(event) {
-      introJs().start(); 
 	    if(this.loginState === 0)
         {
         	if(Form.InputEnum.EMAIL(this.storedValues["email"]) && Form.InputEnum.TEXT(this.storedValues["password"]))
