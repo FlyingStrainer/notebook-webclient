@@ -101,8 +101,8 @@ export default class LoginView extends React.Component {
 		return (<div className={this.state.buttonState + "login-view form-container form-style"}>
 			<form>
 				<div className="form--label"><img src="./images/logo.png" alt="VENote" class="login--logo-image" width="600" /></div>
-				<div data-intro="If you already have an account, enter your existing email here" data-step="1" className="form--text login--email"><input name="email" type="text" placeholder="Email" onChange={this.handleChange} /></div>
-				<div data-intro="If you already have an account, enter your existing password here" data-step="2" className="form--text login--password"><input name="password" type="password" placeholder="Password" onChange={this.handleChange} /></div>
+				<div data-intro="Enter EMAIL associated with existing account" data-step="1" className="form--text login--email"><input name="email" type="text" placeholder="Email" onChange={this.handleChange} /></div>
+				<div data-intro="Enter PASSWORD associated with existing account" data-step="2" className="form--text login--password"><input name="password" type="password" placeholder="Password" onChange={this.handleChange} /></div>
 				<div className="form--label login--invalid"><a onClick={this.recover}>Your email/password was incorrect</a></div>
 				<div className="form--text register--password"><input name="confirmpassword" type="password" placeholder="Confirm Password" onChange={this.handleChange} /></div>
 				<div className="form--text register--company"><input name="companyid" type="number" placeholder="Company ID" onChange={this.handleChange} /></div>
