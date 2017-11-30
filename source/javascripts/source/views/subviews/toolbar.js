@@ -53,7 +53,20 @@ export default class ToolbarView extends React.Component {
     }
 
     shareCallback(event) {
-      prompt("Your share link -->", "http://myexamplesharenoteisthis");
+
+      const errorFunc = function(error) {
+        alert("error");
+      }.bind(this);
+
+      Utils.post("makePDF", { notebook_hash : this.parent.notebook_hash}, function(json) {
+
+        setTimeout(function(){
+          alert(json);
+        }.bind(this), 300);
+
+      }.bind(this), errorFunc);
+
+      // prompt("Your share link -->", this.parent.notebook_hash);
     }
 
 	render() {

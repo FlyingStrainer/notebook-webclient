@@ -28,7 +28,7 @@ export default class NotebookPagesView extends React.Component {
 		this.back = this.back.bind(this);
 		this.logout = this.logout.bind(this);
 
-        this.parentToolbar = { searchHandler : this.pageListSearch, backCallback : this.back, logoutCallback : this.logout };
+        this.parentToolbar = { searchHandler : this.pageListSearch, backCallback : this.back, logoutCallback : this.logout, notebook_hash : this.parent.getCurrentNotebook().notebook_hash };
         this.parentEntry = { reviewEntry : this.reviewEntry };
 	}
 
