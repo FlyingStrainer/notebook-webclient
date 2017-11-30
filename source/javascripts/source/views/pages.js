@@ -13,9 +13,7 @@ export default class NotebookPagesView extends React.Component {
 
 		this.parent = props.parentHandler;
 
-		this.notebook_permissions = this.parent.getUser().permissions.notebooks.find(function(notebook_permissions) {
-			return notebook_permissions.notebook_hash === this.parent.getCurrentNotebook().notebook_hash;
-		}.bind(this));
+		this.notebook_permissions = this.parent.getUser().permissions.notebooks[this.parent.getCurrentNotebook().notebook_hash];
 
 		this.state = { entriesList : [], pageState : "stateLoad ", close : false };
 

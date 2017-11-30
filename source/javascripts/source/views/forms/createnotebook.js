@@ -1,6 +1,8 @@
 import React from "../../../lib/react.js";
 
+import * as Form from "./form.js";
 import Button from "./button.js";
+import * as Utils from "../../utils.js";
 
 export default class CreateNotebookForm extends React.Component {
 
@@ -26,8 +28,14 @@ export default class CreateNotebookForm extends React.Component {
     }
 
 	register() {
-	    this.hideCreateNotebook();
-        this.submitCallback();
+		if(Form.InputEnum.TEXT(this.notebookNameInput.value)) {
+			Utils.post("addNotebook", {user_hash : this.user_hash, name : this.notebookNameInput.value}, function(json) {
+				if(this.state.overlayState === "stateShow ") {
+					this.hideCreateNotebook();
+					this.submitCallback(json);
+				}
+			}.bind(this));
+		}
     }
 
 	render() {

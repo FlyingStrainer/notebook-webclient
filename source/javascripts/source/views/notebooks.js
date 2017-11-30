@@ -70,9 +70,9 @@ export default class NotebooksView extends React.Component {
 
     }
 
-    register() {
-		console.log("REGISTER");
-
+    register(responseJson) {
+		this.setState({ notebookList : this.state.notebookList.concat(new Notebook(responseJson.notebook_hash, responseJson))});
+		this.parent.setNotebooks(this.state.notebookList);
     }
 
     openNotebook(notebook) {

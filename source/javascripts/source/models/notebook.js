@@ -12,7 +12,7 @@ export default class Notebook
 			this.managers = json.managers;
 			this.dateCreated = json.date_created;
 			this.dateModified = json.date_modified;
-			this.tags = json.tags;
+			this.tags = json.tagList;
 		}
 	}
 
