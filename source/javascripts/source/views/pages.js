@@ -79,8 +79,8 @@ export default class NotebookPagesView extends React.Component {
         }.bind(this));
     }
 
-	pageListSearch(event) {
-
+    pageListSearch(event) {
+	console.log("Searchity search");
     }
 
     toggleNewEntry(entry) {
@@ -127,7 +127,7 @@ export default class NotebookPagesView extends React.Component {
 
 	render() {
 		return <div className="pages">
-			<ToolbarView page={this.parent.getUser().company_name + " < " + this.parent.getCurrentNotebook().name} parentHandler={this.parentToolbar} visibile={this.state.close} hasBack={true} />
+			<ToolbarView page={this.parent.getUser().company_name + " < " + this.parent.getCurrentNotebook().name} parentHandler={this.parentToolbar} searchFunction={this.pageListSearch} visibile={this.state.close} hasBack={true} />
 			<div className="list-view">
 				{this.notebook_permissions.write ?
 				<div className="notebooks--notebook notebooks--create-notebook" onClick={this.toggleNewEntry}>

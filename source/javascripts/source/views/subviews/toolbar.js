@@ -35,6 +35,7 @@ export default class ToolbarView extends React.Component {
     }
 
     toggleSearchBar(event) {
+	console.log("Toggling SearchBar");
         if(this.state.searchBarState === "stateHide")
             this.setState({searchBarState : "stateShow "});
         else
@@ -51,7 +52,7 @@ export default class ToolbarView extends React.Component {
 				{this.name}
 			</div>
             <div className="toolbar--right-icons">
-                <a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.parent.toggleSearchBar(e))} />
+                <a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.toggleSearchBar(e))} />
                 <a className="toolbar--logout" href="#" onClick={e => (e.preventDefault(), this.parent.logoutCallback(e))} />
             </div>
 		</div>

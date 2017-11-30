@@ -93,7 +93,7 @@ export default class NotebooksView extends React.Component {
     }
 
     notebookListSearch() {
-	for (entry : openNotebook.dataEntries) {
+	for (let entry of openNotebook.dataEntries) {
 		console.log(entry);
 	}
     }
@@ -135,7 +135,7 @@ export default class NotebooksView extends React.Component {
 
 	render() {
 		return (<div className="notebooks-view">
-			<ToolbarView page={this.parent.getUser().company_name} parentHandler={this.parentToolbar} visible={this.state.close} hasBack={false}/>
+			<ToolbarView page={this.parent.getUser().company_name} parentHandler={this.parentToolbar} visible={this.state.close} searchFunction={this.notebookListSearch} hasBack={false}/>
             <div className="list-view">
 	            {this.parent.getUser().permissions.create_notebooks ?
 	            <div className="notebooks--notebook notebooks--create-notebook" onClick={this.toggleCreateNotebook}>
