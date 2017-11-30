@@ -38,7 +38,7 @@
   }
 
   .toolbar--right-icons {
-    width:140px;
+    /*width:140px;*/
     height:50px;
     float:right;
   }
@@ -50,6 +50,16 @@
 
     float:left;
     background: url("../images/search.png") no-repeat 30px 15px;
+    background-size: 20px;
+  }
+
+  .toolbar--share {
+    width:70px;
+    height:50px;
+    padding: 5px 10px 5px 20px;
+
+    float:left;
+    background: url("../images/share.png") no-repeat 30px 15px;
     background-size: 20px;
   }
 
