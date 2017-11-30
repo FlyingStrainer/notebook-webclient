@@ -97,10 +97,11 @@ export default class NotebooksView extends React.Component {
 
 	render() {
 		return (<div className="notebooks-view">
-			<ToolbarView page={this.parent.getUser().company_name} parentHandler={this.parentToolbar} visible={this.state.close} hasBack={false}/>
-            <div className={this.state.notebookState + "list-view"}>
+			<ToolbarView dataIntro="Click the Magnifying glass to search. Click the button to it's right to logout" dataStep="3" page={this.parent.getUser().company_name} parentHandler={this.parentToolbar} visible={this.state.close} hasBack={false}/>
+            <div data-intro="Click on an existing notebook to add or view data entries inside" data-step="2" className={this.state.notebookState + "list-view"}>
 	            {this.parent.getUser().permissions.create_notebooks ?
-	            <div className="notebooks--notebook create" onClick={() => {
+	            <div data-intro="Click to create a new notebook" data-step="1" className="notebooks--notebook create" onClick={() => {
+                  introJs().start();
 	                if(this.parent.getUser().permissions.create_notebooks)
 	                    this.create_notebook.showCreateNotebook();
                 }}>
