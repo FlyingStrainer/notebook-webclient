@@ -1,6 +1,6 @@
 import React from "../../lib/react.js";
 import Button from "./subviews/button.js";
-import * as Form from "../forms/form.js";
+import * as Form from "./forms/form.js";
 import * as Utils from "../utils.js";
 
 export default class LoginView extends React.Component {
@@ -49,7 +49,7 @@ export default class LoginView extends React.Component {
 
 	        		Utils.post("user", { user_hash : json.user_hash }, function(json) {
 
-				        this.setState({buttonState : "stateExit stateTransition "});
+				        this.setState({ buttonState : "stateExit stateTransition " });
 
 				        setTimeout(function(){
 					        this.callback(json);

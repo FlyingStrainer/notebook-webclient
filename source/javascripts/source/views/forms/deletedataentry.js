@@ -1,4 +1,4 @@
-import React from "../../lib/react.js";
+import React from "../../../lib/react.js";
 
 export default class DeleteDataEntryForm extends React.Component {
 	constructor(props) {

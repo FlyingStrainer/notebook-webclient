@@ -4,6 +4,7 @@ import Notebook from "../models/notebook.js";
 import Button from "./subviews/button.js";
 import * as Utils from "../utils.js";
 import User from "../models/user.js";
+import CreateNotebookForm from "./forms/createnotebook.js";
 
 export default class NotebooksView extends React.Component {
 	constructor(props) {
@@ -12,11 +13,9 @@ export default class NotebooksView extends React.Component {
 		this.parent = props.parentHandler;
 		this.callback = props.callback;
 
-		this.state = { notebookList : [], close : false, createNotebookState : "stateLoad " };
+		this.state = { notebookList : [], close : false, notebookState : "stateLoad " };
 
 		this.notebookListSearch = this.notebookListSearch.bind(this);
-
-		this.toggleCreateNotebook = this.toggleCreateNotebook.bind(this);
 
 		this.register = this.register.bind(this);
 
@@ -30,11 +29,25 @@ export default class NotebooksView extends React.Component {
 
 	componentDidMount() {
 		let notebookCount = this.parent.getUser().notebooks.length;
-		let notebooks = [];
+		const notebooks = [];
+
+		let flag = false;
+
+        setTimeout(function() {
+                this.setState({ notebookState: "stateLoad stateTransition " });
+
+                setTimeout(function() {
+                    if(this.state.notebookState === "stateLoad stateTransition ")
+                        this.setState({ notebookState: "" });
+
+                }.bind(this), 300);
+        }.bind(this), 300);
 
 		this.parent.getUser().notebooks.forEach(function(notebook_uuid) {
 
 			Utils.post("getNotebook", { user_hash : this.parent.getUser().user_hash, notebook_hash : notebook_uuid }, function(json) {
+
+				flag = true;
 
 				notebooks.push(new Notebook(notebook_uuid, json));
 
@@ -47,33 +60,26 @@ export default class NotebooksView extends React.Component {
 			}.bind(this));
 
 		}.bind(this));
+
+		if(!flag) {
+			this.setState({ notebookList : this.parent.getNotebooks() });
+		}
 	}
 
 	notebookListSearch() {
 
     }
 
-    toggleCreateNotebook() {
-        if((this.state.createNotebookState === "stateHide " || this.state.createNotebookState === "stateLoad ") && this.parent.getUser().permissions.create_notebooks)
-        {
-        	this.notebookNameInput.value = "";
-	        this.setState({createNotebookState : "stateShow "});
-        }
-        else
-        {
-	        this.setState({createNotebookState : "stateHide "});
-        }
-    }
-
     register() {
 		console.log("REGISTER");
 
-		this.notebookNameInput.value = "";
-		this.setState({createNotebookState : "stateHide "});
     }
 
     openNotebook(notebook) {
-	    this.setState({ notebookList : this.state.notebookList.slice(), createNotebookState : "stateHide ", close : true });
+	    console.log(this.state.notebookList);
+        this.create_notebook.hideCreateNotebook();
+	    this.setState({ notebookState : "stateExit stateTransition ", close : true });
+        console.log(this.state.notebookList);
 
 	    setTimeout(function(){
 		    this.callback(notebook);
@@ -81,7 +87,8 @@ export default class NotebooksView extends React.Component {
     }
 
     logout(event) {
-	    this.setState({ notebookList : this.state.notebookList.slice(), createNotebookState : "stateHide ", close : true });
+	    this.create_notebook.hideCreateNotebook();
+	    this.setState({ notebookState : "stateExit stateTransition ", close : true });
 
 	    setTimeout(function(){
             this.parent.logout(event);
@@ -91,24 +98,21 @@ export default class NotebooksView extends React.Component {
 	render() {
 		return (<div className="notebooks-view">
 			<ToolbarView page={this.parent.getUser().company_name} parentHandler={this.parentToolbar} visible={this.state.close} hasBack={false}/>
-            <div className="list-view">
+            <div className={this.state.notebookState + "list-view"}>
 	            {this.parent.getUser().permissions.create_notebooks ?
-	            <div className="notebooks--notebook notebooks--create-notebook" onClick={this.toggleCreateNotebook}>
-		            <div className="notebook--create-icon" />
+	            <div className="notebooks--notebook create" onClick={() => {
+	                if(this.parent.getUser().permissions.create_notebooks)
+	                    this.create_notebook.showCreateNotebook();
+                }}>
+		            <div className="create-icon" />
 	            </div> : null}
                 <div className="notebooks--notebook-list">
                     {this.state.notebookList.map(notebook => (
-                        <NotebookView parentHandler={this.parentNotebook} notebook={notebook} visible={this.state.close}/>
+                        <NotebookView parentHandler={this.parentNotebook} notebook={notebook} visible={this.state.close} key={notebook.notebook_hash}/>
                     ))}
                 </div>
             </div>
-			<div className={this.state.createNotebookState + "overlay"} onClick={this.toggleCreateNotebook} />
-			<div className={this.state.createNotebookState + "overlay--create-notebook form-style"} onClick={e => (e.stopPropagation())}>
-				<form>
-					<div className="form--text notebooks--name"><input name="name" type="text" placeholder="Notebook Name" onChange={this.handleChange} ref={(input) => {this.notebookNameInput = input}}/></div>
-					<Button wrapperClass="notebooks--create" type="submit" title="Create Notebook" onClick={this.register}/>
-				</form>
-			</div>
+            <CreateNotebookForm user_hash={this.parent.getUser().user_hash} submitCallback={this.register} ref={form => (this.create_notebook = form)} />
 		</div>);
 	}
 }
@@ -124,22 +128,22 @@ class NotebookView extends React.Component {
 	}
 
 	componentDidMount() {
+	    this.mounted = true;
         setTimeout(function() {
-            this.setState({ notebookState: "stateLoad stateTransition " });
+            if(this.mounted) {
+                this.setState({ notebookState: "stateLoad stateTransition " });
 
-            setTimeout(function() {
-                if(this.state.notebookState === "stateLoad stateTransition ")
-                    this.setState({ notebookState: "" });
+                setTimeout(function() {
+                    if(this.mounted && this.state.notebookState === "stateLoad stateTransition ")
+                        this.setState({ notebookState: "" });
 
-            }.bind(this), 300);
-
+                }.bind(this), 300);
+            }
         }.bind(this), 300);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.visible !== this.props.visible) {
-            this.setState({ notebookState: "stateExit stateTransition " });
-        }
+    componentWillUnmount() {
+	    this.mounted = false;
     }
 
     render() {

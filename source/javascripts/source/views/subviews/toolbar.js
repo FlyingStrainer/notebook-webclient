@@ -1,5 +1,7 @@
 import React from "../../../lib/react.js";
 
+import * as Utils from "../../utils.js";
+
 export default class ToolbarView extends React.Component {
 	constructor(props) {
 		super(props);
@@ -8,7 +10,7 @@ export default class ToolbarView extends React.Component {
 		this.name = props.page;
 		this.hasBack = props.hasBack;
 
-		this.state = {toolbarState : "stateLoad ", searchBarState : "stateHide "};
+		this.state = { toolbarState : "stateLoad ", searchBarState : "stateHide " };
 
 		this.toggleSearchBar = this.toggleSearchBar.bind(this);
 		this.testButton = this.testButton.bind(this);
@@ -24,12 +26,8 @@ export default class ToolbarView extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-	    if(nextProps.visible !== this.props.visible) {
-	        this.setState({toolbarState : "stateExit stateTransition "});
-        }
-        else if(nextProps.visible !== this.props.visible) {
-            this.setState({toolbarState : "stateExit stateTransition "});
-        }
+	    if(nextProps.visible !== this.props.visible)
+	        this.setState({ toolbarState : "stateExit stateTransition " });
     }
 
     testButton() {
@@ -46,10 +44,7 @@ export default class ToolbarView extends React.Component {
     }
 
     toggleSearchBar(event) {
-        if(this.state.searchBarState === "stateHide")
-            this.setState({searchBarState : "stateShow "});
-        else
-            this.setState({searchBarState : "stateHide "});
+	    this.setState({ searchBarState : Utils.showHide(this.state.searchBarState) });
     }
 
 	render() {

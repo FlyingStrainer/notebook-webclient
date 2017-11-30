@@ -2,7 +2,7 @@ import React from "../../../lib/react.js";
 import Button from "./button.js";
 
 import DataEntry from "../../models/dataentry.js";
-import Cosign from "../../forms/cosign.js";
+import Cosign from "../forms/cosign.js";
 import * as Utils from "../../utils.js";
 
 export default class PushNotification extends React.Component {
@@ -57,14 +57,13 @@ export default class PushNotification extends React.Component {
 		return (<div className="push--notification">
 			<div className={this.state.stateNotification + "push--notification--box form-style"}>
 				<form>
-					<Button wrapperClass="notification--cosign" type="submit" title="Cosign Data Entry" onClick={this.toggleCosign}/>
+                    <div className="form--label"><img src="./images/cosign.png" alt="Cosign" width="64" onClick={this.toggleCosign} /></div>
 				</form>
 			</div>
-			<div className={this.state.stateCosign + "overlay"} onClick={this.toggleCosign}>
-				<div className="overlay--cosign-entry form-style" onClick={e => (e.stopPropagation())}>
-					{this.state.entry === false ? null : <Cosign submitCallback={this.toggleCosign} />}
-				</div>
-			</div>
+			<div className={this.state.stateCosign + "overlay"} onClick={this.toggleCosign} />
+            <div className={this.state.stateCosign + "overlay--cosign-entry form-style"} onClick={e => (e.stopPropagation())}>
+                {this.state.entry === false ? null : <Cosign submitCallback={this.toggleCosign} />}
+            </div>
 		</div>);
 	}
 }

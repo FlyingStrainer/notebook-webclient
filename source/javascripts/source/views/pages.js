@@ -1,6 +1,6 @@
 import DataEntry from "../models/dataentry.js";
-import DataEntryForm from "../forms/dataentry.js";
-import ReviewEntryForm from "../forms/reviewdataentry.js";
+import CreateEntryForm from "./forms/createdataentry.js";
+import ReviewEntryForm from "./forms/reviewdataentry.js";
 
 import React from "../../lib/react.js";
 import ToolbarView from "./subviews/toolbar.js";
@@ -17,21 +17,36 @@ export default class NotebookPagesView extends React.Component {
 			return notebook_permissions.notebook_hash === this.parent.getCurrentNotebook().notebook_hash;
 		}.bind(this));
 
-		this.state = { entriesList : [], newEntryState : "stateLoad ", deleteEntry : undefined, deleteEntryState : "stateLoad ", close : false };
+		this.state = { entriesList : [], pageState : "stateLoad ", close : false };
 
 		this.pageListSearch = this.pageListSearch.bind(this);
 
-		this.toggleNewEntry = this.toggleNewEntry.bind(this);
-		this.toggleDeleteEntry = this.toggleDeleteEntry.bind(this);
+		this.register = this.register.bind(this);
+		this.redact = this.redact.bind(this);
+		this.cosign = this.cosign.bind(this);
+
+		this.reviewEntry = this.reviewEntry.bind(this);
 
 		this.back = this.back.bind(this);
 		this.logout = this.logout.bind(this);
 
         this.parentToolbar = { searchHandler : this.pageListSearch, backCallback : this.back, logoutCallback : this.logout };
-        this.parentEntry = { toggleDeleteEntry : this.toggleDeleteEntry };
+        this.parentEntry = { reviewEntry : this.reviewEntry };
 	}
 
 	componentDidMount() {
+	    const entryList = [];
+
+        setTimeout(function() {
+            this.setState({ pageState : "stateLoad stateTransition " });
+
+            setTimeout(function() {
+                if(this.state.pageState === "stateLoad stateTransition ")
+                    this.setState({ pageState : "" });
+
+            }.bind(this), 300);
+        }.bind(this), 300);
+
 		Utils.post("getEntries", { user_hash : this.parent.getUser(),  notebook_hash : this.parent.getCurrentNotebook().notebook_hash }, function(json) {
 
 			json.data_entries.forEach(function(entry_uuid) {
@@ -42,7 +57,9 @@ export default class NotebookPagesView extends React.Component {
 					entry_hash : entry_uuid
 				}, function(json) {
 
-					this.setState({ entriesList : this.state.entriesList.concat(new DataEntry(entry_uuid, json)) });
+                    entryList.push(new DataEntry(entry_uuid, json));
+
+					this.setState({ entriesList : entryList.slice() });
 
 				}.bind(this));
 
@@ -55,21 +72,27 @@ export default class NotebookPagesView extends React.Component {
 
     }
 
-    toggleNewEntry(entry) {
-		if(entry !== undefined && entry.text !== undefined)
-		{
-			this.setState({ entriesList : this.state.entriesList.concat(entry) });
-		}
+    register() {
 
-		this.setState({ newEntryState : Utils.showHide(this.state.newEntryState) });
     }
 
-    toggleDeleteEntry(entry, mode) {
-		this.setState({ deleteEntry : entry, deleteEntryState : Utils.showHide(this.state.deleteEntryState) });
+    redact() {
+
+    }
+
+    cosign() {
+
+    }
+
+    reviewEntry(entry) {
+	    this.review_entry.setReviewEntry(entry);
+	    this.review_entry.showReviewEntry();
     }
 
     back(event) {
-	    this.setState({ entriesList : this.state.entriesList.slice(), close : true });
+	    this.create_entry.hideNewEntry();
+        this.review_entry.hideReviewEntry();
+	    this.setState({ pageState : "stateExit stateTransition ", close : true });
 
 	    setTimeout(function(){
 		    this.parent.back(event);
@@ -77,7 +100,9 @@ export default class NotebookPagesView extends React.Component {
     }
 
 	logout(event) {
-	    this.setState({ entriesList : this.state.entriesList.slice(), close : true });
+        this.create_entry.hideNewEntry();
+        this.review_entry.hideReviewEntry();
+	    this.setState({ pageState : "stateExit stateTransition ", close : true });
 
         setTimeout(function(){
             this.parent.logout(event);
@@ -86,32 +111,35 @@ export default class NotebookPagesView extends React.Component {
 
 	render() {
 		return <div className="pages">
-			<ToolbarView page={this.parent.getUser().company_name + " < " + this.parent.getCurrentNotebook().name} parentHandler={this.parentToolbar} visibile={this.state.close} hasBack={true} />
-			<div className="list-view">
+			<ToolbarView page={this.parent.getUser().company_name + " < " + this.parent.getCurrentNotebook().name} parentHandler={this.parentToolbar} visible={this.state.close} hasBack={true} />
+			<div className={this.state.pageState + "list-view"}>
 				{this.notebook_permissions.write ?
-				<div className="notebooks--notebook notebooks--create-notebook" onClick={this.toggleNewEntry}>
-					<div className="notebook--create-icon" />
+				<div className="entries--entry create" onClick={() => {
+				    if(this.notebook_permissions.write)
+				        this.create_entry.showNewEntry();
+				}}>
+					<div className="create-icon" />
 				</div> : null}
 				<div className="pages--entry-list">
 					{this.state.entriesList.map(entry => (
-						<PageView parentHandler={this.parentEntry} entry={entry} visible={this.state.close}/>
+						<PageView parentHandler={this.parentEntry} entry={entry} visible={this.state.close} key={entry.entry_hash} />
 					))}
 				</div>
 			</div>
-            <div className={this.state.newEntryState + "overlay"} onClick={this.toggleNewEntry} />
-			<div className={this.state.newEntryState + "overlay--new-entry form-style"} onClick={e => (e.stopPropagation())}>
-				<DataEntryForm submitCallback={this.toggleNewEntry} />
-			</div>
-            <div className={this.state.deleteEntryState + "overlay"} onClick={this.toggleDeleteEntry} />
-			<div className={this.state.deleteEntryState + "overlay--review-entry form-style"} onClick={e => {e.stopPropagation()}}>
-				<ReviewEntryForm entry={this.state.deleteEntry} user={this.parent.getUser()} permissions={this.notebook_permissions}
-				                 deleteCallback={this.toggleDeleteEntry} cosignCallback={this.toggleDeleteEntry} />
-			</div>
+
+            <CreateEntryForm create={this.notebook_permissions.write}
+                             user_hash={this.parent.getUser().user_hash} notebook_hash={this.parent.getCurrentNotebook().notebook_hash}
+                             submitCallback={this.register} ref={form => (this.create_entry = form)}/>
+
+            <ReviewEntryForm user_hash={this.parent.getUser().user_hash} notebook_hash={this.parent.getCurrentNotebook().notebook_hash}
+                             notebook_permissions={this.notebook_permissions} deleteCallback={this.redact} cosignCallback={this.cosign}
+                             ref={form => (this.review_entry = form)}/>
 		</div>
 	}
 }
 
 class PageView extends React.Component {
+
 	constructor(props) {
 		super(props);
 
@@ -122,26 +150,28 @@ class PageView extends React.Component {
 	}
 
 	componentDidMount() {
+	    this.mounted = true;
 		setTimeout(function() {
-			this.setState({ entryState: "stateLoad stateTransition " });
+		    if(this.mounted) {
+                this.setState({ entryState: "stateLoad stateTransition " });
 
-			setTimeout(function() {
-				if(this.state.entryState === "stateLoad stateTransition ")
-					this.setState({entryState: ""});
+                setTimeout(function() {
+                    if(this.mounted && this.state.entryState === "stateLoad stateTransition ")
+                        this.setState({ entryState: "" });
 
-			}.bind(this), 300);
+                }.bind(this), 300);
+            }
 		}.bind(this), 300);
 	}
 
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.visible !== this.props.visible)
-			this.setState({notebookState: "stateExit stateTransition "});
-	}
+	componentWillUnmount() {
+	    this.mounted = false;
+    }
 
 	render() {
-		return (<a className={this.state.entryState + "entries--entry"} onClick={e => (e.preventDefault(), this.parent.toggleDeleteEntry(this.entry))}>
+		return (<a className={this.state.entryState + "entries--entry"} onClick={e => (e.preventDefault(), this.parent.reviewEntry(this.entry))}>
 			<div className="entry--title">{this.entry.author}</div>
-            <div className="entry--date">{this.entry.getDate()}</div>
+            <div className="entry--date">{this.entry.date_created}</div>
 			<div className="notebook--scribbles" />
 		</a>);
 	}

@@ -1,6 +1,6 @@
-import React from "../../lib/react.js";
+import React from "../../../lib/react.js";
 
-import TextInput from "./dataentry.js";
+import TextInput from "./createdataentry.js";
 export * from "./form.js";
 
 export default class SignEntryForm extends React.Component {
@@ -45,11 +45,6 @@ export default class SignEntryForm extends React.Component {
 	//<input className="forms header" id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
 	render() {
 		return 	<div>
-				<div className="forms header" id="container">
-					<h1 className="forms header" id="header-text">Sign Entry</h1>
-				</div>
-				<br />
-				<br />
 				<SignEntryFields submitCallback={this.sign} author={this.author}/>
 			</div>;
 	}

@@ -1,10 +1,10 @@
-import React from "../../lib/react.js";
+import React from "../../../lib/react.js";
 
-import NotebookModel from "../models/notebook.js";
-import DataEntryModel from '../models/dataentry.js';
+import NotebookModel from "../../models/notebook.js";
+import DataEntryModel from '../../models/dataentry.js';
 export * from "./form.js";
 import SignEntryFields from "./sign.js";
-import * as Utils from "../utils.js";
+import * as Utils from "../../utils.js";
 
 export default class CosignEntryForm extends React.Component {
 	constructor(props) {

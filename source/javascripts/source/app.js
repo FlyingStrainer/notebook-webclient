@@ -1,16 +1,15 @@
-import pages from "./views/pages.js";
-import { DataEntryForm } from "./forms/dataentry.js";
-import { SignEntryForm } from "./forms/sign.js";
-import { CosignEntryForm } from "./forms/cosign.js";
+import React from "../lib/react.js";
+
 import LoginView from "./views/login.js";
 import Notebook from "./models/notebook.js";
 import Notebooks from "./views/notebooks.js";
 import NotebookPages from "./views/pages.js";
-import React from "../lib/react.js";
 
 import PushNotification from "./views/subviews/cosignnotification.js";
 
 import User from "./models/user.js";
+import ManagerView from "./views/manager"
+import DevFeedbackView from "./views/subviews/devfeedback";
 
 class VENote extends React.Component {
 	constructor(props) {
@@ -33,10 +32,10 @@ class VENote extends React.Component {
 					manager : true
 				}]
 		}, "SCC", ["--notebook-key-1", "--notebook-key-2"]);
-		this.notebooks = [new Notebook("--notebook-key-1", "Notebook name 1", [], new Date(), new Date(), null, null)];
+		this.notebooks = [new Notebook("--notebook-key-1", { name : "Notebook name 1", managers : [], date_created : new Date(), date_modified : new Date(), tags : []})];
 		this.currentNotebook = this.notebooks[0];
 
-		this.state = {view : props.view, pushView : false};
+		this.state = { view : props.view, pushView : false};
 
 		this.login = this.login.bind(this);
 		this.getUser = this.getUser.bind(this);
@@ -50,16 +49,12 @@ class VENote extends React.Component {
 		this.back = this.back.bind(this);
 		this.logout = this.logout.bind(this);
 
-		this.parentHandler = {getUser : this.getUser, getNotebooks : this.getNotebooks, setNotebooks : this.setNotebooks,
-                                getCurrentNotebook : this.getCurrentNotebook, back : this.back, logout : this.logout};
+		this.parentHandler = { getUser : this.getUser, getNotebooks : this.getNotebooks, setNotebooks : this.setNotebooks,
+                                getCurrentNotebook : this.getCurrentNotebook, back : this.back, logout : this.logout };
 	}
 
 	login(responseJson) {
-		//user_hash
-		//notebooks -> Array [uuid, name, creation_date, modified_date, ]
-
-		//this.user = new User(responseJson.user_hash, responseJson.permissions, responseJson.company_name, responseJson.notebooks);
-
+	    console.log(responseJson);
 		if(this.user.permissions.role === "manager")
 		{
 			this.socket = new WebSocket("ws://endor-vm1.cs.purdue.edu/");
@@ -92,7 +87,7 @@ class VENote extends React.Component {
 			}.bind(this);
 		}
 
-		this.setState({view : "notebookView"});
+		this.setState({ view : "notebookView" });
 	}
 
 	getUser() {
@@ -100,10 +95,8 @@ class VENote extends React.Component {
 	}
 
 	notebook(notebook) {
-        console.log(this.notebooks);
         this.currentNotebook = notebook;
-        console.log(this.currentNotebook);
-        this.setState({view : "pageView"});
+        this.setState({ view : "pageView" });
 	}
 
 	getNotebooks() {
@@ -137,14 +130,18 @@ class VENote extends React.Component {
             this.socket = undefined;
         }
 
-        this.setState({view : "", pushView : false});
+        this.setState({view : "", pushView : false, feedbackView : false});
 	}
 
 	render() {
 		return (<div id="venoteview">
 			<div id="renderview">{this.state.view === "notebookView" ? <Notebooks callback={this.notebook} parentHandler={this.parentHandler}/>
 				: this.state.view === "pageView" ? <NotebookPages parentHandler={this.parentHandler} /> :
+					this.state.view === "managerView" ? <ManagerView parentHandler={this.parentHandler} /> :
                     <LoginView callback={this.login} />}</div>
+            <div id="feedbackview">
+                {this.state.view !== "" ? <DevFeedbackView parentHandler={this.parentHandler} /> : null}
+            </div>
 			<div id="pushview">
 				{this.state.pushView ? <PushNotification parentHandler={this.parentHandler} data={this.push_data} /> : null}
 			</div>
@@ -153,5 +150,5 @@ class VENote extends React.Component {
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
-	ReactDOM.render(<VENote />, document.getElementById("root"));
+	ReactDOM.render(<VENote view={ document.body.className } />, document.getElementById("root"));
 });
