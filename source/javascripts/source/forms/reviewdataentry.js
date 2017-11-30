@@ -13,7 +13,12 @@ export default class ReviewEntryForm extends React.Component {
         this.deleteCallback = props.deleteCallback;
         this.cosignCallback = props.cosignCallback;
 
+	// 0 = inline, 1 = below text
+	this.formattingRule = props.format;
+	this.formattingRule = 1; // REMOVE -- For testing
+
         this.state = {entry : undefined};
+	this.formatTextAndImage.bind(this);
     }
 
 	componentWillReceiveProps(nextProps) {
@@ -21,7 +26,22 @@ export default class ReviewEntryForm extends React.Component {
 
 		this.setState({entry : nextProps.entry});
 	}
-
+    formatTextAndImage() {
+	if(this.formattingRule == 0) {
+		// CaptionedImage here for inline formatting
+		return <div>
+				<CaptionedImage image={this.state.entry.image} caption={this.state.entry.caption} />
+                		<p>{this.state.entry.text}</p>
+			</div>
+	}
+	else if(this.formattingRule == 1) {
+		// CaptionedImage here for images below text
+		return <div>
+        	        	<p>{this.state.entry.text}</p>
+				<CaptionedImage image={this.state.entry.image} caption={this.state.entry.caption} />
+			</div>
+	}
+    }
     render() {
         return (<form>
             {this.state.entry === undefined ? null :
@@ -29,8 +49,7 @@ export default class ReviewEntryForm extends React.Component {
                     <div className="data-entry--background">
                         <h3 className="data-entry--author">{this.state.entry.author}</h3>
                         <h4 className="data-entry--date">{this.state.entry.getDate()}</h4>
-                        <p>{this.state.entry.text}</p>
-			<CaptionedImage image={this.state.entry.image} caption={this.state.entry.caption} />
+			{this.formatTextAndImage()}
                     </div>
                     {this.permissions.manager ? <div className="form--half"><Button wrapperClass="cosign" type="submit" title="Cosign" onClick={e => (this.cosignCallback(this.entry, "cosign"))} /></div> : null}
                     {this.permissions.write && this.user.user_hash === this.state.entry.author ?

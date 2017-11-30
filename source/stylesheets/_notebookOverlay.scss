@@ -90,6 +90,8 @@
 
   .data-entry--background {
     background-color: lightgray;
+    display: inline-block;
+    overflow: auto;
   }
 
   .data-entry--image{
@@ -97,8 +99,8 @@
   }  
 
   .data-entry--captioned-image{
-    background-color: blue;
-    width: 80%;
+    display: inline;
+    width: 200px;
     float: right;
   }
 }
