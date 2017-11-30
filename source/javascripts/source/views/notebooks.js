@@ -1,7 +1,7 @@
 import React from "../../lib/react.js";
 import ToolbarView from "./subviews/toolbar";
 import Notebook from "../models/notebook.js";
-import Button from "./subviews/button.js";
+import Button from "./forms/button.js";
 import * as Utils from "../utils.js";
 import User from "../models/user.js";
 import CreateNotebookForm from "./forms/createnotebook.js";

@@ -1,6 +1,6 @@
 import React from "../../../lib/react.js";
 
-import Button from "../subviews/button.js";
+import Button from "./button.js";
 
 export default class CreateNotebookForm extends React.Component {
 

@@ -2,7 +2,7 @@ import React from "../../../lib/react.js";
 
 import DataEntryModel from '../../models/dataentry.js';
 import TagsInput from "../../../lib/react-tagsinput.js";
-import Button from "../subviews/button";
+import Button from "./button";
 
 export default class DataEntryForm extends React.Component {
 	constructor(props) {

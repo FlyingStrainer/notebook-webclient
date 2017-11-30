@@ -1,5 +1,5 @@
 import React from "../../../lib/react.js";
-import Button from "./button.js";
+import Button from "../forms/button.js";
 
 import DataEntry from "../../models/dataentry.js";
 import Cosign from "../forms/cosign.js";

@@ -1,6 +1,6 @@
 import React from "../../lib/react.js";
 import ToolbarView from "./subviews/toolbar";
-import Button from "./subviews/button.js";
+import Button from "./forms/button.js";
 
 export default class ManagerView extends React.Component {
 

@@ -14,7 +14,7 @@
     }
   }
 
-  .form--label.login--invalid {
+  .login--invalid, .login--bad-email, .login--no-password, .recover--invalid, .register--match-password, .register--invalid {
     display: none;
   }
 
@@ -115,10 +115,9 @@
   @include transition(left 300ms 0ms, opacity 300ms 0ms);
 }
 
-.login-view.stateLoginInvalid {
-  .form--label.login--invalid {
+.login-view.stateLoginInvalid .login--invalid, .login-view.stateBadEmail .login--bad-email, .login-view.stateNoPassword .login--no-password,
+.login-view.stateRecoverInvalid .recover--invalid, .login-view.stateMatchPassword .register--match-password, .login-view.stateRegisterInvalid .register--invalid {
     display: inline;
-  }
 }
 
 .login-view.stateRecovery {

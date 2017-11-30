@@ -1,6 +1,6 @@
 import React from "../../../lib/react.js";
 
-import Button from "../subviews/button";
+import Button from "./button";
 
 export default class ReviewEntryForm extends React.Component {
     constructor(props) {
