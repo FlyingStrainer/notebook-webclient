@@ -18,7 +18,7 @@ export default class QueryView extends React.Component {
     render() {
         return <div className="query--input form-style">
             <form>
-                <div className="form--text"><input type="password" placeholder="Query..."  /></div>
+                <div className="form--text"><input type="text" placeholder="Query ..." /></div>
             </form>
         </div>
     }

@@ -54,7 +54,11 @@ class VENote extends React.Component {
 	}
 
 	login(responseJson) {
+		console.log("LOGIN")
 	    console.log(responseJson);
+	    this.user = new User(responseJson.user_hash, responseJson.permissions, responseJson.company_name, responseJson.notebook_list);
+	    console.log(this.user);
+	    this.notebooks = this.user.notebooks;
 		if(this.user.permissions.role === "manager")
 		{
 			this.socket = new WebSocket("ws://endor-vm1.cs.purdue.edu/");

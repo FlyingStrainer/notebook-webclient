@@ -18,8 +18,6 @@ export default class LoginView extends React.Component {
 		this.login = this.login.bind(this);
 		this.recover = this.recover.bind(this);
 		this.register = this.register.bind(this);
-
-		console.log("LOGIN VIEW");
 	}
 
 	componentDidMount() {
