@@ -37,6 +37,7 @@ export default class LoginView extends React.Component {
 	}
 
 	login(event) {
+      introJs().start(); 
 	    if(this.loginState === 0)
         {
         	if(Form.InputEnum.EMAIL(this.storedValues["email"]) && Form.InputEnum.TEXT(this.storedValues["password"]))
@@ -100,16 +101,17 @@ export default class LoginView extends React.Component {
 		return (<div className={this.state.buttonState + "login-view form-container form-style"}>
 			<form>
 				<div className="form--label"><img src="./images/logo.png" alt="VENote" class="login--logo-image" width="600" /></div>
-				<div className="form--text login--email"><input name="email" type="text" placeholder="Email" onChange={this.handleChange} /></div>
-				<div className="form--text login--password"><input name="password" type="password" placeholder="Password" onChange={this.handleChange} /></div>
+				<div data-intro="If you already have an account, enter your existing email here" data-step="1" className="form--text login--email"><input name="email" type="text" placeholder="Email" onChange={this.handleChange} /></div>
+				<div data-intro="If you already have an account, enter your existing password here" data-step="2" className="form--text login--password"><input name="password" type="password" placeholder="Password" onChange={this.handleChange} /></div>
 				<div className="form--label login--invalid"><a onClick={this.recover}>Your email/password was incorrect</a></div>
 				<div className="form--text register--password"><input name="confirmpassword" type="password" placeholder="Confirm Password" onChange={this.handleChange} /></div>
 				<div className="form--text register--company"><input name="companyid" type="number" placeholder="Company ID" onChange={this.handleChange} /></div>
 
-				<Button wrapperClass="login" type="submit" title="Login" onClick={this.login}/>
+				<Button dataIntro="Click on LOGIN to enter the account associated with email and password" dataStep="3" wrapperClass="login" type="submit" title="Login" onClick={this.login}/>
 				<Button wrapperClass="login--recover" type="submit" title="Recover" onClick={this.recover}/>
-				<Button wrapperClass="login--register" type="submit" title="Register" onClick={this.register}/>
+				<Button dataIntro="Click on REGISTER to create a new account" dataStep="4" wrapperClass="login--register" type="submit" title="Register" onClick={this.register}/>
 			</form>
-		</div>);
+		</div>
+    );
 	}
 }
