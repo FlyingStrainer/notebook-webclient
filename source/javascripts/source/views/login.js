@@ -103,7 +103,7 @@ export default class LoginView extends React.Component {
 							}.bind(this), function(error) {
 								console.log(error);
 							}.bind(this));
-						});
+						}.bind(this));
 
 					}
 					else {
@@ -132,7 +132,7 @@ export default class LoginView extends React.Component {
 					<div data-intro="Enter PASSWORD associated with existing account" data-step="2" className="introLogin form--text login--password"><input name="password" type="password" placeholder="Password" onChange={this.handleChange} /></div>
 					<div className="form--label login--invalid"><a onClick={this.recover}>Your email/password was incorrect</a></div>
 					<div className="form--text register--password"><input name="confirmpassword" type="password" placeholder="Confirm Password" onChange={this.handleChange} /></div>
-					<div className="form--text register--company"><input name="companyid" type="number" placeholder="Company ID" onChange={this.handleChange} /></div>
+					<div className="form--text register--company"><input name="companyid" type="text" placeholder="Company" onChange={this.handleChange} /></div>
 
 					<div className="form--label login--bad-email">Your email is not valid</div>
 					<div className="form--label login--no-password">You didn't enter a password</div>

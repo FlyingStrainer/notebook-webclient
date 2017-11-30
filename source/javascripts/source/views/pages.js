@@ -45,9 +45,9 @@ export default class NotebookPagesView extends React.Component {
             }.bind(this), 300);
         }.bind(this), 300);
 
-		Utils.post("getEntries", { user_hash : this.parent.getUser(),  notebook_hash : this.parent.getCurrentNotebook().notebook_hash }, function(json) {
+		Utils.post("getEntries", { user_hash : this.parent.getUser().user_hash,  notebook_hash : this.parent.getCurrentNotebook().notebook_hash }, function(json) {
 
-			json.data_entries.forEach(function(entry_uuid) {
+			json.forEach(function(entry_uuid) {
 
 				Utils.post("getEntry", {
 					user_hash : this.parent.getUser(),
@@ -59,7 +59,9 @@ export default class NotebookPagesView extends React.Component {
 
 					this.setState({ entriesList : entryList.slice() });
 
-				}.bind(this));
+				}.bind(this), function(error) {
+					console.log(error);
+				});
 
 			}.bind(this));
 
@@ -70,8 +72,9 @@ export default class NotebookPagesView extends React.Component {
 
     }
 
-    register() {
-
+    register(responseJson) {
+		console.log(responseJson);
+	    this.setState({ entriesList : this.state.entriesList.concat(new DataEntry(responseJson.entry_hash, responseJson)) });
     }
 
     redact() {
@@ -84,7 +87,6 @@ export default class NotebookPagesView extends React.Component {
 
     reviewEntry(entry) {
 	    this.review_entry.setReviewEntry(entry);
-	    this.review_entry.showReviewEntry();
     }
 
     back(event) {

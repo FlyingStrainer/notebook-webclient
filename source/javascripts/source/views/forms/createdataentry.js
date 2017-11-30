@@ -1,13 +1,14 @@
 import React from "../../../lib/react.js";
 
-import DataEntryModel from '../../models/dataentry.js';
 import TagsInput from "../../../lib/react-tagsinput.js";
-import Button from "./button";
+import Button from "./button.js";
+import * as Form from "./form.js";
+import * as Utils from "../../utils.js";
 
 export default class DataEntryForm extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { overlayState : "stateLoad ", tags : []};
+		this.state = { overlayState : "stateLoad ", tags : [] };
 
 		this.user_hash = props.user_hash;
         this.notebook_hash = props.notebook_hash;
@@ -18,7 +19,7 @@ export default class DataEntryForm extends React.Component {
 	}
 
     showNewEntry() {
-	    this.setState({ overlayState : "stateShow "});
+	    this.setState({ overlayState : "stateShow " });
     }
 
 	hideNewEntry() {
@@ -29,42 +30,15 @@ export default class DataEntryForm extends React.Component {
 	}
 
 	register() {
-
-    }
-
-	// submit page to api
-	submitPage() {
-		console.log(this.dataEntry);
-		this.dataEntry.date_created = new Date();
-		//Need to set author
-
-		var body = JSON.stringify({
-			user_hash: this.author,
-			notebook_hash: this.notebook_hash,
-			entry: this.dataEntry	
-		});
-
-		console.log(this.dataEntry);
-		fetch('http://endor-vm1.cs.purdue.edu/addEntry', {
-			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'appication/json'
-			},
-			body: body
-		}).then( function(response) {
-			if (response.ok) {
-				console.log(response.json());
-			}	
-		});
-
-		if (this.submitCallback) {
-			this.submitCallback(this.dataEntry);
+		if(Form.InputEnum.TEXT(this.textInput.value)) {
+			Utils.post("addEntry", { user_hash : this.user_hash, notebook_hash : this.notebook_hash, entry : {
+				text : this.textInput.value, image : "", caption : "", tags : this.state.tags
+			} }, function(json) {
+				this.hideNewEntry();
+				this.submitCallback(json);
+			}.bind(this));
 		}
-
-		// Clear form for future use
-		this.dataEntry = new DataEntryModel("", "", "", "", "");
-	}
+    }
 
 	render() {
 		return (<div className="create-entry-form">

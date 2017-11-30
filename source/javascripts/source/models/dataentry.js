@@ -12,16 +12,12 @@ export default class DataEntry {
 			this.caption = json.caption;
 			this.tags = json.tags;
 			this.date_created = new Date(json.date_created);
-			this.author = json.author_hash;
+			this.author_hash = json.author_hash;
 			this.author = json.author;
 			this.redacted = json.redacted;
 
 			this.date_created = this.date_created.getDate() + "/" + this.date_created.getMonth() + "/" + this.date_created.getFullYear() + ", " +
                 this.date_created.getHours() + ":" + this.date_created.getMinutes() + ":" + this.date_created.getSeconds();
 		}
-	}
-
-	redactEntry() {
-
 	}
 }

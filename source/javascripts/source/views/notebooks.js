@@ -71,9 +71,13 @@ export default class NotebooksView extends React.Component {
     }
 
     register(responseJson) {
-		this.setState({ notebookList : this.state.notebookList.concat(new Notebook(responseJson.notebook_hash, responseJson))});
-		this.parent.setNotebooks(this.state.notebookList);
+	    this.setState({ notebookList: this.state.notebookList.concat(new Notebook(responseJson.notebook_hash, responseJson)) });
+	    this.parent.getUser().permissions.notebooks[responseJson.notebook_hash] = {read : true, write : true, manager : true};
+	    this.parent.setNotebooks(this.state.notebookList);
+	    console.log(this.parent.getUser());
+	    console.log(this.parent.getUser().permissions.notebooks);
     }
+
 
     openNotebook(notebook) {
 	    console.log(this.state.notebookList);

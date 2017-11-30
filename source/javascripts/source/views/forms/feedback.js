@@ -24,7 +24,8 @@ export default class FeedbackForm extends React.Component {
 	}
 
 	sendFeedback() {
-
+		Utils.post("feedback", { message : this.textInput.value });
+		this.hideFeedback();
 	}
 
 	render() {
