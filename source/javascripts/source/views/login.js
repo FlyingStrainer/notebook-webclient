@@ -110,6 +110,7 @@ export default class LoginView extends React.Component {
         <Button wrapperClass="login--recover" type="submit" title="Recover" onClick={this.recover}/>
         <Button dataIntro="Click on REGISTER to create a new account" dataStep="4" wrapperClass="introLogin login--register" type="submit" title="Register" onClick={this.register}/>
       </form>
+    <a className="intro-btn" href="#" onClick={e => (e.preventDefault(), introJs().start())} />
 		</div>
     );
 	}

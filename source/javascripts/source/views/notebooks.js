@@ -113,6 +113,7 @@ export default class NotebooksView extends React.Component {
                 </div>
             </div>
             <CreateNotebookForm user_hash={this.parent.getUser().user_hash} submitCallback={this.register} ref={form => (this.create_notebook = form)} />
+      <a className="intro-btn" href="#" onClick={e => (e.preventDefault(), introJs().start())} />
 		</div>);
 	}
 }
