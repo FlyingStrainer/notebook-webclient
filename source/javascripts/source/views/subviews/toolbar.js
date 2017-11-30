@@ -9,10 +9,14 @@ export default class ToolbarView extends React.Component {
 		this.parent = props.parentHandler;
 		this.name = props.page;
 		this.hasBack = props.hasBack;
+    this.hasShare = props.hasShare;
+    this.dataIntro = props.dataIntro;
+    this.dataStep = props.dataStep;
 
 		this.state = { toolbarState : "stateLoad ", searchBarState : "stateHide " };
 
 		this.toggleSearchBar = this.toggleSearchBar.bind(this);
+    this.shareCallback = this.shareCallback.bind(this);
 		this.testButton = this.testButton.bind(this);
 	}
 
@@ -47,16 +51,38 @@ export default class ToolbarView extends React.Component {
 	    this.setState({ searchBarState : Utils.showHide(this.state.searchBarState) });
     }
 
+    shareCallback(event) {
+      prompt("Your share link -->", "http://myexamplesharenoteisthis");
+    }
+
 	render() {
-		return <div className={this.state.toolbarState + "toolbar-view"}>
-            {this.hasBack === true ? <a className="toolbar--back" href="#" onClick={e => (this.testButton, this.parent.backCallback(e))} /> : null}
-			<div className="toolbar--title">
-				{this.name}
-			</div>
-            <div className="toolbar--right-icons">
-                <a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.parent.toggleSearchBar(e))} />
-                <a className="toolbar--logout" href="#" onClick={e => (e.preventDefault(), this.parent.logoutCallback(e))} />
-            </div>
-		</div>
+    if (this.dataIntro && this.dataStep)
+    {
+      return <div data-intro={this.dataIntro} data-step={this.dataStep} className={this.state.toolbarState + "toolbar-view"}>
+              {this.hasBack === true ? <a className="toolbar--back" href="#" onClick={e => (this.testButton, this.parent.backCallback(e))} /> : null}
+        <div className="toolbar--title">
+          {this.name}
+        </div>
+              <div className="toolbar--right-icons">
+                  <a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.parent.toggleSearchBar(e))} />
+                  {this.hasShare === true ? <a className="toolbar--share" href="#" onClick={e => (e.preventDefault(), this.shareCallback(e))}/> : null}
+                  <a className="toolbar--logout" href="#" onClick={e => (e.preventDefault(), this.parent.logoutCallback(e))} />
+              </div>
+      </div>
+    }
+    else
+    {
+      return <div className={this.state.toolbarState + "toolbar-view"}>
+              {this.hasBack === true ? <a className="toolbar--back" href="#" onClick={e => (this.testButton, this.parent.backCallback(e))} /> : null}
+        <div className="toolbar--title">
+          {this.name}
+        </div>
+              <div className="toolbar--right-icons">
+                  <a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.parent.toggleSearchBar(e))} />
+                  {this.hasShare === true ? <a className="toolbar--share" href="#" onClick={e => (e.preventDefault(), this.shareCallback(e))}/> : null}
+                  <a className="toolbar--logout" href="#" onClick={e => (e.preventDefault(), this.parent.logoutCallback(e))} />
+              </div>
+      </div>
+    }
 	}
 }

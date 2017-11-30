@@ -97,19 +97,21 @@ export default class LoginView extends React.Component {
     }
 
 	render() {
-		return (<div className={this.state.buttonState + "login-view form-container form-style"}>
-			<form>
-				<div className="form--label"><img src="./images/logo.png" alt="VENote" class="login--logo-image" width="600" /></div>
-				<div className="form--text login--email"><input name="email" type="text" placeholder="Email" onChange={this.handleChange} /></div>
-				<div className="form--text login--password"><input name="password" type="password" placeholder="Password" onChange={this.handleChange} /></div>
-				<div className="form--label login--invalid"><a onClick={this.recover}>Your email/password was incorrect</a></div>
-				<div className="form--text register--password"><input name="confirmpassword" type="password" placeholder="Confirm Password" onChange={this.handleChange} /></div>
-				<div className="form--text register--company"><input name="companyid" type="number" placeholder="Company ID" onChange={this.handleChange} /></div>
+		return (<div className={"introLogin " + this.state.buttonState + "login-view form-container form-style"}>
+      <form>
+        <div className="form--label"><img src="./images/logo.png" alt="VENote" class="login--logo-image" width="600" /></div>
+        <div data-intro="Enter EMAIL associated with existing account" data-step="1" className="introLogin form--text login--email"><input name="email" type="text" placeholder="Email" onChange={this.handleChange} /></div>
+        <div data-intro="Enter PASSWORD associated with existing account" data-step="2" className="introLogin form--text login--password"><input name="password" type="password" placeholder="Password" onChange={this.handleChange} /></div>
+        <div className="form--label login--invalid"><a onClick={this.recover}>Your email/password was incorrect</a></div>
+        <div className="form--text register--password"><input name="confirmpassword" type="password" placeholder="Confirm Password" onChange={this.handleChange} /></div>
+        <div className="form--text register--company"><input name="companyid" type="number" placeholder="Company ID" onChange={this.handleChange} /></div>
 
-				<Button wrapperClass="login" type="submit" title="Login" onClick={this.login}/>
-				<Button wrapperClass="login--recover" type="submit" title="Recover" onClick={this.recover}/>
-				<Button wrapperClass="login--register" type="submit" title="Register" onClick={this.register}/>
-			</form>
-		</div>);
+        <Button dataIntro="Click on LOGIN to enter the account associated with email and password" dataStep="3" wrapperClass="introLogin login" type="submit" title="Login" onClick={this.login}/>
+        <Button wrapperClass="login--recover" type="submit" title="Recover" onClick={this.recover}/>
+        <Button dataIntro="Click on REGISTER to create a new account" dataStep="4" wrapperClass="introLogin login--register" type="submit" title="Register" onClick={this.register}/>
+      </form>
+    <a className="intro-btn" href="#" onClick={e => (e.preventDefault(), introJs().start())} />
+		</div>
+    );
 	}
 }

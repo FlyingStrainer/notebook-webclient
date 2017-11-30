@@ -111,7 +111,7 @@ export default class NotebookPagesView extends React.Component {
 
 	render() {
 		return <div className="pages">
-			<ToolbarView page={this.parent.getUser().company_name + " < " + this.parent.getCurrentNotebook().name} parentHandler={this.parentToolbar} visible={this.state.close} hasBack={true} />
+			<ToolbarView dataIntro="Click the Magnifying glass to search. Click the button with 3 circles to share current notebook. Click the button to far right to logout" dataStep="1" page={this.parent.getUser().company_name + " < " + this.parent.getCurrentNotebook().name} parentHandler={this.parentToolbar} visible={this.state.close} hasShare={true} hasBack={true} />
 			<div className={this.state.pageState + "list-view"}>
 				{this.notebook_permissions.write ?
 				<div className="entries--entry create" onClick={() => {
@@ -134,6 +134,7 @@ export default class NotebookPagesView extends React.Component {
             <ReviewEntryForm user_hash={this.parent.getUser().user_hash} notebook_hash={this.parent.getCurrentNotebook().notebook_hash}
                              notebook_permissions={this.notebook_permissions} deleteCallback={this.redact} cosignCallback={this.cosign}
                              ref={form => (this.review_entry = form)}/>
+      <a className="intro-btn" href="#" onClick={e => (e.preventDefault(), introJs().start())} />
 		</div>
 	}
 }
