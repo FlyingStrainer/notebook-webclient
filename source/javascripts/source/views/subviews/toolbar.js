@@ -11,6 +11,7 @@ export default class ToolbarView extends React.Component {
 		this.name = props.page;
 		this.hasBack = props.hasBack;
     this.hasShare = props.hasShare;
+    this.hasRenderSetting = props.hasRenderSetting;
     this.dataIntro = props.dataIntro;
     this.dataStep = props.dataStep;
 
@@ -18,6 +19,7 @@ export default class ToolbarView extends React.Component {
 
 		this.toggleSearchBar = this.toggleSearchBar.bind(this);
     this.shareCallback = this.shareCallback.bind(this);
+    this.renderCallback = this.renderCallback.bind(this);
 		this.testButton = this.testButton.bind(this);
 	}
 
@@ -69,6 +71,10 @@ export default class ToolbarView extends React.Component {
       // prompt("Your share link -->", this.parent.notebook_hash);
     }
 
+    renderCallback(event) {
+      alert("render");
+    }
+
 	render() {
 		if(this.dataIntro && this.dataStep)
 			return (<div data-intro={this.dataIntro} data-step={this.dataStep} className={this.state.toolbarState + "toolbar-view"}>
@@ -77,6 +83,7 @@ export default class ToolbarView extends React.Component {
 					{this.name}
 				</div>
 				<div className="toolbar--right-icons">
+					{this.hasRenderSetting === true ? <a className="toolbar--render--setting" href="#" onClick={e => (e.preventDefault(), this.renderCallback(e))}/> : null}
 					{this.hasShare === true ? <a className="toolbar--share" href="#" onClick={e => (e.preventDefault(), this.shareCallback(e))}/> : null}
 					<a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.query_input.showQueryInput())} />
 					<a className="toolbar--logout" href="#" onClick={e => (e.preventDefault(), this.parent.logoutCallback(e))} />
@@ -90,6 +97,7 @@ export default class ToolbarView extends React.Component {
 				{this.name}
 			</div>
 			<div className="toolbar--right-icons">
+					{this.hasRenderSetting === true ? <a className="toolbar--render--setting" href="#" onClick={e => (e.preventDefault(), this.renderCallback(e))}/> : null}
 				{this.hasShare === true ? <a className="toolbar--share" href="#" onClick={e => (e.preventDefault(), this.shareCallback(e))}/> : null}
 				<a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.query_input.showQueryInput())} />
 				<a className="toolbar--logout" href="#" onClick={e => (e.preventDefault(), this.parent.logoutCallback(e))} />
