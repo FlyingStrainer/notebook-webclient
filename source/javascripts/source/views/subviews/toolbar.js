@@ -52,7 +52,7 @@ export default class ToolbarView extends React.Component {
     }
 
     shareCallback(event) {
-      alert("share");
+      prompt("Your share link -->", "http://myexamplesharenoteisthis");
     }
 
 	render() {
