@@ -1,33 +1,24 @@
 @import "utils";
 
-.overlay--create-notebook {
+.overlay--create-notebook, .overlay--new-entry, .overlay--review-entry, .overlay--cosign-entry {
   position: absolute;
 
   opacity: 0;
-  width: 300px;
-  height:105px;
-  top:0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
   margin: auto;
   text-align:center;
   z-index: 6;
 
+  pointer-events: none;
+
   @include transition-timing(ease);
-
-  .notebooks--create--button {
-
-    button {
-      background: lightseagreen;
-      margin-top: 20px;
-      width:100%;
-    }
-  }
 }
 
-.stateShow.overlay--create-notebook {
+.stateShow.overlay--create-notebook, .stateShow.overlay--new-entry, .stateShow.overlay--review-entry, .stateShow.overlay--cosign-entry {
   opacity: 1;
 
   pointer-events: auto;
@@ -35,74 +26,31 @@
   @include transition(opacity 300ms 0ms);
 }
 
-.stateHide.overlay--create-notebook {
+.stateHide.overlay--create-notebook, .stateHide.overlay--new-entry, .stateHide.overlay--review-entry, .stateHide.overlay--cosign-entry {
   opacity: 0;
 
   @include transition(opacity 300ms 0ms);
+}
+
+.overlay--create-notebook {
+
+  width: 300px;
+
 }
 
 .overlay--new-entry {
-  position: absolute;
-
-  opacity: 0;
-  width: 400px;
-  top: 20%;
-  left: 0;
-  right: 0;
-
-  margin: auto;
-  text-align:center;
-  z-index: 6;
-
-  @include transition-timing(ease);
-
-
-}
-
-.stateShow.overlay--new-entry {
-  opacity: 1;
-
-  pointer-events: auto;
-
-  @include transition(opacity 300ms 0ms);
-}
-
-.stateHide.overlay--new-entry {
-  opacity: 0;
-
-  @include transition(opacity 300ms 0ms);
+  width: 600px;
 }
 
 .overlay--review-entry {
-  position: absolute;
 
-  opacity: 0;
-  width: 400px;
-  top: 20%;
-  left: 0;
-  right: 0;
-
-  margin: auto;
-  text-align:center;
-  z-index: 6;
-
-  @include transition-timing(ease);
+  width: 600px;
 
   .data-entry--background {
     background-color: lightgray;
   }
 }
 
-.stateShow.overlay--review-entry {
-  opacity: 1;
-
-  pointer-events: auto;
-
-  @include transition(opacity 300ms 0ms);
-}
-
-.stateHide.overlay--review-entry {
-  opacity: 0;
-
-  @include transition(opacity 300ms 0ms);
+.overlay--cosign-entry {
+  width: 400px;
 }

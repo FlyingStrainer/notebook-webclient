@@ -1,7 +1,6 @@
 import React from "../../../lib/react.js";
 
 import Button from "../subviews/button";
-import * as Utils from "../../utils.js";
 
 export default class ReviewEntryForm extends React.Component {
     constructor(props) {
@@ -26,7 +25,7 @@ export default class ReviewEntryForm extends React.Component {
     }
 
     showReviewEntry() {
-        this.setState({ overlayState : "stateShow "});
+        this.setState({ overlayState : "stateShow " });
     }
 
 	hideReviewEntry() {

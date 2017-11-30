@@ -1,0 +1,25 @@
+@import "utils";
+
+.feedback--box {
+  position:fixed;
+
+  left : 64px;
+
+  @include transition-timing(ease);
+}
+
+.stateLoad.feedback--box {
+  bottom : -42px;
+}
+
+.stateHide.feedback--box {
+  bottom : -42px;
+
+  @include transition(bottom 200ms 0ms);
+}
+
+.stateShow.feedback--box {
+  bottom : 32px;
+
+  @include transition(bottom 300ms 0ms);
+}

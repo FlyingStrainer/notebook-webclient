@@ -1,3 +1,5 @@
+@import "utils";
+
 .form-container {
   position: absolute;
   margin: auto;
@@ -110,7 +112,8 @@
   }
 
   textarea{
-    min-height:200px;
+    resize: none;
+    overflow: auto;
   }
 
   legend {
@@ -165,10 +168,6 @@
     color:#404040;
   }
 
-  .react-tagsinput {
-    border : 2px solid #a1a0a0;
-  }
-
   select{
     -webkit-appearance: menulist-button;
     height:42px;
@@ -210,6 +209,54 @@
   input[type="button"]:hover
   {
     background: #109177;
+  }
+
+  .react-tagsinput {
+    border : 2px solid #a1a0a0;
+    max-width:276px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+
+    .react-tagsinput-tag {
+
+    }
+  }
+
+  .form--submit--button {
+
+    button {
+      max-width:276px;
+
+      background: lightseagreen;
+      margin-top: 20px;
+      width:100%;
+    }
+  }
+
+}
+
+.create-entry-form form {
+  .form--textarea  {
+    textarea {
+      width: 400px;
+      height: 60px;
+
+      @include transition-timing(ease);
+      @include transition(width 300ms 0ms, height 400ms 0ms);
+    }
+    textarea:focus {
+      width: 600px;
+      height: 300px;
+    }
+  }
+
+  .react-tagsinput {
+    width: 300px;
+
+    .react-tagsinput-input {
+
+    }
   }
 }
 /* Margin on body to 0 so there is no gap */
