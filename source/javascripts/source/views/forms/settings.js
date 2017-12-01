@@ -31,7 +31,7 @@ export default class SettingsForm extends React.Component {
 
     settings() {
         this.hideSettings();
-        this.submitCallback(this.imageState);
+        this.submitCallback(this.state.imageState);
     }
 
     render() {
