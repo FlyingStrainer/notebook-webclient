@@ -59,12 +59,15 @@ export default class ToolbarView extends React.Component {
     }
 
     toggleSearchBar(event) {
+
+	this.parent.toggleSearchBar(event); // This may not be used
 	console.log("Toggling SearchBar");
-	this.searchFunction();
+
         if(this.state.searchBarState === "stateHide")
             this.setState({searchBarState : "stateShow "});
         else
             this.setState({searchBarState : "stateHide "});
+	console.log("Toggled");
     }
 
 	shareCallback(event) {
