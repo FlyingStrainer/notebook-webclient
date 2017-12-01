@@ -53,6 +53,16 @@
     background-size: 20px;
   }
 
+  .toolbar--manager-ui {
+    width: 70px;
+    height:50px;
+    padding: 5px 10px 5px 20px;
+
+    float:left;
+    background: url("../images/manager.png") no-repeat 30px 15px;
+    background-size: 20px;
+  }
+
   .toolbar--render--setting {
     width:70px;
     height:50px;

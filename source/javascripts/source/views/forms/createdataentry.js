@@ -14,6 +14,7 @@ export default class DataEntryForm extends React.Component {
         this.notebook_hash = props.notebook_hash;
 		this.submitCallback = props.submitCallback;
 
+		this.showNewEntry = this.showNewEntry.bind(this);
 		this.hideNewEntry = this.hideNewEntry.bind(this);
 		this.register = this.register.bind(this);
 	}
@@ -24,9 +25,8 @@ export default class DataEntryForm extends React.Component {
 
 	hideNewEntry() {
 	    this.textInput.value = "";
-	    this.setState({ tags : [] });
 
-        this.setState({ overlayState : "stateHide " });
+        this.setState({ tags : [], overlayState : "stateHide " });
 	}
 
 	register() {

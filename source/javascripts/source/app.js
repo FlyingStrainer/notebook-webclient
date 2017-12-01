@@ -1,7 +1,6 @@
 import React from "../lib/react.js";
 
 import LoginView from "./views/login.js";
-import Notebook from "./models/notebook.js";
 import Notebooks from "./views/notebooks.js";
 import NotebookPages from "./views/pages.js";
 
@@ -10,32 +9,18 @@ import PushNotification from "./views/subviews/cosignnotification.js";
 import User from "./models/user.js";
 import ManagerView from "./views/manager"
 import DevFeedbackView from "./views/subviews/devfeedback";
+import * as Utils from "./utils.js";
 
 class VENote extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.user = new User("user_hash1", {
-			role : "manager",
-			create_notebooks : true,
-			notebooks : [
-				{
-					notebook_hash : "--notebook-key-1",
-					read : true,
-					write : false,
-					manager : false
-				},
-				{
-					notebook_hash : "--notebook-key-2",
-					read : true,
-					write : true,
-					manager : true
-				}]
-		}, "SCC", ["--notebook-key-1", "--notebook-key-2"]);
-		this.notebooks = [new Notebook("--notebook-key-1", { name : "Notebook name 1", managers : [], date_created : new Date(), date_modified : new Date(), tags : []})];
-		this.currentNotebook = this.notebooks[0];
-
-		this.state = { view : props.view, pushView : false};
+		if(typeof(Storage) !== "undefined" && localStorage.getItem("user_hash")) {
+		    this.state = { view : "blankView", pushView : false };
+        }
+        else {
+            this.state = { view : "", pushView : false};
+        }
 
 		this.login = this.login.bind(this);
 		this.getUser = this.getUser.bind(this);
@@ -53,9 +38,22 @@ class VENote extends React.Component {
                                 getCurrentNotebook : this.getCurrentNotebook, back : this.back, logout : this.logout };
 	}
 
+    componentDidMount() {
+        if(this.state.view === "blankView" && typeof(Storage) !== "undefined" && localStorage.getItem("user_hash")) {
+            Utils.post("user", { user_hash : localStorage.getItem("user_hash") }, function(json) {
+                this.login(json);
+            }.bind(this), function(error) {
+                this.setState({ view : "" });
+            }.bind(this));
+        }
+    }
+
 	login(responseJson) {
 	    this.user = new User(responseJson.user_hash, responseJson.permissions, responseJson.company_name, responseJson.notebook_list);
 	    this.notebooks = this.user.notebooks;
+	    if(typeof(Storage) !== "undefined") {
+	        localStorage.setItem("user_hash", this.user.user_hash);
+        }
 		if(this.user.permissions.role === "manager")
 		{
 			this.socket = new WebSocket("ws://endor-vm1.cs.purdue.edu/");
@@ -100,6 +98,10 @@ class VENote extends React.Component {
         this.setState({ view : "pageView" });
 	}
 
+	manager() {
+	    this.setState({ view : "managerView" });
+    }
+
 	getNotebooks() {
 		return this.notebooks;
 	}
@@ -113,10 +115,12 @@ class VENote extends React.Component {
 	}
 
 	back(e) {
-        if(this.state.view === "pageView")
-        {
+        if(this.state.view === "pageView") {
             this.currentNotebook = undefined;
-            this.setState({view : "notebookView"});
+            this.setState({ view : "notebookView" });
+        }
+        else if(this.state.view === "managerView") {
+            this.setState({ view : "pageView" });
         }
 	}
 
@@ -131,6 +135,10 @@ class VENote extends React.Component {
             this.socket = undefined;
         }
 
+        if(typeof(Storage) !== "undefined") {
+            localStorage.setItem("user_hash", undefined);
+        }
+
         this.setState({view : "", pushView : false, feedbackView : false});
 	}
 
@@ -139,9 +147,9 @@ class VENote extends React.Component {
 			<div id="renderview">{this.state.view === "notebookView" ? <Notebooks callback={this.notebook} parentHandler={this.parentHandler}/>
 				: this.state.view === "pageView" ? <NotebookPages parentHandler={this.parentHandler} /> :
 					this.state.view === "managerView" ? <ManagerView parentHandler={this.parentHandler} /> :
-                    <LoginView callback={this.login} />}</div>
+                    this.state.view === "" ? <LoginView callback={this.login} /> : null}</div>
             <div id="feedbackview">
-                {this.state.view !== "" ? <DevFeedbackView parentHandler={this.parentHandler} /> : null}
+                {this.state.view !== "" && this.state.view !== "blankView" ? <DevFeedbackView parentHandler={this.parentHandler} /> : null}
             </div>
 			<div id="pushview">
 				{this.state.pushView ? <PushNotification parentHandler={this.parentHandler} data={this.push_data} /> : null}

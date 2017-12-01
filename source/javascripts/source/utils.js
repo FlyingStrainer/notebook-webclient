@@ -11,7 +11,7 @@ export function post(url, data, processFunc, errorFunc){
 			return response.json();
 		}
 
-		throw new Error("Network response was not ok.");
+		throw new Error(response);
 	}).then(function(json) {
 		if(processFunc)
 			processFunc(json);

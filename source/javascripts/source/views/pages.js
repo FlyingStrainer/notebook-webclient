@@ -28,7 +28,7 @@ export default class NotebookPagesView extends React.Component {
 		this.back = this.back.bind(this);
 		this.logout = this.logout.bind(this);
 
-        this.parentToolbar = { searchHandler : this.pageListSearch, backCallback : this.back, logoutCallback : this.logout, notebook_hash : this.parent.getCurrentNotebook().notebook_hash };
+        this.parentToolbar = { searchHandler : this.pageListSearch, backCallback : this.back, logoutCallback : this.logout, notebook_hash : this.parent.getCurrentNotebook().notebook_hash, manager : this.parent.manager};
         this.parentEntry = { reviewEntry : this.reviewEntry };
 	}
 
@@ -89,6 +89,16 @@ export default class NotebookPagesView extends React.Component {
 	    this.review_entry.setReviewEntry(entry);
     }
 
+    manager() {
+	    this.create_entry.hideNewEntry();
+	    this.review_entry.hideReviewEntry();
+	    this.setState({ pageState : "stateExit stateTransition ", close : true });
+
+	    setTimeout(function() {
+
+        }.bind(this), 300);
+    }
+
     back(event) {
 	    this.create_entry.hideNewEntry();
         this.review_entry.hideReviewEntry();
@@ -111,7 +121,9 @@ export default class NotebookPagesView extends React.Component {
 
 	render() {
 		return <div className="pages">
-			<ToolbarView dataIntro="Click the gear to change render settings. Click the magnifying glass to search. Click the button with 3 circles to share current notebook. Click the button to far right to logout" dataStep="1" page={this.parent.getUser().company_name + " < " + this.parent.getCurrentNotebook().name} parentHandler={this.parentToolbar} visible={this.state.close} hasRenderSetting={true} hasShare={true} hasBack={true} />
+			<ToolbarView dataIntro="Click the gear to change render settings. Click the magnifying glass to search. Click the button with 3 circles to share current notebook. Click the button to far right to logout"
+			             dataStep="1" page={this.parent.getUser().company_name + " < " + this.parent.getCurrentNotebook().name}
+			             parentHandler={this.parentToolbar} visible={this.state.close} hasShare={true} hasBack={true} isManager={this.notebook_permissions.manager} />
 			<div className={this.state.pageState + "list-view"}>
 				{this.notebook_permissions.write ?
 				<div className="entries--entry create" onClick={() => {

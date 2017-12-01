@@ -1,6 +1,7 @@
 import React from "../../../lib/react.js";
 
 import Button from "./button.js";
+import * as Form from "./form.js";
 import * as Utils from "../../utils.js";
 
 export default class FeedbackForm extends React.Component {
@@ -24,7 +25,8 @@ export default class FeedbackForm extends React.Component {
 	}
 
 	sendFeedback() {
-		Utils.post("feedback", { message : this.textInput.value });
+	    if(Form.InputEnum.TEXT(this.textInput.value))
+		    Utils.post("feedback", { message : this.textInput.value });
 		this.hideFeedback();
 	}
 
