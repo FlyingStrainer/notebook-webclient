@@ -47,7 +47,7 @@ export default class ReviewEntryForm extends React.Component {
     render() {
         return (<div className="review-entry-form">
             <div className={this.state.overlayState + "overlay"} onClick={this.hideReviewEntry} />
-            <div className={this.state.overlayState + "overlay--review-entry form-style"}>
+            <div className={this.state.overlayState + "overlay--form overlay--review-entry form-style"}>
                 {this.state.entry ? <Entry entry={this.state.entry} /> : null}
                 <form>
                     {this.state.entry ? <div>

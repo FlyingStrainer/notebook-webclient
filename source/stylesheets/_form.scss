@@ -213,10 +213,12 @@
 
   .react-tagsinput {
     border : 2px solid #a1a0a0;
-    max-width:276px;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
+    width: 300px;
+    max-height: 200px;
+    overflow-y: auto;
 
     .react-tagsinput-tag {
 
@@ -245,14 +247,6 @@
     textarea:focus {
       width: 600px;
       height: 300px;
-    }
-  }
-
-  .react-tagsinput {
-    width: 300px;
-
-    .react-tagsinput-input {
-
     }
   }
 

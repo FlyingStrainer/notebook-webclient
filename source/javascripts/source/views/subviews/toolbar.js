@@ -36,6 +36,9 @@ export default class ToolbarView extends React.Component {
 	componentWillReceiveProps(nextProps) {
 		if(nextProps.visible !== this.props.visible)
 			this.setState({ toolbarState : "stateExit stateTransition " });
+		if(nextProps.query !== this.query) {
+		    console.log("HERE");
+        }
 	}
 
 	shareCallback(event) {

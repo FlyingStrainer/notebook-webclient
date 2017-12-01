@@ -1,14 +1,15 @@
 import React from "../../../lib/react.js";
-
 import TagsInput from "../../../lib/react-tagsinput.js";
+
 import Button from "./button.js";
+
 import * as Form from "./form.js";
 import * as Utils from "../../utils.js";
 
 export default class DataEntryForm extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { overlayState : "stateLoad ", tags : [] };
+		this.state = { overlayState : "stateLoad ", tags : [], tag : "" };
 
 		this.user_hash = props.user_hash;
         this.notebook_hash = props.notebook_hash;
@@ -26,13 +27,18 @@ export default class DataEntryForm extends React.Component {
 	hideNewEntry() {
 	    this.textInput.value = "";
 
-        this.setState({ tags : [], overlayState : "stateHide " });
+        this.setState({ tags : [], tag : "", overlayState : "stateHide " });
 	}
 
 	register() {
 		if(Form.InputEnum.TEXT(this.textInput.value)) {
+		    const tags = this.state.tags;
+
+		    if(this.state.tag.length > 0)
+		        tags.push(this.state.tag);
+
 			Utils.post("addEntry", { user_hash : this.user_hash, notebook_hash : this.notebook_hash, entry : {
-				text : this.textInput.value, image : "", caption : "", tags : this.state.tags
+				text : this.textInput.value, image : "", caption : "", tags : tags
 			} }, function(json) {
 				this.hideNewEntry();
 				this.submitCallback(json);
@@ -43,12 +49,12 @@ export default class DataEntryForm extends React.Component {
 	render() {
 		return (<div className="create-entry-form">
                 <div className={this.state.overlayState + "overlay"} onClick={this.hideNewEntry} />
-                <div className={this.state.overlayState + "overlay--new-entry form-style"} onClick={e => (e.stopPropagation())}>
+                <div className={this.state.overlayState + "overlay--form overlay--new-entry form-style"} onClick={e => (e.stopPropagation())}>
                     <form>
                         <div className="form--textarea">
                             <textarea placeholder="Write Entry Here..." ref={(input) => ( this.textInput = input )}/>
                         </div>
-                        <TagsInput name="Tags" value={this.state.tags} onChange={e => (this.setState({ tags : e }))} />
+                        <TagsInput name="Tags" value={this.state.tags} inputValue={this.state.tag} onChangeInput={e => (this.setState({ tag : e }))} onChange={e => (this.setState({ tags : e }))} />
                         <Button wrapperClass="form--submit" type="submit" title="Create Entry" onClick={this.register}/>
                     </form>
                 </div>
