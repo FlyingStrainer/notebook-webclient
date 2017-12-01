@@ -10,6 +10,7 @@ export default class ReviewEntryForm extends React.Component {
         this.state = { overlayState : "stateLoad ", entry : undefined };
 
         this.user_hash = props.user_hash;
+        this.notebook = props.notebook;
         this.notebook_hash = props.notebook_hash;
         this.notebook_permissions = props.notebook_permissions;
 
@@ -24,7 +25,6 @@ export default class ReviewEntryForm extends React.Component {
     }
 
     setReviewEntry(reviewEntry) {
-        console.log(reviewEntry);
         this.setState({ entry : reviewEntry, overlayState : "stateShow " });
     }
 
@@ -48,7 +48,7 @@ export default class ReviewEntryForm extends React.Component {
         return (<div className="review-entry-form">
             <div className={this.state.overlayState + "overlay"} onClick={this.hideReviewEntry} />
             <div className={this.state.overlayState + "overlay--form overlay--review-entry form-style"}>
-                {this.state.entry ? <Entry entry={this.state.entry} /> : null}
+                {this.state.entry ? <Entry entry={this.state.entry} notebook={this.notebook}/> : null}
                 <form>
                     {this.state.entry ? <div>
                             {this.notebook_permissions.manager ? <div className="form--half"><Button wrapperClass="cosign" type="submit" title="Cosign" onClick={this.cosign} /></div> : null}

@@ -175,6 +175,7 @@ export default class NotebookPagesView extends React.Component {
                              submitCallback={this.register} ref={form => (this.create_entry = form)}/>
 
             <ReviewEntryForm user_hash={this.parent.getUser().user_hash} notebook_hash={this.parent.getCurrentNotebook().notebook_hash}
+                             notebook={this.parent.getCurrentNotebook()}
                              notebook_permissions={this.notebook_permissions} deleteCallback={this.redact} cosignCallback={this.cosign}
                              ref={form => (this.review_entry = form)}/>
       <a className="intro-btn" href="#" onClick={e => (e.preventDefault(), introJs().start())} />

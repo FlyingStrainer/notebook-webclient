@@ -4,7 +4,10 @@ export default class Entry extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.notebook = props.notebook;
 		this.state = { entry : props.entry };
+
+		console.log(this.notebook.settings);
 
 		this.formatTextAndImage = this.formatTextAndImage.bind(this);
 	}
@@ -16,7 +19,7 @@ export default class Entry extends React.Component {
 	}
 
 	formatTextAndImage() {
-		if(this.state.entry.settings === "inline") {
+		if(this.notebook.settings.image === "inline") {
 			// CaptionedImage here for inline formatting
 			return <div>
 				{this.state.entry.image ? <CaptionedImage className="data-entry--image" image={this.state.entry.image} caption={this.state.entry.caption}/> : null}

@@ -125,11 +125,14 @@ export default class ManagerView extends React.Component {
 	}
 
 	settings(mode) {
+		console.log("HERE");
 		const imageSetting = mode === "stateInline " ? "inline" : "below";
 		console.log(imageSetting);
-		Utils.post("format", { user_hash : this.parent.getUser().user_hash, settings : { image : imageSetting }}, function() {
+		Utils.post("format", { user_hash : this.parent.getUser().user_hash, notebook_hash : this.parent.getCurrentNotebook().notebook_hash, settings : { image : imageSetting }}, function() {
+
 			this.parent.getCurrentNotebook().settings = { image : imageSetting };
-		});
+			console.log(this.parent.getCurrentNotebook().settings)
+		}.bind(this), function(error) {console.log(error);});
 	}
 
 	back() {
