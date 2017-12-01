@@ -58,7 +58,17 @@ export default class ToolbarView extends React.Component {
 	}
 
 	backup() {
+		const errorFunc = function(error) {
+			alert("error in backup!");
+		}.bind(this);
 
+		Utils.post("backup", { notebook_hash : this.parent.notebook_hash }, function(json) {
+			setTimeout(function(){
+				alert("Backup was a success. Very nice!");
+				// prompt("Your share link", json.url);
+			}.bind(this), 300);
+
+		}.bind(this), errorFunc);
 	}
 
 	toggleSearchBar(event) {
@@ -94,7 +104,7 @@ export default class ToolbarView extends React.Component {
 					{this.hasBack === true ? <a className="toolbar--back" href="#" onClick={e => (this.parent.backCallback())} /> : null}
 					<div className="toolbar--title">{this.name}</div>
 					<div className="toolbar--right-icons">
-						{this.state.isManagerUI ? <a className="toolbar--back-up" href="#" onClick={e => (e.preventDefault(), this.backup)}/> : null}
+						{this.state.isManagerUI ? <a className="toolbar--back-up" href="#" onClick={e => (e.preventDefault(), this.backup())}/> : null}
 						{this.isManager || this.state.isManagerUI ? <a className="toolbar--manager-ui" href="#" onClick={e => (e.preventDefault(), this.parent.manager())}/> : null}
 						{this.hasShare ? <a className="toolbar--share" href="#" onClick={e => (e.preventDefault(), this.shareCallback())}/> : null}
 						{this.state.isManagerUI ? <a className="toolbar--render--setting" href="#" onClick={e => (e.preventDefault(), this.settings_form.showSettings())}/> : null}
