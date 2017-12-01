@@ -1,50 +1,23 @@
 
 export default class DataEntry {
-	constructor(text, image, caption, tags, author) {
-        this.id = "";
-		this.text = text;
-		this.image = image;
-		this.caption = caption;
-		this.tags = tags;
-		this.date_created = new Date();
-		this.author = author;
-		this.redacted = false;
-	}
 
-	postEntry() {
-		fetch('URL_PLACEHOLDER', {
-			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type' : 'application/json'
-			},
-			body: this
-		});
+	constructor(uuid, json) {
+		if(uuid)
+			this.entry_hash = uuid;
 
-	}
+		if(json)
+		{
+			this.text = json.text;
+			this.image = json.image;
+			this.caption = json.caption;
+			this.tags = json.tags;
+			this.date_created_real = new Date(json.date_created);
+			this.author_hash = json.author_hash;
+			this.author = json.author;
+			this.redacted = json.redacted;
 
-	getDate() {
-        return this.date_created.getDate() + "/" + this.date_created.getMonth() + "/" + this.date_created.getFullYear() + ", " +
-            this.date_created.getHours() + ":" + this.date_created.getMinutes() + ":" + this.date_created.getSeconds();
-    }
-
-  getHTMLForEntrySel()
-  {
-    var oDivO = "<div id=\"";
-    var oDivC = "\" class=\"pageView\">";
-    var oDiv = oDivO + "entry" + this.id + oDivC;
-    var oDelDivO = "<div id=\"";
-    var oDelDivC = "\" class=\"delPageBtn\">";
-    var oDelDiv = oDelDivO + "delEntry" + this.id + oDelDivC;
-    var cDelDiv = "</div>";
-    var oP = "<p>";
-    var cP = "</p>";
-    var cDiv = "</div>";
-    var ret = oDiv + oDelDiv + oP + "x" + cP + cDelDiv + oP + this.date_created + cP + oP + this.author + cP + cDiv;
-    return ret;
-  }
-
-	redactEntry() {
-
+			this.date_created = this.date_created_real.getDate() + "/" + this.date_created_real.getMonth() + "/" + this.date_created_real.getFullYear() + ", " +
+                this.date_created_real.getHours() + ":" + this.date_created_real.getMinutes() + ":" + this.date_created_real.getSeconds();
+		}
 	}
 }

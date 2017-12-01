@@ -5,7 +5,6 @@
   text-decoration: none;
   font-family: 'Montserrat', sans-serif;
   font-weight: bold;
-  text-transform: capitalize;
 
   padding: 40px;
   top:75px;
@@ -59,18 +58,16 @@
     }
   }
 
-  .notebooks--create-notebook .notebook--create-icon{
+  .create .create-icon{
     width: 100%;
     height: 200px;
     opacity: .5;
 
     background: url("../images/create.png") no-repeat;
     background-size: contain;
-
-    @include transition(opacity 200ms 0ms);
   }
 
-  .notebooks--create-notebook:hover .notebook--create-icon{
+  .create:hover .create-icon{
     opacity: .8;
   }
 
@@ -78,16 +75,28 @@
     opacity: 0;
   }
 
-  .stateTransition.notebooks--notebook, .stateTransition.entries--entry{
-    @include transition(opacity 200ms 0ms);
-  }
-
   .stateLoad.stateTransition.notebooks--notebook, .stateLoad.stateTransition.entries--entry {
     opacity: 1;
   }
 
-  .stateExit.stateTransition.notebooks--notebook, .stateExit.stateTransition.entries--entry {
-    opacity: 0;
-  }
+}
 
+.list-view.stateLoad .create {
+  opacity: 0;
+}
+
+.list-view.stateTransition .notebooks--notebook, .list-view.stateTransition .entries--entry {
+  @include transition(opacity 200ms 0ms);
+}
+
+.list-view.stateLoad.stateTransition .create {
+  opacity : 1;
+}
+
+.list-view:not(.stateLoad) .create-icon {
+  @include transition(opacity 200ms 0ms);
+}
+
+.list-view.stateExit.stateTransition .notebooks--notebook, .list-view.stateExit.stateTransition .entries--entry {
+  opacity: 0;
 }

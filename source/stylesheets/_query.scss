@@ -1,0 +1,92 @@
+@import "utils";
+
+.overlay--query {
+
+  .form--textarea, .query--timestamps, .query--tags {
+    display: none;
+  }
+
+  .query--timestamps {
+    width: 100%;
+  }
+
+  .query--timestamp {
+    width: 380px;
+    height: 52px;
+    padding-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    position:relative;
+
+    .timestamp--date {
+      width: 60px;
+      padding-right: 10px;
+      float: left;
+      margin: 0;
+      input {
+        width: 100%;
+        padding-left: 10px;
+        padding-right: 0;
+      }
+    }
+
+    .timestamp--date:nth-child(3) {
+      width:80px;
+      padding-right:30px;
+    }
+
+  }
+
+  .query--tags {
+    width: 100%;
+  }
+
+  .query--button-list {
+    width: 450px;
+    height: 42px;
+    margin: 10px auto 0 auto;
+    position: relative;
+  }
+
+  .query-text--button, .query-timestamp--button, .query-tag--button {
+    width: 150px;
+    height: 42px;
+  }
+
+  .query-text--button, .query-timestamp--button, .query-tag--button {
+    padding-right: 10px;
+    margin-left: 0;
+    margin-right: 0;
+    float: left;
+
+    @include transition-timing(ease);
+    @include transition(border 150ms 0ms);
+
+    button {
+      background-color: #f8f4da;
+      color: lightseagreen;
+      width:100%;
+    }
+
+    button:focus {
+      outline: 0;
+    }
+  }
+}
+
+.stateText.overlay--query .form--textarea {
+  display: inline;
+}
+
+.stateTimestamp.overlay--query .query--timestamps {
+  display: grid;
+}
+
+.stateTag.overlay--query .query--tags {
+  display: inline;
+}
+
+.stateText.overlay--query .query-text--button button, .stateTimestamp.overlay--query .query-timestamp--button button,
+.stateTag.overlay--query .query-tag--button button {
+  border: 2px solid lightseagreen;
+}

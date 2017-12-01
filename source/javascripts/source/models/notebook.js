@@ -1,15 +1,35 @@
-export default class Notebook 
+export default class Notebook
 {
 
-  constructor(uuid, name, managers, date_created, date_modified, tags)
-  {
-    this.notebook_hash = uuid;
-    this.name = name;
-    this.managers = managers;
-    this.dateCreated = date_created;
-    this.dateModified = date_modified;
-    this.tags = tags;
-  }
+	constructor(uuid, json)
+	{
+		if(uuid)
+			this.notebook_hash = uuid;
+
+		if(json)
+		{
+			this.name = json.name;
+			this.managers = json.managers;
+			this.tags = json.tags;
+
+			this.calcDateCreated(json.date_created);
+			this.calcDateModified(json.date_modified);
+		}
+	}
+
+	calcDateCreated(date) {
+        this.date_created_real = new Date(date);
+
+        this.date_created = this.date_created_real.getDate() + "/" + this.date_created_real.getMonth() + "/" + this.date_created_real.getFullYear() + ", " +
+            this.date_created_real.getHours() + ":" + this.date_created_real.getMinutes() + ":" + this.date_created_real.getSeconds();
+    }
+
+    calcDateModified(date) {
+        this.date_modified_real = new Date(date);
+
+        this.date_modified = this.date_modified_real.getDate() + "/" + this.date_modified_real.getMonth() + "/" + this.date_modified_real.getFullYear() + ", " +
+            this.date_modified_real.getHours() + ":" + this.date_modified_real.getMinutes() + ":" + this.date_modified_real.getSeconds();
+    }
 
 }
 

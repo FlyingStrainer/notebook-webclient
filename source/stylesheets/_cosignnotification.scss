@@ -3,7 +3,7 @@
 .push--notification--box {
   position:fixed;
 
-  right : 40px;
+  right : 64px;
 
   @include transition-timing(ease);
 
@@ -13,17 +13,17 @@
 }
 
 .stateLoad.push--notification--box {
-  bottom : -42px;
+  bottom : -68px;
 }
 
 .stateHide.push--notification--box {
-  bottom : -42px;
+  bottom : -68px;
 
   @include transition(bottom 200ms 0ms);
 }
 
 .stateShow.push--notification--box {
-  bottom : 40px;
+  bottom : 42px;
 
   @include transition(bottom 300ms 0ms);
 }
