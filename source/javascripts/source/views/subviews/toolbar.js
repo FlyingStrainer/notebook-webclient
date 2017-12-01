@@ -71,6 +71,9 @@ export default class ToolbarView extends React.Component {
     }
 
 	shareCallback(event) {
+    
+    // change the callback this is if you want the form. IDK how to do the props though so i cant pass through the values i need to make the call. this.share_form.showShare()
+
 
 		const errorFunc = function(error) {
 			alert("error");
@@ -79,12 +82,13 @@ export default class ToolbarView extends React.Component {
 		Utils.post("makePDF", { notebook_hash : this.parent.notebook_hash}, function(json) {
 
 			setTimeout(function(){
-				alert(json);
+				// alert(JSON.stringify(json, null, 2));
+				// alert(json.url);
+        prompt("Your share link", json.url);
 			}.bind(this), 300);
 
 		}.bind(this), errorFunc);
 
-		// prompt("Your share link -->", this.parent.notebook_hash);
 	}
 
 	render() {
@@ -98,7 +102,7 @@ export default class ToolbarView extends React.Component {
 			    <div className="toolbar--right-icons">
 				{this.isManagerUI ? <a className="toolbar--back-up" href="#" onClick={e => (e.preventDefault(), this.backup)}/> : null}
 				{this.isManager || this.isManagerUI ? <a className="toolbar--manager-ui" href="#" onClick={e => (e.preventDefault(), this.parent.manager())}/> : null}
-				{this.hasShare ? <a className="toolbar--share" href="#" onClick={e => (e.preventDefault(), this.share_form.showShare())}/> : null}
+				{this.hasShare ? <a className="toolbar--share" href="#" onClick={e => (e.preventDefault(), this.shareCallback(e))}/> : null}
 				{this.isManagerUI ? <a className="toolbar--render--setting" href="#" onClick={e => (e.preventDefault())}/> : null}
 				{this.state.query ? <a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.query_form.showQuery())} /> : null}
 				<a className="toolbar--logout" href="#" onClick={e => (e.preventDefault(), this.parent.logoutCallback(e))} />
@@ -118,7 +122,7 @@ export default class ToolbarView extends React.Component {
 			<div className="toolbar--right-icons">
 			    {this.isManager ? <a className="toolbar--manager-ui" href="#" onClick={e => (e.preventDefault(), this.parent.manager())}/> : null}
 			    {this.isManagerUI ? <a className="toolbar--render--setting" href="#" onClick={e => (e.preventDefault())}/> : null}
-			    {this.hasShare ? <a className="toolbar--share" href="#" onClick={e => (e.preventDefault(), this.share_form.showShare())}/> : null}
+			    {this.hasShare ? <a className="toolbar--share" href="#" onClick={e => (e.preventDefault(), this.shareCallback(e))}/> : null}
 			    {this.state.query ? <a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.query_form.showQuery())}/> : null}
 			    <a className="toolbar--logout" href="#" onClick={e => (e.preventDefault(), this.parent.logoutCallback(e))} />
 			</div>

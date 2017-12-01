@@ -11,6 +11,7 @@ export default class ShareForm extends React.Component {
         this.showShare = this.showShare.bind(this);
         this.hideShare = this.hideShare.bind(this);
         this.share = this.share.bind(this);
+        this.notebook_hash = props.notebook_hash;
     }
 
     showShare() {
@@ -22,7 +23,22 @@ export default class ShareForm extends React.Component {
     }
 
     share() {
+      // This doesnt currently work because i dont know how to get the props passed through that i need
+      /*
+      const errorFunc = function(error) {
+        alert("error");
+      }.bind(this);
 
+      Utils.post("makePDF", { notebook_hash : this.parent.notebook_hash}, function(json) {
+
+      setTimeout(function(){
+        alert(json);
+      }.bind(this), 300);
+
+      }.bind(this), errorFunc);
+      */
+
+      // prompt("Your share link -->", this.notebook_hash);
     }
 
     render() {
