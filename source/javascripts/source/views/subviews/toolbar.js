@@ -62,7 +62,7 @@ export default class ToolbarView extends React.Component {
 			alert("error in backup!");
 		}.bind(this);
 
-		Utils.post("backup", { notebook_hash : this.parent.notebook_hash }, function(json) {
+		Utils.post("getBackup", { notebook_hash : this.parent.notebook_hash }, function(json) {
 			setTimeout(function(){
 				alert("Backup was a success. Very nice!");
 				// prompt("Your share link", json.url);
