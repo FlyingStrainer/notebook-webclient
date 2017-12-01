@@ -1,4 +1,5 @@
 @import "utils";
+
 .login-view {
   .register--password, .register--company {
     visibility: hidden;
@@ -9,12 +10,12 @@
     @include transition(visibility 0s 450ms, max-height 150ms 300ms, width 300ms 0ms);
 
     input {
-      padding: 7px 0;
+      padding: 7px 0 !important;
       @include transition(padding 300ms 0ms);
     }
   }
 
-  .form--label.login--invalid {
+  .login--invalid, .login--bad-email, .login--no-password, .recover--invalid, .register--match-password, .register--invalid {
     display: none;
   }
 
@@ -115,10 +116,9 @@
   @include transition(left 300ms 0ms, opacity 300ms 0ms);
 }
 
-.login-view.stateLoginInvalid {
-  .form--label.login--invalid {
+.login-view.stateLoginInvalid .login--invalid, .login-view.stateBadEmail .login--bad-email, .login-view.stateNoPassword .login--no-password,
+.login-view.stateRecoverInvalid .recover--invalid, .login-view.stateMatchPassword .register--match-password, .login-view.stateRegisterInvalid .register--invalid {
     display: inline;
-  }
 }
 
 .login-view.stateRecovery {
@@ -175,8 +175,20 @@
     @include transition(max-height 150ms 0s, width 300ms 150ms);
 
     input {
-      padding: 7px;
+      padding: 7px !important;
       @include transition(padding 300ms 0ms);
     }
   }
+}
+
+.intro-btn {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width:70px;
+  height:70px;
+  padding: 5px 10px 5px 20px;
+
+  background: url("../images/help.png") no-repeat 30px 15px;
+  background-size: 20px;
 }

@@ -1,42 +1,26 @@
-import pages from "./views/pages.js";
-import { DataEntryForm } from "./forms/dataentry.js";
-import { SignEntryForm } from "./forms/sign.js";
-import { CosignEntryForm } from "./forms/cosign.js";
-import LoginView from "./views/login.js";
-import Notebook from "./models/notebook.js";
-import Notebooks from "./views/notebooks.js";
-import NotebookPages from "./views/pages.js";
 import React from "../lib/react.js";
 
-import PushNotification from "./views/subviews/pushnotification.js";
+import LoginView from "./views/login.js";
+import Notebooks from "./views/notebooks.js";
+import NotebookPages from "./views/pages.js";
+
+import PushNotification from "./views/subviews/cosignnotification.js";
 
 import User from "./models/user.js";
+import ManagerView from "./views/manager"
+import DevFeedbackView from "./views/subviews/devfeedback";
+import * as Utils from "./utils.js";
 
 class VENote extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.user = new User("user_hash1", {
-			role : "manager",
-			create_notebooks : true,
-			notebooks : [
-				{
-					notebook_hash : "--notebook-key-1",
-					read : true,
-					write : false,
-					manager : false
-				},
-				{
-					notebook_hash : "--notebook-key-2",
-					read : true,
-					write : true,
-					manager : true
-				}]
-		}, "SCC", ["--notebook-key-1", "--notebook-key-2"]);
-		this.notebooks = [new Notebook("--notebook-key-1", "Notebook name 1", [], new Date(), new Date(), null, null)];
-		this.currentNotebook = this.notebooks[0];
-
-		this.state = {view : props.view, pushView : false};
+		if(typeof(Storage) !== "undefined" && localStorage.getItem("user_hash")) {
+		    this.state = { view : "blankView", pushView : false };
+        }
+        else {
+            this.state = { view : "", pushView : false};
+        }
 
 		this.login = this.login.bind(this);
 		this.getUser = this.getUser.bind(this);
@@ -47,19 +31,32 @@ class VENote extends React.Component {
 
 		this.getCurrentNotebook = this.getCurrentNotebook.bind(this);
 
+		this.manager = this.manager.bind(this);
 		this.back = this.back.bind(this);
 		this.logout = this.logout.bind(this);
+		this.manager = this.manager.bind(this);
 
-		this.parentHandler = {getUser : this.getUser, getNotebooks : this.getNotebooks, setNotebooks : this.setNotebooks,
-                                getCurrentNotebook : this.getCurrentNotebook, back : this.back, logout : this.logout};
+		this.parentHandler = { getUser : this.getUser, getNotebooks : this.getNotebooks, setNotebooks : this.setNotebooks,
+                                getCurrentNotebook : this.getCurrentNotebook, back : this.back, logout : this.logout, manager : this.manager };
 	}
 
+    componentDidMount() {
+        if(this.state.view === "blankView" && typeof(Storage) !== "undefined" && localStorage.getItem("user_hash")) {
+            Utils.post("user", { user_hash : localStorage.getItem("user_hash") }, function(json) {
+                this.login(json);
+            }.bind(this), function(error) {
+                console.log(error);
+                this.setState({ view : "" });
+            }.bind(this));
+        }
+    }
+
 	login(responseJson) {
-		//user_hash
-		//notebooks -> Array [uuid, name, creation_date, modified_date, ]
-
-		this.user = new User(responseJson.user_hash, responseJson.permissions, responseJson.company_name, responseJson.notebooks);
-
+	    this.user = new User(responseJson.user_hash, responseJson.permissions, responseJson.company_name, responseJson.notebook_list);
+	    this.notebooks = this.user.notebooks;
+	    if(typeof(Storage) !== "undefined") {
+	        localStorage.setItem("user_hash", this.user.user_hash);
+        }
 		if(this.user.permissions.role === "manager")
 		{
 			this.socket = new WebSocket("ws://endor-vm1.cs.purdue.edu/");
@@ -92,7 +89,7 @@ class VENote extends React.Component {
 			}.bind(this);
 		}
 
-		this.setState({view : "notebookView"});
+		this.setState({ view : "notebookView" });
 	}
 
 	getUser() {
@@ -100,11 +97,13 @@ class VENote extends React.Component {
 	}
 
 	notebook(notebook) {
-        console.log(this.notebooks);
         this.currentNotebook = notebook;
-        console.log(this.currentNotebook);
-        this.setState({view : "pageView"});
+        this.setState({ view : "pageView" });
 	}
+
+	manager() {
+	    this.setState({ view : "managerView" });
+    	}
 
 	getNotebooks() {
 		return this.notebooks;
@@ -118,16 +117,18 @@ class VENote extends React.Component {
 	    return this.currentNotebook;
 	}
 
-	back(e) {
-        if(this.state.view === "pageView")
-        {
+	back() {
+        if(this.state.view === "pageView") {
             this.currentNotebook = undefined;
-            this.setState({view : "notebookView"});
+            this.setState({ view : "notebookView" });
+        }
+        else if(this.state.view === "managerView") {
+            this.setState({ view : "pageView" });
         }
 	}
 
 	logout(e) {
-        this.user = undefined;
+        //this.user = undefined;
         this.notebooks = undefined;
         this.currentNotebook = undefined;
 
@@ -137,14 +138,26 @@ class VENote extends React.Component {
             this.socket = undefined;
         }
 
-        this.setState({view : "", pushView : false});
+        if(typeof(Storage) !== "undefined") {
+            localStorage.setItem("user_hash", undefined);
+        }
+
+        this.setState({view : "", pushView : false, feedbackView : false});
 	}
 
 	render() {
+	    console.log("state: " + this.state + this.state.view);
 		return (<div id="venoteview">
-			<div id="renderview">{this.state.view === "notebookView" ? <Notebooks callback={this.notebook} parentHandler={this.parentHandler}/>
-				: this.state.view === "pageView" ? <NotebookPages parentHandler={this.parentHandler} /> :
-                    <LoginView callback={this.login} />}</div>
+			<div id="renderview">
+				{this.state.view === "notebookView" ? <Notebooks callback={this.notebook} parentHandler={this.parentHandler}/>
+				: this.state.view === "pageView" ? <NotebookPages parentHandler={this.parentHandler}/>
+				: this.state.view === "managerView" ? <ManagerView parentHandler={this.parentHandler} /> 
+				: this.state.view === "" ? <LoginView callback={this.login} /> 
+				: null}
+			</div>
+            <div id="feedbackview">
+                {this.state.view !== "" && this.state.view !== "blankView" ? <DevFeedbackView parentHandler={this.parentHandler} /> : null}
+            </div>
 			<div id="pushview">
 				{this.state.pushView ? <PushNotification parentHandler={this.parentHandler} data={this.push_data} /> : null}
 			</div>
@@ -154,5 +167,5 @@ class VENote extends React.Component {
 
 //ReactDOM.render(<DataEntryForm >, document.getElementById("root"));
 document.addEventListener("DOMContentLoaded", function(event) {
-	ReactDOM.render(<VENote view={document.body.className} />, document.getElementById("root"));
+	ReactDOM.render(<VENote view={ document.body.className } />, document.getElementById("root"));
 });

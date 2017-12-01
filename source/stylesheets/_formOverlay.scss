@@ -1,0 +1,60 @@
+@import "utils";
+
+.overlay--form {
+  position: absolute;
+
+  opacity: 0;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  margin: auto;
+  text-align:center;
+  z-index: 6;
+
+  pointer-events: none;
+
+  @include transition-timing(ease);
+}
+
+.stateShow.overlay--form {
+  opacity: 1;
+
+  pointer-events: auto;
+
+  @include transition(opacity 300ms 0ms);
+}
+
+.stateHide.overlay--form {
+  opacity: 0;
+
+  @include transition(opacity 300ms 0ms);
+}
+
+.overlay--create-notebook {
+
+  width: 300px;
+
+}
+
+.overlay--new-entry, .overlay--query {
+  width: 600px;
+}
+
+.overlay--feedback {
+  width: 600px;
+}
+
+.overlay--review-entry {
+
+  width: 600px;
+
+  .data-entry--background {
+    background-color: lightgray;
+  }
+}
+
+.overlay--cosign-entry {
+  width: 400px;
+}

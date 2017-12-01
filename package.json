@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bundler": "^0.8.0",
     "dot": "^1.1.2",
     "extract-text-webpack-plugin": "^1.0.1",
     "js-cookie": "^2.1.3",

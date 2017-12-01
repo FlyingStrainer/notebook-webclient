@@ -1,8 +1,13 @@
 import React from "../../lib/react.js";
-import ToolbarView from "./subviews/toolbar";
+
 import Notebook from "../models/notebook.js";
-import Button from "./subviews/button.js";
-import User from "../models/user.js";
+
+import ToolbarView from "./subviews/toolbar.js";
+import NotebookView from "./subviews/notebook.js";
+
+import CreateNotebookForm from "./forms/createnotebook.js";
+
+import * as Utils from "../utils.js";
 
 export default class NotebooksView extends React.Component {
 	constructor(props) {
@@ -11,88 +16,66 @@ export default class NotebooksView extends React.Component {
 		this.parent = props.parentHandler;
 		this.callback = props.callback;
 
-		this.state = {notebookList : [], close : false, createNotebookState : "stateLoad "};
+		this.state = { notebookList : [], close : false, notebookState : "stateLoad " };
 
-		this.notebookListSearch = this.notebookListSearch.bind(this);
-
-		this.toggleCreateNotebook = this.toggleCreateNotebook.bind(this);
+		this.notebookSearch = this.notebookSearch.bind(this);
 
 		this.register = this.register.bind(this);
+
+		this.manager = this.manager.bind(this);
 
 		this.openNotebook = this.openNotebook.bind(this);
 
 		this.logout = this.logout.bind(this);
 
-        this.parentToolbar = {searchHandler : this.notebookListSearch, backCallback : this.parent.back, logoutCallback : this.logout};
-        this.parentNotebook = {openNotebook : this.openNotebook};
+        this.parentToolbar = { backCallback : this.parent.back, logoutCallback : this.logout, user_hash : this.parent.getUser().user_hash, query : this.notebookListSearch, manager : this.manager };
+        this.parentNotebook = { openNotebook : this.openNotebook };
 	}
 
 	componentDidMount() {
-		//if(this.parent.getNotebooks() === undefined)
-		//{
-			/*fetch("http://endor-vm1.cs.purdue.edu/getNotebooks", {
-				method: "POST",
-				headers: {
-					"Accept": "application/json",
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify({
-					user_hash : this.parent.getUser().user_hash
-				})
-			}).then(function(response) {
-				if(response.ok) {
-					return response.json();
-				}
-				throw new Error("Network response was not ok.");
-			}).then(function(json) {
-*/
-				let notebookCount = this.parent.getUser().notebooks.length;
-				let notebooks = [];
+		let notebookCount = this.parent.getUser().notebooks.length;
+		const notebooks = [];
 
-				this.parent.getUser().notebooks.forEach(function(notebook_uuid) {
-					fetch("http://endor-vm1.cs.purdue.edu/getNotebook", {
-						method: "POST",
-						headers: {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						},
-						body: JSON.stringify({
-							user_hash : this.parent.getUser().user_hash,
-							notebook_hash : notebook_uuid
-						})
-					}).then(function(response) {
-						if(response.ok) {
-							return response.json();
-						}
-						throw new Error("Network response was not ok.");
-					}).then(function(json) {
-						notebooks.push(new Notebook(notebook_uuid, json.name, json.managers, json.date_created, json.date_modified, json.permissions, json.tags));
+		let flag = false;
 
-						this.setState({notebookList : notebooks.slice()});
+        setTimeout(function() {
+                this.setState({ notebookState: "stateLoad stateTransition " });
 
-						notebookCount--;
-						if(notebookCount === 0)
-						{
-							this.parent.setNotebooks(notebooks);
-						}
-					}.bind(this)).catch(function(error) {
-						this.setState({createReady : true});
-						console.log(error.message);
-					}.bind(this));
-				}.bind(this));
-/*
-			}.bind(this)).catch(function(error) {
-				console.log(error.message);
-				this.setState({createReady : true});
-			}.bind(this));*/
-		//}
-		//else
-		//{
-		//	this.setState({notebookList : this.parent.getNotebooks()});
-		//}
-    }
+                setTimeout(function() {
+                    if(this.state.notebookState === "stateLoad stateTransition ")
+                        this.setState({ notebookState: "" });
 
-    notebookListSearch() {
+                }.bind(this), 300);
+        }.bind(this), 300);
+
+		this.parent.getUser().notebooks.forEach(function(notebook_uuid) {
+
+			Utils.post("getNotebook", { user_hash : this.parent.getUser().user_hash, notebook_hash : notebook_uuid }, function(json) {
+
+				flag = true;
+
+				notebooks.push(new Notebook(notebook_uuid, json));
+
+				notebooks.sort(function(n1, n2) {
+				    return n2.date_modified_real - n1.date_modified_real;
+                });
+
+				this.setState({ notebookList : notebooks.slice() });
+
+				notebookCount--;
+				if(notebookCount === 0)
+					this.parent.setNotebooks(notebooks);
+
+			}.bind(this));
+
+		}.bind(this));
+
+		if(!flag) {
+			this.setState({ notebookList : this.parent.getNotebooks() });
+		}
+	}
+
+    notebookSearch(responseJson) {
 	for (let entry of openNotebook.dataEntries) {
 		console.log(entry);
 	}
@@ -117,27 +100,28 @@ export default class NotebooksView extends React.Component {
 	});
     }
 
-    toggleCreateNotebook() {
-        if((this.state.createNotebookState === "stateHide " || this.state.createNotebookState === "stateLoad ") && this.parent.getUser().permissions.create_notebooks)
-        {
-        	this.notebookNameInput.value = "";
-	        this.setState({createNotebookState : "stateShow "});
-        }
-        else
-        {
-	        this.setState({createNotebookState : "stateHide "});
-        }
+    manager() {
+
     }
 
-    register() {
-		console.log("REGISTER");
+    register(responseJson) {
+	    const notebooks = this.state.notebookList;
 
-		this.notebookNameInput.value = "";
-		this.setState({createNotebookState : "stateHide "});
+	    notebooks.push(new Notebook(responseJson.notebook_hash, responseJson));
+
+        notebooks.sort(function(n1, n2) {
+            return n2.date_modified_real - n1.date_modified_real;
+        });
+
+	    this.setState({ notebookList: notebooks });
+	    this.parent.getUser().permissions.notebooks[responseJson.notebook_hash] = { read : true, write : true, manager : true };
+	    this.parent.setNotebooks(this.state.notebookList);
     }
+
 
     openNotebook(notebook) {
-	    this.setState({notebookList : this.state.notebookList.slice(), createNotebookState : "stateHide ", close : true});
+        this.create_notebook.hideCreateNotebook();
+	    this.setState({ notebookState : "stateExit stateTransition ", close : true });
 
 	    setTimeout(function(){
 		    this.callback(notebook);
@@ -145,7 +129,8 @@ export default class NotebooksView extends React.Component {
     }
 
     logout(event) {
-	    this.setState({notebookList : this.state.notebookList.slice(), createNotebookState : "stateHide ", close : true});
+	    this.create_notebook.hideCreateNotebook();
+	    this.setState({ notebookState : "stateExit stateTransition ", close : true });
 
 	    setTimeout(function(){
             this.parent.logout(event);
@@ -154,59 +139,26 @@ export default class NotebooksView extends React.Component {
 
 	render() {
 		return (<div className="notebooks-view">
-			<ToolbarView page={this.parent.getUser().company_name} parentHandler={this.parentToolbar} visible={this.state.close} searchFunction={this.notebookListSearch} hasBack={false}/>
-            <div className="list-view">
+			<ToolbarView dataIntro="Click the Magnifying glass to search. Click the button to it's right to logout" dataStep="3"
+                         page={this.parent.getUser().company_name} parentHandler={this.parentToolbar} visible={this.state.close}
+                         query={true} isManager={this.parent.getUser().permissions.role === "admin"} />
+            <div data-intro="Click on an existing notebook to add or view data entries inside" data-step="2" className={this.state.notebookState + "list-view"}>
 	            {this.parent.getUser().permissions.create_notebooks ?
-	            <div className="notebooks--notebook notebooks--create-notebook" onClick={this.toggleCreateNotebook}>
-		            <div className="notebook--create-icon" />
+	            <div data-intro="Click to create a new notebook" data-step="1" className="notebooks--notebook create" onClick={() => {
+	                if(this.parent.getUser().permissions.create_notebooks)
+	                    this.create_notebook.showCreateNotebook();
+                }}>
+		            <div className="create-icon" />
 	            </div> : null}
                 <div className="notebooks--notebook-list">
                     {this.state.notebookList.map(notebook => (
-                        <NotebookView parentHandler={this.parentNotebook} notebook={notebook} visible={this.state.close}/>
+                        <NotebookView parentHandler={this.parentNotebook} notebook={notebook} visible={this.state.close} key={notebook.notebook_hash}/>
                     ))}
                 </div>
             </div>
-			<div className={this.state.createNotebookState + "overlay"} onClick={this.toggleCreateNotebook} />
-			<div className={this.state.createNotebookState + "overlay--create-notebook form-style"} onClick={e => (e.stopPropagation())}>
-				<form>
-					<div className="form--text notebooks--name"><input name="name" type="text" placeholder="Notebook Name" onChange={this.handleChange} ref={(input) => {this.notebookNameInput = input}}/></div>
-					<Button wrapperClass="notebooks--create" type="submit" title="Create Notebook" onClick={this.register}/>
-				</form>
-			</div>
+            <CreateNotebookForm user_hash={this.parent.getUser().user_hash} submitCallback={this.register} ref={form => (this.create_notebook = form)} />
+      <a className="intro-btn" href="#" onClick={e => (e.preventDefault(), introJs().start())} />
 		</div>);
 	}
 }
 
-class NotebookView extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.parent = props.parentHandler;
-		this.notebook = props.notebook;
-
-		this.state = {notebookState : "stateLoad "};
-	}
-
-	componentDidMount() {
-        setTimeout(function() {
-            this.setState({notebookState: "stateLoad stateTransition "});
-            setTimeout(function() {
-                if(this.state.notebookState === "stateLoad stateTransition ")
-                    this.setState({notebookState: ""});
-            }.bind(this), 300);
-        }.bind(this), 300);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.visible !== this.props.visible) {
-            this.setState({notebookState: "stateExit stateTransition "});
-        }
-    }
-
-    render() {
-        return (<a className={this.state.notebookState + "notebooks--notebook"} onClick={e => (e.preventDefault(), this.parent.openNotebook(this.notebook))}>
-            <div className="notebook--title">{this.notebook.name}</div>
-            <div className="notebook--scribbles" />
-        </a>);
-	}
-}

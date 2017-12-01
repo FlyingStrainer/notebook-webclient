@@ -95,3 +95,12 @@ div.forms {
 	height: 30px;
 }
 
+.admin-portal {
+	background-color: red;
+}
+
+.admin-portal--background {
+	display: block;
+	margin-top: 100px;
+	background-color: blue;
+}

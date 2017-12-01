@@ -1,28 +1,18 @@
-import * as form from "./form.js";
-import NotebookModel from "../models/notebook.js";
-import DataEntryModel from '../models/dataentry.js';
-export * from "./form.js";
-import { SignEntryFields } from "./sign.js";
+import React from "../../../lib/react.js";
 
-export default class CosignEntryForm extends React.Component {
+import TextInput from "./createdataentry.js";
+export * from "./form.js";
+
+export default class SignEntryForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
-		this.author = props.author;
 		this.cancelCallback = props.cancelCallback;
 		this.submitCallback = props.submitCallback;
-		this.cosign = this.cosign.bind(this);
-		this.notebook = props.notebook;
-		this.entry = props.entry;
-		//Testing
-		this.entry = new DataEntryModel();
-		this.notebook = new NotebookModel();
-		this.entry.user_hash = "Hi";
-		this.notebook.notebook_hash = "Ho";
-		this.entry.entry_hash = "Hu";
+		this.sign = this.sign.bind(this);
 	}
 
-	cosign() {
+	sign() {
 		console.log("cosign");
 
 		var body = JSON.stringify({
@@ -55,12 +45,26 @@ export default class CosignEntryForm extends React.Component {
 	//<input className="forms header" id="cancel-button" type="button" value="Cancel" onClick={this.cancelCallback}/>
 	render() {
 		return 	<div>
-				<div className="forms header" id="container">
-					<h1 className="forms header" id="header-text">Sign Entry</h1>
+				<SignEntryFields submitCallback={this.sign} author={this.author}/>
+			</div>;
+	}
+}
+
+export class SignEntryFields extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {};
+		this.submitCallback=props.submitCallback;
+		this.author=props.author;
+	}
+	
+	render() {
+		return 	<div>
+				<div id="signature">
+					<TextInput className="forms signature" label="By entering your full name you confirm the validity of this entry." />
 				</div>
 				<br />
-				<br />
-				<SignEntryFields submitCallback={this.cosign} author={this.author}/>
-			</div>;
+				<input className="forms submitButton" type="submit" value="Sign" onClick={this.submitCallback}/>
+			</div>;	
 	}
 }
