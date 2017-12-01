@@ -16,7 +16,7 @@ export default class DataEntry {
 			this.author = json.author;
 			this.redacted = json.redacted;
 
-			this.date_created = this.date_created_real.getDate() + "/" + this.date_created_real.getMonth() + "/" + this.date_created_real.getFullYear() + ", " +
+			this.date_created = this.date_created_real.getDate() + "/" + (this.date_created_real.getMonth() + 1) + "/" + this.date_created_real.getFullYear() + ", " +
                 this.date_created_real.getHours() + ":" + this.date_created_real.getMinutes() + ":" + this.date_created_real.getSeconds();
 		}
 	}
