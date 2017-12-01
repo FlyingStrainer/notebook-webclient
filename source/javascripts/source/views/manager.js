@@ -1,4 +1,7 @@
 import React from "../../lib/react.js";
+
+import User from "../models/user.js";
+
 import ToolbarView from "./subviews/toolbar";
 import * as Utils from "../utils.js";
 
@@ -54,20 +57,15 @@ export default class ManagerView extends React.Component {
 			throw new Error("Network response was not ok.");
 		}).then(function(data) {
 			var allPermissions = [];
-			var permissions;
-			for(var user in data) {
-				permissions = data[user]
+			for(let user in data) {
+				const permissions = data[user]
 
 			        console.log(user,permissions);
-				var userPermission = 	{
-								user_hash : user,
-								permission : permissions
-							};			
-				allPermissions.push(userPermission);
-				console.log("All1: " + allPermissions);	
+				Utils.post("user", { user_hash : user }, function(json) {
+					allPermissions.push({ user : new User(json), permission : permissions});
+					this.setState({userPermissions: allPermissions});
+				}.bind(this));
 			}
-			this.setState({userPermissions: allPermissions});
-			return allPermissions;
 		}.bind(this));
 	}
 
