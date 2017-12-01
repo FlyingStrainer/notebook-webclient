@@ -7,6 +7,8 @@ export default class SettingsForm extends React.Component {
     constructor(props) {
         super(props);
 
+        this.submitCallback = props.submitCallback;
+
 	    this.state = { overlayState : "stateLoad ", imageState : "stateBelow " };
 
         this.showSettings = this.showSettings.bind(this);
@@ -28,7 +30,8 @@ export default class SettingsForm extends React.Component {
     }
 
     settings() {
-
+        this.hideSettings();
+        this.submitCallback(this.imageState);
     }
 
     render() {

@@ -104,7 +104,7 @@ export default class ToolbarView extends React.Component {
 					{this.hasBack === true ? <a className="toolbar--back" href="#" onClick={e => (this.parent.backCallback())} /> : null}
 					<div className="toolbar--title">{this.name}</div>
 					<div className="toolbar--right-icons">
-						{this.state.isManagerUI ? <a className="toolbar--back-up" href="#" onClick={e => (e.preventDefault(), this.backup())}/> : null}
+						{this.state.isManagerUI && this.state.isManagerUI !== 2 ? <a className="toolbar--back-up" href="#" onClick={e => (e.preventDefault(), this.backup())}/> : null}
 						{this.isManager || this.state.isManagerUI ? <a className="toolbar--manager-ui" href="#" onClick={e => (e.preventDefault(), this.parent.manager())}/> : null}
 						{this.hasShare ? <a className="toolbar--share" href="#" onClick={e => (e.preventDefault(), this.shareCallback())}/> : null}
 						{this.state.isManagerUI ? <a className="toolbar--render--setting" href="#" onClick={e => (e.preventDefault(), this.settings_form.showSettings())}/> : null}
@@ -112,7 +112,7 @@ export default class ToolbarView extends React.Component {
 						<a className="toolbar--logout" href="#" onClick={e => (e.preventDefault(), this.parent.logoutCallback(e))} />
 					</div>
 				</div>
-				{this.state.isManagerUI ? <SettingsForm ref={settings => (this.settings_form = settings)}/> : null}
+				{this.state.isManagerUI ? <SettingsForm submitCallback={this.parent.settings} ref={settings => (this.settings_form = settings)}/> : null}
 				{this.state.query ? <QueryForm query={this.parent.query} ref={query => (this.query_form = query)}/> : null}
 				{this.hasShare ? <ShareForm ref={share => {this.share_form = share}}/> : null}
 			</div>);
@@ -131,7 +131,7 @@ export default class ToolbarView extends React.Component {
 					{this.state.query ? <a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.query_form.showQuery())}/> : null}
 					<a className="toolbar--logout" href="#" onClick={e => (e.preventDefault(), this.parent.logoutCallback(e))} />
 				</div>
-				{this.state.isManagerUI ? <SettingsForm ref={settings => (this.settings_form = settings)}/> : null}
+				{this.state.isManagerUI ? <SettingsForm submitCallback={this.parent.settings} ref={settings => (this.settings_form = settings)}/> : null}
 				{this.state.query ? <QueryForm query={this.parent.query} ref={query => (this.query_form = query)}/> : null}
 				{this.hasShare ? <ShareForm ref={share => {this.share_form = share}}/> : null}
 			</div>

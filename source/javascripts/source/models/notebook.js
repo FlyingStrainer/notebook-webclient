@@ -13,6 +13,10 @@ export default class Notebook
 			this.tags = json.tags;
 			this.settings = json.settings;
 
+			if(this.settings === undefined) {
+				this.settings = { image : "below" }
+			}
+
 			this.calcDateCreated(json.date_created);
 			this.calcDateModified(json.date_modified);
 		}

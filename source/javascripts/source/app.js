@@ -53,7 +53,7 @@ class VENote extends React.Component {
     }
 
 	login(responseJson) {
-	    this.user = new User(responseJson.user_hash, responseJson.permissions, responseJson.company_name, responseJson.notebook_list);
+	    this.user = new User(responseJson);
 	    this.notebooks = this.user.notebooks;
 	    if(typeof(Storage) !== "undefined") {
 	        localStorage.setItem("user_hash", this.user.user_hash);
@@ -128,6 +128,9 @@ class VENote extends React.Component {
         }
         else if(this.state.view === "managerView") {
             this.setState({ view : "pageView" });
+        }
+        else if(this.state.view === "adminView") {
+        	this.setState({ view : "notebookView" });
         }
 	}
 

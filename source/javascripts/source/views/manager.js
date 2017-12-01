@@ -1,6 +1,6 @@
 import React from "../../lib/react.js";
 import ToolbarView from "./subviews/toolbar";
-import Button from "./forms/button.js";
+import * as Utils from "../utils.js";
 
 export default class ManagerView extends React.Component {
 
@@ -11,11 +11,20 @@ export default class ManagerView extends React.Component {
 
 		this.parent = props.parentHandler;
 
+		this.settings = this.settings.bind(this);
 		this.logout = this.logout.bind(this);
 		this.back = this.back.bind(this);
 
         this.parentToolbar = { backCallback : this.back, logoutCallback : this.logout, user_hash : this.parent.getUser().user_hash,
-            notebook_hash : this.parent.getCurrentNotebook().notebook_hash, manager : this.back};
+            notebook_hash : this.parent.getCurrentNotebook().notebook_hash, manager : this.back, settings : this.settings};
+	}
+
+	settings(mode) {
+		const imageSetting = mode === "stateInline " ? "inline" : "below";
+		console.log(imageSetting);
+		Utils.post("format", { user_hash : this.parent.getUser().user_hash, settings : { image : imageSetting }}, function() {
+			this.parent.getCurrentNotebook().settings = { image : imageSetting };
+		});
 	}
 
 	back() {
