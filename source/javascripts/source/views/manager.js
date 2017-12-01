@@ -92,22 +92,7 @@ export default class ManagerView extends React.Component {
 				return json;
 			}
 			throw new Error("Network response was not ok.");
-		}).then(function(data) {
-			var allPermissions = [];
-			var permissions;
-			for(var user in data) {
-				permissions = data[user]
-				console.log(user,permissions);
-				var userPermission =    {
-					user_hash : user,
-					permission : permissions
-				};                      
-				allPermissions.push(userPermission);
-				console.log("All1: " + allPermissions); 
-			}
-			this.setState({userPermissions: allPermissions});
-			return allPermissions;
-		}.bind(this));	
+		});	
 	}
 
 	displayUsers() {
@@ -128,8 +113,9 @@ export default class ManagerView extends React.Component {
 				else {
 					//Add div for each user
 					var currentPermissions = object["permission"];
+					this.setState({currentUser: object["user"]});
 					userDivs.push(	<div> 
-								<a href="#" onClick={this.displayPermissions.bind(this, currentPermissions)}> {object["user_hash"]} </a>
+								<a href="#" onClick={this.displayPermissions.bind(this, currentPermissions)}> {object["user"].email} </a>
 							</div>);
 					
 				}
