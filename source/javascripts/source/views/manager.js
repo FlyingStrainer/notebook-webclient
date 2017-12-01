@@ -7,7 +7,7 @@ export default class ManagerView extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { close : false, manager: true, userPermissions: [], currentPermissions: {}};
+		this.state = { close : false, manager: true, currentUser: {}, userPermissions: [], currentPermissions: {}};
 
 		this.parent = props.parentHandler;
 
@@ -69,6 +69,47 @@ export default class ManagerView extends React.Component {
 			this.setState({userPermissions: allPermissions});
 			return allPermissions;
 		}.bind(this));
+	}
+
+	savePermissions() {
+
+		var newObject = {};
+		newObject[this.state.currentUser] = this.state.currentPermissions;	
+		var changes = [newObject];
+
+		fetch("http://endor-vm1.cs.purdue.edu/setNotebookPermissions", {
+			method: "POST",
+			headers: {
+				"Accept": "application/json",
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				user_hash : this.parent.getUser().user_hash,
+				notebook_hash : this.parent.getCurrentNotebook().notebook_hash,
+				changes : changes
+			})
+		}).then(function(response) {
+			if(response.ok) {
+				var json = response.json();
+				return json;
+			}
+			throw new Error("Network response was not ok.");
+		}).then(function(data) {
+			var allPermissions = [];
+			var permissions;
+			for(var user in data) {
+				permissions = data[user]
+				console.log(user,permissions);
+				var userPermission =    {
+					user_hash : user,
+					permission : permissions
+				};                      
+				allPermissions.push(userPermission);
+				console.log("All1: " + allPermissions); 
+			}
+			this.setState({userPermissions: allPermissions});
+			return allPermissions;
+		}.bind(this));	
 	}
 
 	displayUsers() {
@@ -153,7 +194,7 @@ export default class ManagerView extends React.Component {
 
 	render() {
 		return (<div className="notebooks-view">
-            <ToolbarView dataIntro="Click"
+            		<ToolbarView dataIntro="Click"
                          dataStep="1" page={this.parent.getUser().company_name + " < " + this.parent.getCurrentNotebook().name}
                          parentHandler={this.parentToolbar} visible={this.state.close} hasShare={true} hasBack={true} isManagerUI={this.state.manager} />
 				<div className="admin-ui container">
@@ -165,7 +206,6 @@ export default class ManagerView extends React.Component {
 					</div>
 				</div>
 			</div>);
-		</div>);
 	}
 
 }
