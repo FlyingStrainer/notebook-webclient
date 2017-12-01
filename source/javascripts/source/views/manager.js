@@ -46,13 +46,6 @@ export default class ManagerView extends React.Component {
 					))}
 				</div>
 			</div>
-			<div className={this.state.createNotebookState + "overlay"} onClick={this.toggleCreateNotebook} />
-			<div className={this.state.createNotebookState + "overlay--create-notebook form-style"} onClick={e => (e.stopPropagation())}>
-				<form>
-					<div className="form--text notebooks--name"><input name="name" type="text" placeholder="Notebook Name" onChange={this.handleChange} ref={(input) => {this.notebookNameInput = input}}/></div>
-					<Button wrapperClass="notebooks--create" type="submit" title="Create Notebook" onClick={this.register}/>
-				</form>
-			</div>
 		</div>);
 	}*/
 

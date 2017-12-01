@@ -40,7 +40,7 @@ export default class CreateNotebookForm extends React.Component {
 	render() {
 		return (<div className="create-notebook-form">
 			<div className={this.state.overlayState + "overlay"} onClick={this.hideCreateNotebook} />
-			<div className={this.state.overlayState + "overlay--create-notebook form-style"}>
+			<div className={this.state.overlayState + "overlay--form overlay--create-notebook form-style"}>
 				<form>
 					<div className="form--text notebooks--name">
 						<input name="name" type="text" placeholder="Notebook Name" ref={(input) => {this.notebookNameInput = input}}/>

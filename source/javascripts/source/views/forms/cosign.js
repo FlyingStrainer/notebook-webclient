@@ -47,7 +47,7 @@ export default class CosignEntryForm extends React.Component {
 	render() {
 		return 	(<div className="cosign-entry-form">
 			<div className={this.state.overlayState + "overlay"} onClick={this.hideCosign} />
-			<div className={this.state.overlayState + "overlay--cosign-entry form-style"}>
+			<div className={this.state.overlayState + "overlay--form overlay--cosign-entry form-style"}>
 				{this.state.entry ? <Entry entry={this.entry} /> : null}
 				<form>
 					{this.state.entry ? <div>

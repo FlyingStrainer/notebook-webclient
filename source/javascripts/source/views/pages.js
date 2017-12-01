@@ -20,7 +20,7 @@ export default class NotebookPagesView extends React.Component {
 
 		this.notebook_permissions = this.parent.getUser().permissions.notebooks[this.parent.getCurrentNotebook().notebook_hash];
 
-		this.state = { entriesList : [], pageState : "stateLoad ", close : false };
+		this.state = { entriesList : [], pageState : "stateLoad ", close : false, query : true };
 
 		this.register = this.register.bind(this);
 		this.redact = this.redact.bind(this);
@@ -112,7 +112,7 @@ export default class NotebookPagesView extends React.Component {
     manager() {
 	    this.create_entry.hideNewEntry();
 	    this.review_entry.hideReviewEntry();
-	    this.setState({ pageState : "stateExit stateTransition ", close : true });
+	    this.setState({ pageState : "stateExit stateTransition ", query : false });
 
 	    this.managerCallback();
 	    setTimeout(function() {
@@ -143,7 +143,7 @@ export default class NotebookPagesView extends React.Component {
 		return <div className="pages">
 			<ToolbarView dataIntro="Click the gear to change render settings. Click the magnifying glass to search. Click the button with 3 circles to share current notebook. Click the button to far right to logout"
 			             dataStep="1" page={this.parent.getUser().company_name + " < " + this.parent.getCurrentNotebook().name}
-			             parentHandler={this.parentToolbar} visible={this.state.close} hasShare={true} hasBack={true} query={true} isManager={this.notebook_permissions.manager} />
+			             parentHandler={this.parentToolbar} visible={this.state.close} hasShare={true} hasBack={true} query={this.state.query} isManager={this.notebook_permissions.manager} />
 			<div className={this.state.pageState + "list-view"}>
 				{this.notebook_permissions.write ?
 				<div className="entries--entry create" onClick={() => {
