@@ -1,9 +1,13 @@
+import React from "../../lib/react.js";
+
 import DataEntry from "../models/dataentry.js";
+
+import ToolbarView from "./subviews/toolbar.js";
+import PageView from "./subviews/page.js";
+
 import CreateEntryForm from "./forms/createdataentry.js";
 import ReviewEntryForm from "./forms/reviewdataentry.js";
 
-import React from "../../lib/react.js";
-import ToolbarView from "./subviews/toolbar.js";
 import * as Utils from "../utils.js";
 
 export default class NotebookPagesView extends React.Component {
@@ -17,18 +21,19 @@ export default class NotebookPagesView extends React.Component {
 
 		this.state = { entriesList : [], pageState : "stateLoad ", close : false };
 
-		this.pageListSearch = this.pageListSearch.bind(this);
-
 		this.register = this.register.bind(this);
 		this.redact = this.redact.bind(this);
 		this.cosign = this.cosign.bind(this);
 
 		this.reviewEntry = this.reviewEntry.bind(this);
 
+		this.pageSearch = this.pageSearch.bind(this);
+		this.manager = this.manager.bind(this);
 		this.back = this.back.bind(this);
 		this.logout = this.logout.bind(this);
 
-        this.parentToolbar = { searchHandler : this.pageListSearch, backCallback : this.back, logoutCallback : this.logout, notebook_hash : this.parent.getCurrentNotebook().notebook_hash, manager : this.parent.manager};
+        this.parentToolbar = { backCallback : this.back, logoutCallback : this.logout, user_hash : this.parent.getUser().user_hash,
+            notebook_hash : this.parent.getCurrentNotebook().notebook_hash, query : this.pageSearch, manager : this.manager};
         this.parentEntry = { reviewEntry : this.reviewEntry };
 	}
 
@@ -57,6 +62,10 @@ export default class NotebookPagesView extends React.Component {
 
                     entryList.push(new DataEntry(entry_uuid, json));
 
+                    entryList.sort(function(d1, d2) {
+                        return d2.date_created_real - d1.date_created_real;
+                    });
+
 					this.setState({ entriesList : entryList.slice() });
 
 				}.bind(this), function(error) {
@@ -68,13 +77,17 @@ export default class NotebookPagesView extends React.Component {
 		}.bind(this));
     }
 
-	pageListSearch(event) {
-
-    }
-
     register(responseJson) {
-		console.log(responseJson);
-	    this.setState({ entriesList : this.state.entriesList.concat(new DataEntry(responseJson.entry_hash, responseJson)) });
+	    const entryList = this.state.entriesList;
+
+	    entryList.push(new DataEntry(responseJson.entry_hash, responseJson));
+
+        entryList.sort(function(d1, d2) {
+            return d2.date_created_real - d1.date_created_real;
+        });
+
+	    this.setState({ entriesList : entryList });
+	    this.parent.getCurrentNotebook().calcDateModified(responseJson.date_modified);
     }
 
     redact() {
@@ -87,6 +100,10 @@ export default class NotebookPagesView extends React.Component {
 
     reviewEntry(entry) {
 	    this.review_entry.setReviewEntry(entry);
+    }
+
+    pageSearch(responseJson) {
+
     }
 
     manager() {
@@ -123,7 +140,7 @@ export default class NotebookPagesView extends React.Component {
 		return <div className="pages">
 			<ToolbarView dataIntro="Click the gear to change render settings. Click the magnifying glass to search. Click the button with 3 circles to share current notebook. Click the button to far right to logout"
 			             dataStep="1" page={this.parent.getUser().company_name + " < " + this.parent.getCurrentNotebook().name}
-			             parentHandler={this.parentToolbar} visible={this.state.close} hasShare={true} hasBack={true} isManager={this.notebook_permissions.manager} />
+			             parentHandler={this.parentToolbar} visible={this.state.close} hasShare={true} hasBack={true} query={true} isManager={this.notebook_permissions.manager} />
 			<div className={this.state.pageState + "list-view"}>
 				{this.notebook_permissions.write ?
 				<div className="entries--entry create" onClick={() => {
@@ -148,44 +165,5 @@ export default class NotebookPagesView extends React.Component {
                              ref={form => (this.review_entry = form)}/>
       <a className="intro-btn" href="#" onClick={e => (e.preventDefault(), introJs().start())} />
 		</div>
-	}
-}
-
-class PageView extends React.Component {
-
-	constructor(props) {
-		super(props);
-
-		this.parent = props.parentHandler;
-		this.entry = props.entry;
-
-		this.state = { entryState : "stateLoad " };
-	}
-
-	componentDidMount() {
-	    this.mounted = true;
-		setTimeout(function() {
-		    if(this.mounted) {
-                this.setState({ entryState: "stateLoad stateTransition " });
-
-                setTimeout(function() {
-                    if(this.mounted && this.state.entryState === "stateLoad stateTransition ")
-                        this.setState({ entryState: "" });
-
-                }.bind(this), 300);
-            }
-		}.bind(this), 300);
-	}
-
-	componentWillUnmount() {
-	    this.mounted = false;
-    }
-
-	render() {
-		return (<a className={this.state.entryState + "entries--entry"} onClick={e => (e.preventDefault(), this.parent.reviewEntry(this.entry))}>
-			<div className="entry--title">{this.entry.author}</div>
-            <div className="entry--date">{this.entry.date_created}</div>
-			<div className="notebook--scribbles" />
-		</a>);
 	}
 }

@@ -1,6 +1,6 @@
 @import "utils";
 
-.overlay--create-notebook, .overlay--new-entry, .overlay--review-entry, .overlay--cosign-entry, .overlay--feedback {
+.overlay--create-notebook, .overlay--new-entry, .overlay--review-entry, .overlay--cosign-entry, .overlay--feedback, .overlay--query {
   position: absolute;
 
   opacity: 0;
@@ -18,7 +18,7 @@
   @include transition-timing(ease);
 }
 
-.stateShow.overlay--create-notebook, .stateShow.overlay--new-entry, .stateShow.overlay--review-entry, .stateShow.overlay--cosign-entry, .stateShow.overlay--feedback {
+.stateShow.overlay--create-notebook, .stateShow.overlay--new-entry, .stateShow.overlay--review-entry, .stateShow.overlay--cosign-entry, .stateShow.overlay--feedback, .stateShow.overlay--query {
   opacity: 1;
 
   pointer-events: auto;
@@ -26,7 +26,7 @@
   @include transition(opacity 300ms 0ms);
 }
 
-.stateHide.overlay--create-notebook, .stateHide.overlay--new-entry, .stateHide.overlay--review-entry, .stateHide.overlay--cosign-entry, .stateHide.overlay--feedback {
+.stateHide.overlay--create-notebook, .stateHide.overlay--new-entry, .stateHide.overlay--review-entry, .stateHide.overlay--cosign-entry, .stateHide.overlay--feedback, .stateHide.overlay--query {
   opacity: 0;
 
   @include transition(opacity 300ms 0ms);
@@ -38,7 +38,7 @@
 
 }
 
-.overlay--new-entry {
+.overlay--new-entry, .overlay--query {
   width: 600px;
 }
 

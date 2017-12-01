@@ -76,7 +76,7 @@ export default class LoginView extends React.Component {
 	recover(event) {
 		if(this.loginState === 0)
 		{
-			this.setState({buttonState : "stateRecovery "});
+			this.setState({ buttonState : "stateRecovery " });
 			this.loginState = 1;
 		}
 		else if(this.loginState === 1)
@@ -134,11 +134,11 @@ export default class LoginView extends React.Component {
 					<div className="form--text register--password"><input name="confirmpassword" type="password" placeholder="Confirm Password" onChange={this.handleChange} /></div>
 					<div className="form--text register--company"><input name="companyid" type="text" placeholder="Company" onChange={this.handleChange} /></div>
 
-					<div className="form--label login--bad-email">Your email is not valid</div>
-					<div className="form--label login--no-password">You didn't enter a password</div>
-					<div className="form--label recover--invalid">Your email/companyid was incorrect</div>
-					<div className="form--label register--match-password">Your password does not match</div>
-					<div className="form--label register--invalid">Your companyid does not exist</div>
+                    <div className="form--label login--bad-email"><div>Your email is not valid</div></div>
+                    <div className="form--label login--no-password"><div>You didn't enter a password</div></div>
+                    <div className="form--label recover--invalid"><div>Your email/companyid was incorrect</div></div>
+                    <div className="form--label register--match-password"><div>Your password does not match</div></div>
+                    <div className="form--label register--invalid"><div>Your companyid does not exist</div></div>
 
 					<Button dataIntro="Click on LOGIN to enter the account associated with email and password" dataStep="3" wrapperClass="introLogin login" type="submit" title="Login" onClick={this.login}/>
 					<Button wrapperClass="login--recover" type="submit" title="Recover" onClick={this.recover}/>

@@ -11,13 +11,13 @@ export default class DataEntry {
 			this.image = json.image;
 			this.caption = json.caption;
 			this.tags = json.tags;
-			this.date_created = new Date(json.date_created);
+			this.date_created_real = new Date(json.date_created);
 			this.author_hash = json.author_hash;
 			this.author = json.author;
 			this.redacted = json.redacted;
 
-			this.date_created = this.date_created.getDate() + "/" + this.date_created.getMonth() + "/" + this.date_created.getFullYear() + ", " +
-                this.date_created.getHours() + ":" + this.date_created.getMinutes() + ":" + this.date_created.getSeconds();
+			this.date_created = this.date_created_real.getDate() + "/" + this.date_created_real.getMonth() + "/" + this.date_created_real.getFullYear() + ", " +
+                this.date_created_real.getHours() + ":" + this.date_created_real.getMinutes() + ":" + this.date_created_real.getSeconds();
 		}
 	}
 }

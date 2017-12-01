@@ -43,6 +43,7 @@ class VENote extends React.Component {
             Utils.post("user", { user_hash : localStorage.getItem("user_hash") }, function(json) {
                 this.login(json);
             }.bind(this), function(error) {
+                console.log(error);
                 this.setState({ view : "" });
             }.bind(this));
         }
@@ -114,7 +115,7 @@ class VENote extends React.Component {
 	    return this.currentNotebook;
 	}
 
-	back(e) {
+	back() {
         if(this.state.view === "pageView") {
             this.currentNotebook = undefined;
             this.setState({ view : "notebookView" });
