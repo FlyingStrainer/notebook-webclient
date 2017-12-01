@@ -15,31 +15,38 @@ export default class ToolbarView extends React.Component {
 		this.hasShare = props.hasShare;
 		this.isManager = props.isManager;
 		this.isManagerUI = props.isManagerUI;
-		this.query = props.query;
 		this.dataIntro = props.dataIntro;
 		this.dataStep = props.dataStep;
 
-		this.state = { toolbarState : "stateLoad " };
+		this.state = { toolbarState : (this.isManagerUI ? "" : "stateLoad "), query : props.query };
 
+		this.backup = this.backup.bind(this);
 		this.shareCallback = this.shareCallback.bind(this);
 	}
 
 	componentDidMount() {
-		setTimeout(function() {
-			this.setState({toolbarState: "stateLoad stateTransition "});
-			setTimeout(function() {
-				this.setState({toolbarState: ""});
-			}.bind(this), 300);
-		}.bind(this), 300);
+	    if(!this.isManagerUI) {
+            setTimeout(function() {
+                this.setState({toolbarState: "stateLoad stateTransition "});
+                setTimeout(function() {
+                    this.setState({toolbarState: ""});
+                }.bind(this), 300);
+            }.bind(this), 300);
+        }
 	}
 
 	componentWillReceiveProps(nextProps) {
 		if(nextProps.visible !== this.props.visible)
 			this.setState({ toolbarState : "stateExit stateTransition " });
 		if(nextProps.query !== this.query) {
+		    this.setState({ query : nextProps.query });
 		    console.log("HERE");
         }
 	}
+
+	backup() {
+
+    }
 
 	shareCallback(event) {
 
@@ -67,15 +74,16 @@ export default class ToolbarView extends React.Component {
                         {this.name}
                     </div>
                     <div className="toolbar--right-icons">
-                        {this.isManager ? <a className="toolbar--manager-ui" href="#" onClick={e => (e.preventDefault(), this.parent.manager())}/> : null}
+                        {this.isManagerUI ? <a className="toolbar--back-up" href="#" onClick={e => (e.preventDefault(), this.backup)}/> : null}
+                        {this.isManager || this.isManagerUI ? <a className="toolbar--manager-ui" href="#" onClick={e => (e.preventDefault(), this.parent.manager())}/> : null}
                         {this.hasShare ? <a className="toolbar--share" href="#" onClick={e => (e.preventDefault(), this.share_form.showShare())}/> : null}
                         {this.isManagerUI ? <a className="toolbar--render--setting" href="#" onClick={e => (e.preventDefault())}/> : null}
-                        {this.query ? <a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.query_form.showQuery())} /> : null}
+                        {this.state.query ? <a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.query_form.showQuery())} /> : null}
                         <a className="toolbar--logout" href="#" onClick={e => (e.preventDefault(), this.parent.logoutCallback(e))} />
                     </div>
                 </div>
-                <QueryForm ref={query => (this.query_form = query)}/>
-                <ShareForm ref={share => {this.share_form = share}}/>
+                {this.state.query ? <QueryForm ref={query => (this.query_form = query)}/> : null}
+                {this.hasShare ? <ShareForm ref={share => {this.share_form = share}}/> : null}
             </div>);
 		}
 
@@ -89,11 +97,11 @@ export default class ToolbarView extends React.Component {
                     {this.isManager ? <a className="toolbar--manager-ui" href="#" onClick={e => (e.preventDefault(), this.manager)}/> : null}
                     {this.isManagerUI ? <a className="toolbar--render--setting" href="#" onClick={e => (e.preventDefault())}/> : null}
                     {this.hasShare ? <a className="toolbar--share" href="#" onClick={e => (e.preventDefault(), this.share_form.showShare())}/> : null}
-                    <a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.query_form.showQuery())} />
+                    {this.state.query ? <a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.query_form.showQuery())}/> : null}
                     <a className="toolbar--logout" href="#" onClick={e => (e.preventDefault(), this.parent.logoutCallback(e))} />
                 </div>
-                <QueryForm ref={query => (this.query_form = query)}/>
-                <ShareForm ref={share => {this.share_form = share}}/>
+                {this.state.query ? <QueryForm ref={query => (this.query_form = query)}/> : null}
+                {this.hasShare ? <ShareForm ref={share => {this.share_form = share}}/> : null}
             </div>
         </div>);
 	}

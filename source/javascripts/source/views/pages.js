@@ -112,7 +112,7 @@ export default class NotebookPagesView extends React.Component {
 	    this.setState({ pageState : "stateExit stateTransition ", query : false });
 
 	    setTimeout(function() {
-
+            this.parent.manager();
         }.bind(this), 300);
     }
 

@@ -31,11 +31,12 @@ class VENote extends React.Component {
 
 		this.getCurrentNotebook = this.getCurrentNotebook.bind(this);
 
+		this.manager = this.manager.bind(this);
 		this.back = this.back.bind(this);
 		this.logout = this.logout.bind(this);
 
 		this.parentHandler = { getUser : this.getUser, getNotebooks : this.getNotebooks, setNotebooks : this.setNotebooks,
-                                getCurrentNotebook : this.getCurrentNotebook, back : this.back, logout : this.logout };
+                                getCurrentNotebook : this.getCurrentNotebook, back : this.back, logout : this.logout, manager : this.manager };
 	}
 
     componentDidMount() {
