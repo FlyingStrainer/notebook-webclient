@@ -1,6 +1,6 @@
 @import "utils";
 
-.admin--container {
+.admin--container, .admin-ui.container {
   position:absolute;
   text-decoration: none;
   font-family: 'Montserrat', sans-serif;
@@ -14,9 +14,10 @@
   width: 100%;
   height: auto;
 
-  .admin--users {
+  .admin--users, .user-list {
     float: left;
     width : 50%;
+    min-height: 10px;
 
     .admin--user {
       font-size: 20px;
@@ -24,10 +25,18 @@
     }
   }
 
-  .admin--notebooks {
+  .admin--notebooks, .permission-selector {
     float:left;
     width: 50%;
   }
+}
+
+.data-entry--captioned-image {
+  width: auto;
+}
+
+.inline.data-entry--captioned-image {
+  float:right;
 }
 
 .list-view {

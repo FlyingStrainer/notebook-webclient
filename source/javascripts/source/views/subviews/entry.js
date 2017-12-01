@@ -22,7 +22,7 @@ export default class Entry extends React.Component {
 		if(this.notebook.settings.image === "inline") {
 			// CaptionedImage here for inline formatting
 			return <div>
-				{this.state.entry.image ? <CaptionedImage className="data-entry--image" image={this.state.entry.image} caption={this.state.entry.caption}/> : null}
+				{this.state.entry.image ? <CaptionedImage className="inline data-entry--image" image={this.state.entry.image} caption={this.state.entry.caption}/> : null}
 				{this.state.entry.text ? <p>{this.state.entry.text}</p> : null}
             </div>
 		}

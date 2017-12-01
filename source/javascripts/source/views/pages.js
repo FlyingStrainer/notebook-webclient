@@ -118,6 +118,22 @@ export default class NotebookPagesView extends React.Component {
 				}.bind(this));
 			}.bind(this));
 		}
+		else if(mode === "stateTimestamp ") {
+			Utils.post("searchNotebooksByDate", { user_hash : this.parent.getUser().user_hash, notebook_hash : this.parent.getCurrentNotebook().notebook_hash, mindate : date1.getTime(), maxdate  : date2.getTime()}, function(json) {
+
+				this.setState({ entriesList : [] });
+
+				json.results[0].entries.forEach(function(entry) {
+
+					const foundNotebook = this.entryList.find(function(n) {
+						return n.entry_hash === entry;
+					});
+
+					this.setState({ entriesList : this.state.entriesList.concat(foundNotebook) });
+
+				}.bind(this));
+			}.bind(this));
+		}
     }
 
     manager() {
