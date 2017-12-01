@@ -36,6 +36,7 @@ export default class ToolbarView extends React.Component {
 
     toggleSearchBar(event) {
 	console.log("Toggling SearchBar");
+	this.searchFunction();
         if(this.state.searchBarState === "stateHide")
             this.setState({searchBarState : "stateShow "});
         else

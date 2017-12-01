@@ -80,7 +80,30 @@ export default class NotebookPagesView extends React.Component {
     }
 
     pageListSearch(event) {
-	console.log("Searchity search");
+	console.log("pageListSearch");
+	fetch("http://endor-vm1.cs.purdue.edu/searchByText", {
+		method: "POST",
+		headers: {
+			"Accept": "application/json",
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			user_hash : "-L-DuZxPXbzHWau5Fh8B",
+			//user_hash : this.parent.getUser(),
+			//notebook_hash : this.parent.getCurrentNotebook().notebook_hash,
+			//entry_hash: this.openNotebook,
+			text: "asd"
+		})
+	}).then(function(response) {
+		if(response.ok) {
+			var json = response.json();
+			console.log("Hi " + json)
+			return json;
+		}
+		console.log("bye");
+		throw new Error("Network response was not ok.");
+	});
+	console.log("hi");
     }
 
     toggleNewEntry(entry) {
