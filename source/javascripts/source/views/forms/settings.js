@@ -20,8 +20,7 @@ export default class SettingsForm extends React.Component {
     }
 
     hideSettings() {
-        this.textInput.value = "";
-        this.setState({ overlayState : "stateHide ", tags : [], tag : "" });
+        this.setState({ overlayState : "stateHide " });
     }
 
     mode(mode) {
