@@ -75,8 +75,29 @@ export default class NotebooksView extends React.Component {
 		}
 	}
 
-	notebookSearch(responseJson) {
-
+    notebookSearch(responseJson) {
+	for (let entry of openNotebook.dataEntries) {
+		console.log(entry);
+	}
+	console.log("notebookListSearch");
+	fetch("http://endor-vm1.cs.purdue.edu/searchByText", {
+	    method: "POST",
+	    headers: {
+		    "Accept": "application/json",
+		    "Content-Type": "application/json"
+	    },
+	    body: JSON.stringify({
+		    user_hash : this.parent.getUser(),
+		    notebook_hash : this.openNotebook.notebook_hash,
+		    entry_hash: this.openNotebook,
+		    text: ""
+	    })
+	}).then(function(response) {
+		if(response.ok) {
+			return response.json();
+		}
+		throw new Error("Network response was not ok.");
+	});
     }
 
     manager() {

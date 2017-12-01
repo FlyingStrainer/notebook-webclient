@@ -146,7 +146,7 @@ class VENote extends React.Component {
 	}
 
 	render() {
-	    console.log("state: " + this.state.view);
+	    console.log("state: " + this.state + this.state.view);
 		return (<div id="venoteview">
 			<div id="renderview">
 				{this.state.view === "notebookView" ? <Notebooks callback={this.notebook} parentHandler={this.parentHandler}/>
@@ -165,6 +165,7 @@ class VENote extends React.Component {
 	}
 }
 
+//ReactDOM.render(<DataEntryForm >, document.getElementById("root"));
 document.addEventListener("DOMContentLoaded", function(event) {
 	ReactDOM.render(<VENote view={ document.body.className } />, document.getElementById("root"));
 });
