@@ -26,6 +26,7 @@ export default class DataEntryForm extends React.Component {
 
 	hideNewEntry() {
 	    this.textInput.value = "";
+	    this.captionInput.value = "";
 
         this.setState({ tags : [], tag : "", overlayState : "stateHide " });
 	}
@@ -37,8 +38,10 @@ export default class DataEntryForm extends React.Component {
 		    if(this.state.tag.length > 0)
 		        tags.push(this.state.tag);
 
+		    console.log(this.image)
+
 			Utils.post("addEntry", { user_hash : this.user_hash, notebook_hash : this.notebook_hash, entry : {
-				text : this.textInput.value, image : "", caption : "", tags : tags
+				text : this.textInput.value, image : this.image, caption : this.captionInput.value, tags : tags
 			} }, function(json) {
 				this.hideNewEntry();
 				this.submitCallback(json);
@@ -54,7 +57,11 @@ export default class DataEntryForm extends React.Component {
                         <div className="form--textarea">
                             <textarea placeholder="Write Entry Here..." ref={(input) => ( this.textInput = input )}/>
                         </div>
+	                    <ImageInput imageHandler={(img) => {this.image = img}}/>
                         <TagsInput name="Tags" value={this.state.tags} inputValue={this.state.tag} onChangeInput={e => (this.setState({ tag : e }))} onChange={e => (this.setState({ tags : e }))} />
+	                    <div className="form--textarea">
+		                    <textarea placeholder="Write Caption Here..." ref={(input) => ( this.captionInput = input )}/>
+	                    </div>
                         <Button wrapperClass="form--submit" type="submit" title="Create Entry" onClick={this.register}/>
                     </form>
                 </div>
@@ -76,20 +83,21 @@ export class ImageInput extends React.Component {
 		console.log(input.target.value);
 		if (input.target.value) {
 			var reader = new FileReader();
+			reader.readAsDataURL(input.target.files[0]);
 			reader.onloadend = function (e) {
 				this.imageHandler(reader.result);
 				this.setState({
 					imgSrc: [reader.result]
-				})
+				});
 			}.bind(this);
 		}
 	}
 	
 	render() {
 		return <div>
-			<input type="file" title="Choose an Image:" className="forms imageInput" id="image-upload" accept="image/*" onChange={(event)=>{this.fileSelected(event)}} />
-			<div className="forms" id="imageContainer">
-				<img className="forms imageInput" id="image" src={this.state.imgSrc} />
+			<input type="file" title="Choose an Image:" className="forms imageInput" accept="image/*" onChange={(event)=>{this.fileSelected(event)}} />
+			<div className="form--file-container">
+				<img className="form--file-image" src={this.state.imgSrc} />
 			</div>
 		</div>
 	}
