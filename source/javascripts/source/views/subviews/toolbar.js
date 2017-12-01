@@ -113,7 +113,7 @@ export default class ToolbarView extends React.Component {
 					</div>
 				</div>
 				{this.state.isManagerUI ? <SettingsForm ref={settings => (this.settings_form = settings)}/> : null}
-				{this.state.query ? <QueryForm ref={query => (this.query_form = query)}/> : null}
+				{this.state.query ? <QueryForm query={this.parent.query} ref={query => (this.query_form = query)}/> : null}
 				{this.hasShare ? <ShareForm ref={share => {this.share_form = share}}/> : null}
 			</div>);
 		}
@@ -132,7 +132,7 @@ export default class ToolbarView extends React.Component {
 					<a className="toolbar--logout" href="#" onClick={e => (e.preventDefault(), this.parent.logoutCallback(e))} />
 				</div>
 				{this.state.isManagerUI ? <SettingsForm ref={settings => (this.settings_form = settings)}/> : null}
-				{this.state.query ? <QueryForm ref={query => (this.query_form = query)}/> : null}
+				{this.state.query ? <QueryForm query={this.parent.query} ref={query => (this.query_form = query)}/> : null}
 				{this.hasShare ? <ShareForm ref={share => {this.share_form = share}}/> : null}
 			</div>
 		</div>);

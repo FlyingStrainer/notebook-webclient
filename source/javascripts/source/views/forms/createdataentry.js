@@ -58,10 +58,10 @@ export default class DataEntryForm extends React.Component {
                             <textarea placeholder="Write Entry Here..." ref={(input) => ( this.textInput = input )}/>
                         </div>
 	                    <ImageInput imageHandler={(img) => {this.image = img}}/>
-                        <TagsInput name="Tags" value={this.state.tags} inputValue={this.state.tag} onChangeInput={e => (this.setState({ tag : e }))} onChange={e => (this.setState({ tags : e }))} />
 	                    <div className="form--textarea">
 		                    <textarea placeholder="Write Caption Here..." ref={(input) => ( this.captionInput = input )}/>
 	                    </div>
+                        <TagsInput name="Tags" value={this.state.tags} inputValue={this.state.tag} onChangeInput={e => (this.setState({ tag : e }))} onChange={e => (this.setState({ tags : e }))} />
                         <Button wrapperClass="form--submit" type="submit" title="Create Entry" onClick={this.register}/>
                     </form>
                 </div>
@@ -79,8 +79,6 @@ export class ImageInput extends React.Component {
 
 	// Select file from image selector
 	fileSelected(input) {
-		console.log("File Selected:");
-		console.log(input.target.value);
 		if (input.target.value) {
 			var reader = new FileReader();
 			reader.readAsDataURL(input.target.files[0]);

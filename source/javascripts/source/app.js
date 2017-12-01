@@ -10,6 +10,7 @@ import User from "./models/user.js";
 import ManagerView from "./views/manager"
 import DevFeedbackView from "./views/subviews/devfeedback";
 import * as Utils from "./utils.js";
+import AdminView from "./views/admin"
 
 class VENote extends React.Component {
 	constructor(props) {
@@ -102,8 +103,11 @@ class VENote extends React.Component {
 	}
 
 	manager() {
-	    this.setState({ view : "managerView" });
-    	}
+		if(this.state.view === "pageView")
+	        this.setState({ view : "managerView" });
+		else
+			this.setState({ view : "adminView" });
+	}
 
 	getNotebooks() {
 		return this.notebooks;
@@ -151,7 +155,8 @@ class VENote extends React.Component {
 			<div id="renderview">
 				{this.state.view === "notebookView" ? <Notebooks callback={this.notebook} parentHandler={this.parentHandler}/>
 				: this.state.view === "pageView" ? <NotebookPages parentHandler={this.parentHandler}/>
-				: this.state.view === "managerView" ? <ManagerView parentHandler={this.parentHandler} /> 
+				: this.state.view === "managerView" ? <ManagerView parentHandler={this.parentHandler} />
+				: this.state.view === "adminView" ? <AdminView parentHandler={this.parentHandler}/>
 				: this.state.view === "" ? <LoginView callback={this.login} /> 
 				: null}
 			</div>

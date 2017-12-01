@@ -4,8 +4,6 @@ export default class Entry extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.formattingRule = props.formattingRule;
-
 		this.state = { entry : props.entry };
 
 		this.formatTextAndImage = this.formatTextAndImage.bind(this);
@@ -18,14 +16,14 @@ export default class Entry extends React.Component {
 	}
 
 	formatTextAndImage() {
-		if(this.formattingRule === 0) {
+		if(this.state.entry.settings === "inline") {
 			// CaptionedImage here for inline formatting
 			return <div>
 				{this.state.entry.image ? <CaptionedImage className="data-entry--image" image={this.state.entry.image} caption={this.state.entry.caption}/> : null}
 				{this.state.entry.text ? <p>{this.state.entry.text}</p> : null}
             </div>
 		}
-		else if(this.formattingRule === 1) {
+		else {
 			// CaptionedImage here for images below text
 			return <div>
 				{this.state.entry.text ? <p>{this.state.entry.text}</p> : null}
@@ -52,7 +50,6 @@ class CaptionedImage extends React.Component {
 
 	render() {
 		return <div>
-            Stuff
             <div className="data-entry--captioned-image">
                 <img className="data-entry--image" src={this.image} />
                 <p className="data-entry--caption">{this.caption}</p>

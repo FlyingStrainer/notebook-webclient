@@ -12,6 +12,8 @@ export default class QueryForm extends React.Component {
     constructor(props) {
         super(props);
 
+        this.queryHandler = props.query;
+
         this.state = { overlayState : "stateLoad ", queryState : "stateText ", tags : [], tag : "" };
 
         this.date1 = new Date();
@@ -46,7 +48,8 @@ export default class QueryForm extends React.Component {
     }
 
     query() {
-
+        this.queryHandler(this.state.queryState, this.textInput.value, this.date1, this.date2, this.state.tags, this.state.tag);
+        this.hideQuery();
     }
 
     render() {
