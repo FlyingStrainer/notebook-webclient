@@ -150,7 +150,7 @@ class VENote extends React.Component {
 		return (<div id="venoteview">
 			<div id="renderview">
 				{this.state.view === "notebookView" ? <Notebooks callback={this.notebook} parentHandler={this.parentHandler}/>
-				: this.state.view === "pageView" ? <NotebookPages parentHandler={this.parentHandler} managerCallback={this.manager}/> 
+				: this.state.view === "pageView" ? <NotebookPages parentHandler={this.parentHandler}/>
 				: this.state.view === "managerView" ? <ManagerView parentHandler={this.parentHandler} /> 
 				: this.state.view === "" ? <LoginView callback={this.login} /> 
 				: null}
