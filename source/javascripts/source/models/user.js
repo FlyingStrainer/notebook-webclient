@@ -1,12 +1,13 @@
 export default class User 
 {
-  constructor(user_hash, permissions, company_name, notebooks)
+  constructor(json)
   {
-    this.user_hash = user_hash;
-    this.company_name = company_name;
+    this.user_hash = json.user_hash;
+    this.email = json.email;
+    this.company_name = json.company_name;
 
     // Arrays
-    this.permissions = permissions;
-    this.notebooks = notebooks;
+    this.permissions = json.permissions;
+    this.notebooks = json.notebook_list;
   }
 }

@@ -10,6 +10,7 @@ import User from "./models/user.js";
 import ManagerView from "./views/manager"
 import DevFeedbackView from "./views/subviews/devfeedback";
 import * as Utils from "./utils.js";
+import AdminView from "./views/admin"
 
 class VENote extends React.Component {
 	constructor(props) {
@@ -52,7 +53,7 @@ class VENote extends React.Component {
     }
 
 	login(responseJson) {
-	    this.user = new User(responseJson.user_hash, responseJson.permissions, responseJson.company_name, responseJson.notebook_list);
+	    this.user = new User(responseJson);
 	    this.notebooks = this.user.notebooks;
 	    if(typeof(Storage) !== "undefined") {
 	        localStorage.setItem("user_hash", this.user.user_hash);
@@ -102,8 +103,11 @@ class VENote extends React.Component {
 	}
 
 	manager() {
-	    this.setState({ view : "managerView" });
-    	}
+		if(this.state.view === "pageView")
+	        this.setState({ view : "managerView" });
+		else
+			this.setState({ view : "adminView" });
+	}
 
 	getNotebooks() {
 		return this.notebooks;
@@ -124,6 +128,9 @@ class VENote extends React.Component {
         }
         else if(this.state.view === "managerView") {
             this.setState({ view : "pageView" });
+        }
+        else if(this.state.view === "adminView") {
+        	this.setState({ view : "notebookView" });
         }
 	}
 
@@ -151,7 +158,8 @@ class VENote extends React.Component {
 			<div id="renderview">
 				{this.state.view === "notebookView" ? <Notebooks callback={this.notebook} parentHandler={this.parentHandler}/>
 				: this.state.view === "pageView" ? <NotebookPages parentHandler={this.parentHandler}/>
-				: this.state.view === "managerView" ? <ManagerView parentHandler={this.parentHandler} /> 
+				: this.state.view === "managerView" ? <ManagerView parentHandler={this.parentHandler} />
+				: this.state.view === "adminView" ? <AdminView parentHandler={this.parentHandler}/>
 				: this.state.view === "" ? <LoginView callback={this.login} /> 
 				: null}
 			</div>

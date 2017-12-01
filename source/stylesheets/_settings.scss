@@ -1,0 +1,38 @@
+@import "utils";
+
+.overlay--settings {
+
+  .settings--image-list {
+    width: 300px;
+    height: 85px;
+    margin: 10px auto 0 auto;
+    position: relative;
+  }
+
+  .image-inline--button, .image-below--button {
+    width: 150px;
+    height: 85px;
+    padding-right: 10px;
+    margin-left: 0;
+    margin-right: 0;
+    float: left;
+
+    @include transition-timing(ease);
+    @include transition(border 150ms 0ms);
+
+    button {
+      background-color: #f8f4da;
+      color: lightseagreen;
+      width:100%;
+    }
+
+    button:focus {
+      outline: 0;
+    }
+  }
+
+  .stateInline.settings--image-list .image-inline--button button, .stateBelow.settings--image-list .image-below--button button {
+    border: 5px solid lightseagreen;
+  }
+
+}

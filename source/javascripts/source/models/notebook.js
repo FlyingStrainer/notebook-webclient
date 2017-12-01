@@ -11,6 +11,11 @@ export default class Notebook
 			this.name = json.name;
 			this.managers = json.managers;
 			this.tags = json.tags;
+			this.settings = json.settings;
+
+			if(this.settings === undefined) {
+				this.settings = { image : "below" }
+			}
 
 			this.calcDateCreated(json.date_created);
 			this.calcDateModified(json.date_modified);

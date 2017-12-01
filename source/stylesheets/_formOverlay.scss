@@ -38,7 +38,20 @@
 
 }
 
-.overlay--new-entry, .overlay--query {
+.overlay--new-entry {
+  width: 600px;
+
+  .form--file-container {
+    width: 300px;
+    margin-left:auto;
+    margin-right: auto;
+    img {
+      max-width: 300px;
+    }
+  }
+}
+
+.overlay--query, .overlay--settings {
   width: 600px;
 }
 

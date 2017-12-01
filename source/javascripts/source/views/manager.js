@@ -1,13 +1,13 @@
 import React from "../../lib/react.js";
 import ToolbarView from "./subviews/toolbar";
-import Button from "./forms/button.js";
+import * as Utils from "../utils.js";
 
 export default class ManagerView extends React.Component {
 
 	constructor(props) {
 		super(props);
 
-		this.state = { close : false, userPermissions: [], currentPermissions: {}};
+		this.state = { close : false, manager: true, userPermissions: [], currentPermissions: {}};
 
 		this.parent = props.parentHandler;
 
@@ -15,18 +15,18 @@ export default class ManagerView extends React.Component {
 		this.displayUsers = this.displayUsers.bind(this);
 		this.displayPermissions = this.displayPermissions.bind(this);
 
+		this.settings = this.settings.bind(this);
+		this.logout = this.logout.bind(this);
+		this.back = this.back.bind(this);
+
+        	this.parentToolbar = { backCallback : this.back, logoutCallback : this.logout, user_hash : this.parent.getUser().user_hash,
+            	notebook_hash : this.parent.getCurrentNotebook().notebook_hash, manager : this.back, settings : this.settings};
+	
 		/*var userPermissions = this.getUsers(); // Array of user hashes
 		console.log("All: " + userPermissions);
 		if (typeof userPermissions != "undefined") {
 			//this.setState({ userPermissions: userPermissions});
 		}*/
-
-        	this.parentToolbar = { 	backCallback : this.back, 
-					logoutCallback : this.logout, 
-					user_hash : this.parent.getUser().user_hash,
-            				notebook_hash : this.parent.getCurrentNotebook().notebook_hash, 
-					query : this.pageSearch, manager : this.manager
-				     };
 
 	}
 
@@ -124,11 +124,35 @@ export default class ManagerView extends React.Component {
 			</form>
 	}
 
+	settings(mode) {
+		const imageSetting = mode === "stateInline " ? "inline" : "below";
+		console.log(imageSetting);
+		Utils.post("format", { user_hash : this.parent.getUser().user_hash, settings : { image : imageSetting }}, function() {
+			this.parent.getCurrentNotebook().settings = { image : imageSetting };
+		});
+	}
+
+	back() {
+		this.setState({ pageState : "stateExit stateTransition ", manager : false });
+
+		setTimeout(function() {
+			this.parent.back();
+		}.bind(this), 300);
+	}
+
+	logout() {
+		this.setState({ pageState : "stateExit stateTransition ", close : true });
+
+		setTimeout(function(){
+			this.parent.logout();
+		}.bind(this), 300);
+	}
+
 	render() {
 		return (<div className="notebooks-view">
-            			<ToolbarView dataIntro="Click"
-                        	 dataStep="1" page={this.parent.getUser().company_name + " < " + this.parent.getCurrentNotebook().name}
-                        	 parentHandler={this.parentToolbar} visible={this.state.close} hasShare={true} hasBack={true} query={this.state.query} isManagerUI={true} />
+            <ToolbarView dataIntro="Click"
+                         dataStep="1" page={this.parent.getUser().company_name + " < " + this.parent.getCurrentNotebook().name}
+                         parentHandler={this.parentToolbar} visible={this.state.close} hasShare={true} hasBack={true} isManagerUI={this.state.manager} />
 				<div className="admin-ui container">
 					<div className="admin-ui user-list">
 						{this.displayUsers()}
@@ -138,6 +162,7 @@ export default class ManagerView extends React.Component {
 					</div>
 				</div>
 			</div>);
+		</div>);
 	}
 
 }

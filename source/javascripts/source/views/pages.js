@@ -20,6 +20,7 @@ export default class NotebookPagesView extends React.Component {
 		this.notebook_permissions = this.parent.getUser().permissions.notebooks[this.parent.getCurrentNotebook().notebook_hash];
 
 		this.state = { entriesList : [], pageState : "stateLoad ", close : false, query : true };
+		this.entryList = [];
 
 		this.register = this.register.bind(this);
 		this.redact = this.redact.bind(this);
@@ -38,7 +39,6 @@ export default class NotebookPagesView extends React.Component {
 	}
 
 	componentDidMount() {
-	    const entryList = [];
 
         setTimeout(function() {
             this.setState({ pageState : "stateLoad stateTransition " });
@@ -60,13 +60,13 @@ export default class NotebookPagesView extends React.Component {
 					entry_hash : entry_uuid
 				}, function(json) {
 
-                    entryList.push(new DataEntry(entry_uuid, json));
+                    this.entryList.push(new DataEntry(entry_uuid, json));
 
-                    entryList.sort(function(d1, d2) {
+                    this.entryList.sort(function(d1, d2) {
                         return d2.date_created_real - d1.date_created_real;
                     });
 
-					this.setState({ entriesList : entryList.slice() });
+					this.setState({ entriesList : this.entryList.slice() });
 
 				}.bind(this), function(error) {
 					console.log(error);
@@ -78,47 +78,19 @@ export default class NotebookPagesView extends React.Component {
     }
 
     register(responseJson) {
-	    const entryList = this.state.entriesList;
 
-	    entryList.push(new DataEntry(responseJson.entry_hash, responseJson));
+	    this.entryList.push(new DataEntry(responseJson.entry_hash, responseJson));
 
-        entryList.sort(function(d1, d2) {
+        this.entryList.sort(function(d1, d2) {
             return d2.date_created_real - d1.date_created_real;
         });
 
-	    this.setState({ entriesList : entryList });
+	    this.setState({ entriesList : this.entryList.slice() });
 	    this.parent.getCurrentNotebook().calcDateModified(responseJson.date_modified);
     }
 
     redact() {
 
-    }
-
-    pageListSearch(event) {
-	console.log("pageListSearch");
-	fetch("http://endor-vm1.cs.purdue.edu/searchByText", {
-		method: "POST",
-		headers: {
-			"Accept": "application/json",
-			"Content-Type": "application/json"
-		},
-		body: JSON.stringify({
-			user_hash : "-L-DuZxPXbzHWau5Fh8B",
-			//user_hash : this.parent.getUser(),
-			//notebook_hash : this.parent.getCurrentNotebook().notebook_hash,
-			//entry_hash: this.openNotebook,
-			text: "asd"
-		})
-	}).then(function(response) {
-		if(response.ok) {
-			var json = response.json();
-			console.log("Hi " + json)
-			return json;
-		}
-		console.log("bye");
-		throw new Error("Network response was not ok.");
-	});
-	console.log("hi");
     }
 
     cosign() {
@@ -129,8 +101,23 @@ export default class NotebookPagesView extends React.Component {
 	    this.review_entry.setReviewEntry(entry);
     }
 
-    pageSearch(responseJson) {
+    pageSearch(mode, text, date1, date2, tags, tag) {
+		if(mode === "stateText ") {
+			Utils.post("searchByText", { user_hash : this.parent.getUser().user_hash, notebook_hash : this.parent.getCurrentNotebook().notebook_hash, text : text }, function(json) {
 
+				this.setState({ entriesList : [] });
+
+				json.results[0].entries.forEach(function(entry) {
+
+					const foundNotebook = this.entryList.find(function(n) {
+						return n.entry_hash === entry;
+					});
+
+					this.setState({ entriesList : this.state.entriesList.concat(foundNotebook) });
+
+				}.bind(this));
+			}.bind(this));
+		}
     }
 
     manager() {
