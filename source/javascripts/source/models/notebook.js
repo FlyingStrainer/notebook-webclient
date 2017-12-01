@@ -11,6 +11,7 @@ export default class Notebook
 			this.name = json.name;
 			this.managers = json.managers;
 			this.tags = json.tags;
+			this.settings = json.settings;
 
 			this.calcDateCreated(json.date_created);
 			this.calcDateModified(json.date_modified);
