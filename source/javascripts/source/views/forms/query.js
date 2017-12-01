@@ -17,8 +17,6 @@ export default class QueryForm extends React.Component {
         this.date1 = new Date();
         this.date2 = new Date();
 
-        console.log(this.date1);
-
         this.showQuery = this.showQuery.bind(this);
         this.hideQuery = this.hideQuery.bind(this);
         this.validateSet = this.validateSet.bind(this);

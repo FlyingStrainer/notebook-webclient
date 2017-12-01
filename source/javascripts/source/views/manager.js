@@ -7,19 +7,38 @@ export default class ManagerView extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { close : false };
+		this.state = { close : false, manager : true };
 
 		this.parent = props.parentHandler;
 
+		this.logout = this.logout.bind(this);
+		this.back = this.back.bind(this);
+
         this.parentToolbar = { backCallback : this.back, logoutCallback : this.logout, user_hash : this.parent.getUser().user_hash,
-            notebook_hash : this.parent.getCurrentNotebook().notebook_hash, query : this.pageSearch, manager : this.manager};
+            notebook_hash : this.parent.getCurrentNotebook().notebook_hash, manager : this.back};
+	}
+
+	back() {
+		this.setState({ pageState : "stateExit stateTransition ", manager : false });
+
+		setTimeout(function() {
+			this.parent.back();
+		}.bind(this), 300);
+	}
+
+	logout() {
+		this.setState({ pageState : "stateExit stateTransition ", close : true });
+
+		setTimeout(function(){
+			this.parent.logout();
+		}.bind(this), 300);
 	}
 
 	render() {
 		return (<div className="notebooks-view">
             <ToolbarView dataIntro="Click"
                          dataStep="1" page={this.parent.getUser().company_name + " < " + this.parent.getCurrentNotebook().name}
-                         parentHandler={this.parentToolbar} visible={this.state.close} hasShare={true} hasBack={true} query={this.state.query} isManagerUI={true} />
+                         parentHandler={this.parentToolbar} visible={this.state.close} hasShare={true} hasBack={true} isManagerUI={this.state.manager} />
 		</div>);
 	}
 
