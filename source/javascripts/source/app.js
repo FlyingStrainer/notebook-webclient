@@ -33,6 +33,7 @@ class VENote extends React.Component {
 
 		this.back = this.back.bind(this);
 		this.logout = this.logout.bind(this);
+		this.manager = this.manager.bind(this);
 
 		this.parentHandler = { getUser : this.getUser, getNotebooks : this.getNotebooks, setNotebooks : this.setNotebooks,
                                 getCurrentNotebook : this.getCurrentNotebook, back : this.back, logout : this.logout };
@@ -101,7 +102,7 @@ class VENote extends React.Component {
 
 	manager() {
 	    this.setState({ view : "managerView" });
-    }
+    	}
 
 	getNotebooks() {
 		return this.notebooks;
@@ -144,11 +145,15 @@ class VENote extends React.Component {
 	}
 
 	render() {
+	    console.log("state: " + this.state.view);
 		return (<div id="venoteview">
-			<div id="renderview">{this.state.view === "notebookView" ? <Notebooks callback={this.notebook} parentHandler={this.parentHandler}/>
-				: this.state.view === "pageView" ? <NotebookPages parentHandler={this.parentHandler} /> :
-					this.state.view === "managerView" ? <ManagerView parentHandler={this.parentHandler} /> :
-                    this.state.view === "" ? <LoginView callback={this.login} /> : null}</div>
+			<div id="renderview">
+				{this.state.view === "notebookView" ? <Notebooks callback={this.notebook} parentHandler={this.parentHandler}/>
+				: this.state.view === "pageView" ? <NotebookPages parentHandler={this.parentHandler} managerCallback={this.manager}/> 
+				: this.state.view === "managerView" ? <ManagerView parentHandler={this.parentHandler} /> 
+				: this.state.view === "" ? <LoginView callback={this.login} /> 
+				: null}
+			</div>
             <div id="feedbackview">
                 {this.state.view !== "" && this.state.view !== "blankView" ? <DevFeedbackView parentHandler={this.parentHandler} /> : null}
             </div>

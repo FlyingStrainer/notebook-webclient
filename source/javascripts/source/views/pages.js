@@ -16,6 +16,7 @@ export default class NotebookPagesView extends React.Component {
 		super(props);
 
 		this.parent = props.parentHandler;
+		this.managerCallback = props.managerCallback;
 
 		this.notebook_permissions = this.parent.getUser().permissions.notebooks[this.parent.getCurrentNotebook().notebook_hash];
 
@@ -31,6 +32,8 @@ export default class NotebookPagesView extends React.Component {
 		this.manager = this.manager.bind(this);
 		this.back = this.back.bind(this);
 		this.logout = this.logout.bind(this);
+
+		//this.managerCallback = this.managerCallback.bind(this);
 
         this.parentToolbar = { backCallback : this.back, logoutCallback : this.logout, user_hash : this.parent.getUser().user_hash,
             notebook_hash : this.parent.getCurrentNotebook().notebook_hash, query : this.pageSearch, manager : this.manager};
@@ -111,8 +114,8 @@ export default class NotebookPagesView extends React.Component {
 	    this.review_entry.hideReviewEntry();
 	    this.setState({ pageState : "stateExit stateTransition ", close : true });
 
+	    this.managerCallback();
 	    setTimeout(function() {
-
         }.bind(this), 300);
     }
 

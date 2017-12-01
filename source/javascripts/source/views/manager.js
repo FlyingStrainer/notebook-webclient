@@ -7,6 +7,8 @@ export default class ManagerView extends React.Component {
 	constructor(props) {
 		super(props);
 
+		console.log("constructed");
+
 		this.parent = props.parentHandler;
 		this.state = { notebookList : [], close : false, createNotebookState : "stateLoad " };
 	}
@@ -21,6 +23,16 @@ export default class ManagerView extends React.Component {
 	}
 
 	render() {
+		console.log("Admin UI");
+		return 	<div className="notebooks-view admin-portal">
+				<ToolbarView page={this.parent.getUser().company_name} parentHandler={this.parentToolbar} visible={this.state.close} hasBack={false} />
+				<div className="admin-portal--background">
+					<p> Hiya </p>
+				</div>
+			</div>;
+	}
+
+	/*render() {
 		return (<div className="notebooks-view">
 			<ToolbarView page={this.parent.getUser().company_name} parentHandler={this.parentToolbar} visible={this.state.close} hasBack={false}/>
 			<div className="list-view">
@@ -42,6 +54,6 @@ export default class ManagerView extends React.Component {
 				</form>
 			</div>
 		</div>);
-	}
+	}*/
 
 }

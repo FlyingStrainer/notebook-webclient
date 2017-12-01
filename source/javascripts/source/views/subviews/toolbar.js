@@ -83,7 +83,7 @@ export default class ToolbarView extends React.Component {
                     {this.name}
                 </div>
                 <div className="toolbar--right-icons">
-                    {this.isManager ? <a className="toolbar--manager-ui" href="#" onClick={e => (e.preventDefault(), this.manager)}/> : null}
+                    {this.isManager ? <a className="toolbar--manager-ui" href="#" onClick={e => (e.preventDefault(), this.parent.manager())}/> : null}
                     {this.isManagerUI ? <a className="toolbar--render--setting" href="#" onClick={e => (e.preventDefault())}/> : null}
                     {this.hasShare ? <a className="toolbar--share" href="#" onClick={e => (e.preventDefault(), this.share_form.showShare())}/> : null}
                     <a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.query_form.showQuery())} />
