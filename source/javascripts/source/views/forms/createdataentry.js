@@ -20,14 +20,18 @@ export default class DataEntryForm extends React.Component {
 		this.register = this.register.bind(this);
 	}
 
-    showNewEntry() {
+	showNewEntry() {
 	    this.setState({ overlayState : "stateShow " });
-    }
+	}
 
 	hideNewEntry() {
 	    this.textInput.value = "";
 
         this.setState({ tags : [], tag : "", overlayState : "stateHide " });
+	}
+
+	imageHandler(img) {
+	
 	}
 
 	register() {
@@ -54,6 +58,7 @@ export default class DataEntryForm extends React.Component {
                         <div className="form--textarea">
                             <textarea placeholder="Write Entry Here..." ref={(input) => ( this.textInput = input )}/>
                         </div>
+			<ImageInput />
                         <TagsInput name="Tags" value={this.state.tags} inputValue={this.state.tag} onChangeInput={e => (this.setState({ tag : e }))} onChange={e => (this.setState({ tags : e }))} />
                         <Button wrapperClass="form--submit" type="submit" title="Create Entry" onClick={this.register}/>
                     </form>
