@@ -32,14 +32,7 @@
   @include transition(opacity 300ms 0ms);
 }
 
-.overlay--create-notebook {
-
-  width: 300px;
-
-}
-
 .overlay--new-entry {
-  width: 600px;
 
   .form--file-container {
     width: 300px;
@@ -51,23 +44,9 @@
   }
 }
 
-.overlay--query, .overlay--settings {
-  width: 600px;
-}
-
-.overlay--feedback {
-  width: 600px;
-}
-
 .overlay--review-entry {
-
-  width: 600px;
 
   .data-entry--background {
     background-color: lightgray;
   }
-}
-
-.overlay--cosign-entry {
-  width: 400px;
 }

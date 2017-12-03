@@ -198,7 +198,7 @@ export default class ManagerView extends React.Component {
 
 	render() {
 		return (<div className="notebooks-view">
-            		<ToolbarView dataIntro="Click"
+            		<ToolbarView dataIntro="Click" load={true}
                          dataStep="1" page={this.parent.getUser().company_name + " < " + this.parent.getCurrentNotebook().name}
                          parentHandler={this.parentToolbar} visible={this.state.close} hasShare={true} hasBack={true} isManagerUI={this.state.manager} />
 				<div className="admin-ui container">

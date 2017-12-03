@@ -28,6 +28,8 @@ export default class NotebooksView extends React.Component {
 
 		this.logout = this.logout.bind(this);
 
+        this.load = props.load;
+
 		this.parentToolbar = { backCallback : this.parent.back, logoutCallback : this.logout, user_hash : this.parent.getUser().user_hash, query : this.notebookSearch, manager : this.manager };
 		this.parentNotebook = { openNotebook : this.openNotebook };
 	}
@@ -158,7 +160,7 @@ export default class NotebooksView extends React.Component {
 
 	render() {
 		return (<div className="notebooks-view">
-			<ToolbarView dataIntro="Click the Magnifying glass to search. Click the button to it's right to logout" dataStep="3"
+			<ToolbarView dataIntro="Click the Magnifying glass to search. Click the button to it's right to logout" dataStep="3" load={this.load}
 			             page={this.parent.getUser().company_name} parentHandler={this.parentToolbar} visible={this.state.close}
 			             query={true} isManager={this.parent.getUser().permissions.role === "admin"} />
 			<div data-intro="Click on an existing notebook to add or view data entries inside" data-step="2" className={this.state.notebookState + "list-view"}>
