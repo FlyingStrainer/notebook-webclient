@@ -33,6 +33,8 @@ export default class NotebookPagesView extends React.Component {
 		this.back = this.back.bind(this);
 		this.logout = this.logout.bind(this);
 
+		this.load = props.load;
+
         this.parentToolbar = { backCallback : this.back, logoutCallback : this.logout, user_hash : this.parent.getUser().user_hash,
             notebook_hash : this.parent.getCurrentNotebook().notebook_hash, query : this.pageSearch, manager : this.manager};
         this.parentEntry = { reviewEntry : this.reviewEntry };
@@ -169,7 +171,7 @@ export default class NotebookPagesView extends React.Component {
 	render() {
 		return <div className="pages">
 			<ToolbarView dataIntro="Click the man in the suit to change uiSettings. Click the button with 3 circles to share current notebook. Click the magnifying glass to search. Click the button to far right to logout"
-			             dataStep="1" page={this.parent.getUser().company_name + " < " + this.parent.getCurrentNotebook().name}
+			             dataStep="1" page={this.parent.getUser().company_name + " < " + this.parent.getCurrentNotebook().name} load={this.load}
 			             parentHandler={this.parentToolbar} visible={this.state.close} hasShare={true} hasBack={true} query={this.state.query} isManager={this.notebook_permissions.manager} />
 			<div data-intro="Click on the plus button to create a new data entry. Click on any existing page to it's right and be brought to a window where clicking the top button cosigns or clicking bottom button delete/archive" data-step="2" className={this.state.pageState + "list-view"}>
 				{this.notebook_permissions.write ?

@@ -25,6 +25,7 @@ export default class FeedbackForm extends React.Component {
 	}
 
 	sendFeedback() {
+	    console.log("this");
 	    if(Form.InputEnum.TEXT(this.textInput.value))
 		    Utils.post("feedback", { message : this.textInput.value });
 		this.hideFeedback();

@@ -68,7 +68,7 @@ export default class AdminView extends React.Component {
 
 	render() {
 		return (<div className="notebooks-view">
-			<ToolbarView dataIntro="Click"
+			<ToolbarView dataIntro="Click" load={true}
 			             dataStep="1" page={this.parent.getUser().company_name}
 			             parentHandler={this.parentToolbar} visible={this.state.close} hasBack={true} isManagerUI={this.state.manager ? 2 : 0} />
 			<div className="admin--container">

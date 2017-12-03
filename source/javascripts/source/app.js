@@ -17,10 +17,10 @@ class VENote extends React.Component {
 		super(props);
 
 		if(typeof(Storage) !== "undefined" && localStorage.getItem("user_hash")) {
-		    this.state = { view : "blankView", pushView : false };
+		    this.state = { view : "blankView", pushView : false, toolbarState : false };
         }
         else {
-            this.state = { view : "", pushView : false};
+            this.state = { view : "", pushView : false, toolbarState : false };
         }
 
 		this.login = this.login.bind(this);
@@ -99,7 +99,7 @@ class VENote extends React.Component {
 
 	notebook(notebook) {
         this.currentNotebook = notebook;
-        this.setState({ view : "pageView" });
+        this.setState({ view : "pageView", toolbarState : false });
 	}
 
 	manager() {
@@ -124,13 +124,13 @@ class VENote extends React.Component {
 	back() {
         if(this.state.view === "pageView") {
             this.currentNotebook = undefined;
-            this.setState({ view : "notebookView" });
+            this.setState({ view : "notebookView", toolbarState : false });
         }
         else if(this.state.view === "managerView") {
-            this.setState({ view : "pageView" });
+            this.setState({ view : "pageView", toolbarState : true });
         }
         else if(this.state.view === "adminView") {
-        	this.setState({ view : "notebookView" });
+        	this.setState({ view : "notebookView", toolbarState : true });
         }
 	}
 
@@ -156,8 +156,8 @@ class VENote extends React.Component {
 	    console.log("state: " + this.state + this.state.view);
 		return (<div id="venoteview">
 			<div id="renderview">
-				{this.state.view === "notebookView" ? <Notebooks callback={this.notebook} parentHandler={this.parentHandler}/>
-				: this.state.view === "pageView" ? <NotebookPages parentHandler={this.parentHandler}/>
+				{this.state.view === "notebookView" ? <Notebooks load={this.state.toolbarState} callback={this.notebook} parentHandler={this.parentHandler}/>
+				: this.state.view === "pageView" ? <NotebookPages load={this.state.toolbarState} parentHandler={this.parentHandler}/>
 				: this.state.view === "managerView" ? <ManagerView parentHandler={this.parentHandler} />
 				: this.state.view === "adminView" ? <AdminView parentHandler={this.parentHandler}/>
 				: this.state.view === "" ? <LoginView callback={this.login} /> 
@@ -174,6 +174,6 @@ class VENote extends React.Component {
 }
 
 //ReactDOM.render(<DataEntryForm >, document.getElementById("root"));
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener("DOMContentLoaded", function() {
 	ReactDOM.render(<VENote view={ document.body.className } />, document.getElementById("root"));
 });

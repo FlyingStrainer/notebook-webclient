@@ -1,0 +1,171 @@
+.react-calendar {
+    width: 350px;
+    max-width: 100%;
+    background: white;
+    border: 1px solid #a0a096;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.125em;
+}
+.react-calendar,
+.react-calendar *,
+.react-calendar *:before,
+.react-calendar *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.react-calendar button {
+    border: 0;
+    outline: none;
+}
+.react-calendar button:not([disabled]):hover {
+    cursor: pointer;
+}
+.react-calendar__navigation {
+    height: 44px;
+    margin-bottom: 1em;
+}
+.react-calendar__navigation button {
+    min-width: 44px;
+    background: none;
+}
+.react-calendar__navigation button:not([disabled]):hover {
+    background-color: #e6e6e6;
+}
+.react-calendar__navigation button[disabled] {
+    background-color: #f0f0f0;
+}
+.react-calendar__month-view__weekdays {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: .75em;
+}
+.react-calendar__month-view__weekdays__weekday {
+    padding: .5em;
+}
+.react-calendar__month-view__weekNumbers {
+    font-weight: bold;
+}
+.react-calendar__month-view__weekNumbers .react-calendar__tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .75em;
+    padding: calc(1em) calc(0.66666667em);
+}
+.react-calendar__month-view__days__day--weekend {
+    color: red;
+}
+.react-calendar__month-view__days__day--neighboringMonth {
+    color: #969696;
+}
+.react-calendar__year-view .react-calendar__tile,
+.react-calendar__decade-view .react-calendar__tile,
+.react-calendar__century-view .react-calendar__tile {
+    padding: 2em .5em;
+}
+.react-calendar__tile {
+    max-width: 100%;
+    text-align: center;
+    padding: .75em .5em;
+    background: none;
+}
+button.react-calendar__tile[disabled] {
+    background-color: #f0f0f0;
+}
+button.react-calendar__tile:not([disabled]):hover {
+    background-color: #e6e6e6;
+}
+.react-calendar__tile--hasActive {
+    background: #76baff;
+}
+button.react-calendar__tile--hasActive:not([disabled]):hover {
+    background: #a9d4ff;
+}
+.react-calendar__tile--active {
+    background: #006edc;
+    color: white;
+}
+button.react-calendar__tile--active:not([disabled]):hover {
+    background: #1087ff;
+}
+
+.react-date-picker {
+    display: inline-flex;
+    position: relative;
+}
+.react-date-picker,
+.react-date-picker *,
+.react-date-picker *:before,
+.react-date-picker *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.react-date-picker__button {
+    min-width: 135px;
+    display: flex;
+    font-family: 'Montserrat', sans-serif;
+    background: #ffffff;
+    border: 2px solid #a1a0a0;
+    font-size: 17px;
+    margin: 0;
+    outline: 0;
+    padding: 7px;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    color: #404040;
+    margin-bottom: 5px;
+}
+.react-date-picker__button__input {
+    flex-grow: 1;
+    display: flex;
+    padding: 0 2px;
+    align-items: baseline;
+}
+.react-date-picker__button__input__divider {
+    padding: 1px 0;
+}
+.react-date-picker__button .react-date-picker__button__input input {
+    min-width: 9px;
+    height: 100%;
+    padding: 1px;
+    border: 0;
+    -moz-appearance: textfield;
+}
+.react-date-picker__button__input input::-webkit-outer-spin-button,
+.react-date-picker__button__input input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.react-date-picker__button__input input:invalid {
+    background: rgba(255, 0, 0, 0.1);
+}
+.react-date-picker__button__icon {
+    border: 0;
+    background: transparent;
+    padding: 4px 6px;
+}
+.react-date-picker__button__icon svg {
+    display: inherit;
+}
+.react-date-picker__calendar {
+    width: 350px;
+    max-width: 100vw;
+    position: absolute;
+    top: 100%;
+    left: 0;
+}
+.react-date-picker__calendar--closed {
+    display: none;
+}
+.react-date-picker__calendar--above-label {
+    bottom: 100%;
+    top: auto;
+}
+.react-date-picker__calendar .react-calendar {
+    border-width: thin;
+}

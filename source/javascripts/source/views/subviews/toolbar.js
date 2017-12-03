@@ -22,7 +22,7 @@ export default class ToolbarView extends React.Component {
 		this.dataIntro = props.dataIntro;
 		this.dataStep = props.dataStep;
 
-		this.state = { toolbarState : (this.isManagerUI ? "" : "stateLoad "), query : props.query, isManagerUI : props.isManagerUI };
+		this.state = { toolbarState : (props.load ? "" : "stateLoad "), query : props.query, isManagerUI : props.isManagerUI };
 
 		this.toggleSearchBar = this.toggleSearchBar.bind(this);
 		//this.searchFunction = this.searchFunction.bind(this);
@@ -32,7 +32,7 @@ export default class ToolbarView extends React.Component {
 	}
 
 	componentDidMount() {
-		if(!this.isManagerUI) {
+		if(this.state.toolbarState === "stateLoad ") {
 			setTimeout(function() {
 				this.setState({toolbarState: "stateLoad stateTransition "});
 				setTimeout(function() {
@@ -106,7 +106,7 @@ export default class ToolbarView extends React.Component {
 					<div className="toolbar--right-icons">
 						{this.state.isManagerUI && this.state.isManagerUI !== 2 ? <a className="toolbar--back-up" href="#" onClick={e => (e.preventDefault(), this.backup())}/> : null}
 						{this.isManager || this.state.isManagerUI ? <a className="toolbar--manager-ui" href="#" onClick={e => (e.preventDefault(), this.parent.manager())}/> : null}
-						{this.hasShare ? <a className="toolbar--share" href="#" onClick={e => (e.preventDefault(), this.shareCallback())}/> : null}
+						{this.hasShare ? <a className="toolbar--share" href="#" onClick={e => (e.preventDefault(), this.share_form.showShare())}/> : null}
 						{this.state.isManagerUI ? <a className="toolbar--render--setting" href="#" onClick={e => (e.preventDefault(), this.settings_form.showSettings())}/> : null}
 						{this.state.query ? <a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.query_form.showQuery())} /> : null}
 						<a className="toolbar--logout" href="#" onClick={e => (e.preventDefault(), this.parent.logoutCallback(e))} />
@@ -127,7 +127,7 @@ export default class ToolbarView extends React.Component {
 				<div className="toolbar--right-icons">
 					{this.isManager ? <a className="toolbar--manager-ui" href="#" onClick={e => (e.preventDefault(), this.parent.manager())}/> : null}
 					{this.state.isManagerUI ? <a className="toolbar--render--setting" href="#" onClick={e => (e.preventDefault())}/> : null}
-					{this.hasShare ? <a className="toolbar--share" href="#" onClick={e => (e.preventDefault(), this.shareCallback(e))}/> : null}
+					{this.hasShare ? <a className="toolbar--share" href="#" onClick={e => (e.preventDefault(), this.share_form.showShare())}/> : null}
 					{this.state.query ? <a className="toolbar--search" href="#" onClick={e => (e.preventDefault(), this.query_form.showQuery())}/> : null}
 					<a className="toolbar--logout" href="#" onClick={e => (e.preventDefault(), this.parent.logoutCallback(e))} />
 				</div>
