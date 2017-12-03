@@ -104,3 +104,54 @@ div.forms {
 	margin-top: 100px;
 	background-color: blue;
 }
+.admin-ui.user-list 
+{
+	text-align: center
+}
+
+.admin-ui.email-container
+{
+	display: inline-block;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: lightgray;
+}
+
+.admin-ui.email-div
+{
+	margin-bottom: 2px;
+	background-color: rgba(242, 242, 242, 1);
+	padding: 4px; 
+}
+
+.admin-ui.email-div a
+{
+	text-decoration: none;
+}
+
+.admin-ui.permission-selector
+{
+	text-align: center;
+}
+
+.admin-ui.checklist-div
+{
+	display: inline-block;
+	padding: 10px;
+	border: 2px solid lightgray;
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+	min-width: 250px;
+}
+
+.admin-ui.checklist-div #submitPermissions
+{
+	display: block;
+	margin: 5px auto;
+}
+
+.admin-ui.checklist-div p
+{
+	text-align: center;
+}
