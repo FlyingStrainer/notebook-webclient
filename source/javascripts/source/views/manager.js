@@ -86,6 +86,17 @@ export default class ManagerView extends React.Component {
 		var newObject = {};
 		newObject[this.currentUser.user_hash] = this.state.currentPermissions;	
 		var changes = newObject;
+		for (var index in this.state.userPermissions) 
+		{
+			console.log(this.state.userPermissions[index]["user"]);
+			console.log(this.currentUser);
+			if (this.state.userPermissions[index]["user"] == this.currentUser) 
+			{
+				// Save change locally if submitted
+				this.state.userPermissions[index]["permission"] = this.state.currentPermissions;
+				console.log(this.state.userPermissions);
+			}
+		}
 
 		fetch("http://endor-vm1.cs.purdue.edu/setNotebookPermissions", {
 			method: "POST",
@@ -114,9 +125,6 @@ export default class ManagerView extends React.Component {
 			var object = this.state.userPermissions[i];
 			var currentPermissions = object["permission"];;
 			
-			if (currentPermissions == false) {
-				console.log("oh");
-			}
 			//Add div for each user
 			userDivs.push(	<div className="admin-ui email-div"> 
 						<a href="#" onClick={this.displayPermissions.bind(this, currentPermissions, object["user"])}> {object["user"].email} </a>
@@ -127,13 +135,9 @@ export default class ManagerView extends React.Component {
 	}	    
 		
 	displayPermissions(currentPermissions, currentUser) {
-		this.setState({currentPermissions: currentPermissions});
+		var copiedPermissions = Object.assign({}, currentPermissions);
+		this.setState({currentPermissions: copiedPermissions});
 		this.currentUser = currentUser;
-		var permissionValue;
-		for (var permissionName in currentPermissions) {
-			permissionValue = currentPermissions[permissionName];
-		}
-		
 	}
 
 	renderCurrentPermissions() {
