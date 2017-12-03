@@ -12,14 +12,14 @@ export default class ManagerView extends React.Component {
 
 		this.state = { close : false, manager: true, userPermissions: [], currentPermissions: {}};
 
-		this.currentUser = {};
+		this.currentUser;
 
 		this.parent = props.parentHandler;
 
 		this.getUsers = this.getUsers.bind(this);
 		this.displayUsers = this.displayUsers.bind(this);
 		this.displayPermissions = this.displayPermissions.bind(this);
-		this.editPermissions = this.editPermissions.bind(this);
+		//this.editPermissions = this.editPermissions.bind(this);
 		this.savePermissions = this.savePermissions.bind(this);
 		this.renderCurrentPermissions = this.renderCurrentPermissions.bind(this);
 
@@ -63,9 +63,16 @@ export default class ManagerView extends React.Component {
 		}).then(function(data) {
 			var allPermissions = [];
 			for(let user in data) {
-				const permissions = data[user]
-
-			        console.log(user,permissions);
+				var tempPermissions = data[user];
+				if (!tempPermissions) {
+					console.log("tempPermissions is false");
+					tempPermissions = {
+								read: false,
+								write: false,
+								manager: false
+							};
+				}
+				const permissions = tempPermissions;
 				Utils.post("user", { user_hash : user }, function(json) {
 					allPermissions.push({ user : new User(json), permission : permissions});
 					this.setState({userPermissions: allPermissions});
@@ -77,8 +84,8 @@ export default class ManagerView extends React.Component {
 	savePermissions() {
 
 		var newObject = {};
-		newObject[this.currentUser] = this.state.currentPermissions;	
-		var changes = [newObject];
+		newObject[this.currentUser.user_hash] = this.state.currentPermissions;	
+		var changes = newObject;
 
 		fetch("http://endor-vm1.cs.purdue.edu/setNotebookPermissions", {
 			method: "POST",
@@ -101,57 +108,57 @@ export default class ManagerView extends React.Component {
 	}
 
 	displayUsers() {
-		console.log("permissions : " + this.state.userPermissions);
-
 		var userDivs = [];
 		for (var i = 0; i < this.state.userPermissions.length; i++) 
 		{
 			var object = this.state.userPermissions[i];
-			var propVal;
-			for (var propName in object) {
-				propVal = object[propName];
-				console.log("name: " + propName + " val: " + propVal);
-				if (propVal == false) {
-					//Do not list user
-					console.log("not listing: " + object["user_hash"]);
-				}
-				else {
-					//Add div for each user
-					var currentPermissions = object["permission"];
-					this.currentUser = object["user"];
-					userDivs.push(	<div> 
-								<a href="#" onClick={this.displayPermissions.bind(this, currentPermissions)}> {object["user"].email} </a>
-							</div>);
-					
-				}
+			var currentPermissions = object["permission"];;
+			
+			if (currentPermissions == false) {
+				console.log("oh");
 			}
+			//Add div for each user
+			userDivs.push(	<div className="admin-ui email-div"> 
+						<a href="#" onClick={this.displayPermissions.bind(this, currentPermissions, object["user"])}> {object["user"].email} </a>
+					</div>);			
 		}
-	        return (<div> {userDivs} </div>);	
+	
+	        return (<div className="admin-ui email-container"> {userDivs} </div>);	
 	}	    
 		
-	displayPermissions(currentPermissions) {
-		console.log("DisplayPermissions");
+	displayPermissions(currentPermissions, currentUser) {
 		this.setState({currentPermissions: currentPermissions});
+		this.currentUser = currentUser;
 		var permissionValue;
 		for (var permissionName in currentPermissions) {
 			permissionValue = currentPermissions[permissionName];
-			console.log("permission: " + permissionName + "value: " + permissionValue);
-			
 		}
 		
 	}
 
 	renderCurrentPermissions() {
-		console.log("rendering current permissions");
 		var read = this.state.currentPermissions["read"] ? this.state.currentPermissions["read"] : false;
 		var write = this.state.currentPermissions["write"] ? this.state.currentPermissions["write"] : false;
 		var manager = this.state.currentPermissions["manager"] ? this.state.currentPermissions["manager"] : false;
-		
-		return	<form>
-				{read ? <div><input type="checkbox" name="read" checked onChange={(e) => (this.editPermissions("read"))} /> read <br /></div> :  <div><input type="checkbox" name="" /> read <br /></div>}
-				{write ? <div><input type="checkbox" name="write" checked onChange={(e) => (this.editPermissions("write"))}/> write <br /></div> :  <div><input type="checkbox" name="" /> write <br /></div>}
-				{manager ? <div><input type="checkbox" name="manager" checked onChange={(e) => (this.editPermissions("manager"))}/> manager <br /></div> :  <div><input type="checkbox" name="" /> manager <br /></div>}
-			</form>
+
+		if (this.currentUser) 
+		{
+			return  <div className="admin-ui checklist-div"> 
+					<p> {this.currentUser.email} </p>					
+					<form>
+						{read ? <div><input type="checkbox" name="read" checked onChange={this.editPermissions.bind(this, "read")} /> read <br /></div> :  <div><input type="checkbox" name="" onChange={this.editPermissions.bind(this, "read")} /> read <br /></div>}
+						{write ? <div><input type="checkbox" name="write" checked onChange={this.editPermissions.bind(this,"write")}/> write <br /></div> :  <div><input type="checkbox" name="" onChange={this.editPermissions.bind(this, "write")} /> write <br /></div>}
+						{manager ? <div><input type="checkbox" name="manager" checked onChange={this.editPermissions.bind(this, "manager")}/> manager <br /></div> :  <div><input type="checkbox" name="" onChange={this.editPermissions.bind(this, "manager")} /> manager <br /></div>}
+					</form>
+					<input id="submitPermissions" type="submit" title="Submit" onClick={this.savePermissions} />
+				</div>
+		}
+		else
+		{
+			return 	<div className="admin-ui checklist-div">
+					<p> Select a user to edit their permissions </p>
+				</div>
+		}
 	}
 
 	editPermissions(name) {
@@ -160,7 +167,6 @@ export default class ManagerView extends React.Component {
 	}
 
 	settings(mode) {
-		console.log("HERE");
 		const imageSetting = mode === "stateInline " ? "inline" : "below";
 		console.log(imageSetting);
 		Utils.post("format", { user_hash : this.parent.getUser().user_hash, notebook_hash : this.parent.getCurrentNotebook().notebook_hash, settings : { image : imageSetting }}, function() {
@@ -198,7 +204,6 @@ export default class ManagerView extends React.Component {
 					<div id="permissionChecklist" className="admin-ui permission-selector">
 						{this.renderCurrentPermissions()}
 					</div>
-					<input type="submit" title="Submit" onClick={this.savePermissions} />
 				</div>
 			</div>);
 	}
