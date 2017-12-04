@@ -77,42 +77,41 @@ export default class NotebooksView extends React.Component {
 		}
 	}
 
+	displayNotebooks(results) {
+		if(!results) {
+			alert("Could not find any notebooks!");
+			return;
+		}
+
+		this.setState({ notebookList : [] });
+
+		results.forEach(function(notebook) {
+
+			const foundNotebook = this.parent.getNotebooks().find(function(n) {
+				return n.notebook_hash === notebook.notebook;
+			});
+
+			this.setState({ notebookList : this.state.notebookList.concat(foundNotebook) });
+
+		}.bind(this));
+	}
+
 	notebookSearch(mode, text, date1, date2, tags, tag) {
 		console.log(mode);
 		if(mode === "stateText ") {
 			Utils.post("searchByText", { user_hash : this.parent.getUser().user_hash, text : text }, function(json) {
-
-				this.setState({ notebookList : [] });
-
-				json.results.forEach(function(notebook) {
-
-					const foundNotebook = this.parent.getNotebooks().find(function(n) {
-						return n.notebook_hash === notebook.notebook;
-					});
-
-					this.setState({ notebookList : this.state.notebookList.concat(foundNotebook) });
-
-				}.bind(this));
+				this.displayNotebooks(json.results[0]);
 			}.bind(this));
 		}
 		else if(mode === "stateTimestamp ") {
 			Utils.post("searchNotebooksByDate", { user_hash : this.parent.getUser().user_hash, mindate : date1.getTime(), maxdate  : date2.getTime()}, function(json) {
-
-				this.setState({ notebookList : [] });
-
-				json.results.forEach(function(notebook) {
-
-					const foundNotebook = this.parent.getNotebooks().find(function(n) {
-						return n.notebook_hash === notebook.notebook;
-					});
-
-					this.setState({ notebookList : this.state.notebookList.concat(foundNotebook) });
-
-				}.bind(this));
+				this.displayNotebooks(json.results[0])
 			}.bind(this));
 		}
 		else {
-
+			Utils.post("searchByTag", { user_hash : this.parent.getUser().user_hash, tag : tags.concat(tag) }, function(json) {
+				this.displayNotebooks(json.results[0]);
+			});
 		}
 	}
 

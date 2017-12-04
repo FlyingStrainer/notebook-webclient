@@ -3,23 +3,78 @@
 .overlay--share.form-style {
   .share {
     width: 400px;
+    height: 42px;
 
     .form--submit--button {
       width:200px;
       height:42px;
       float:left;
+
+      button {
+        margin-top: 0;
+        width: 190px;
+        padding-right: 7px;
+        padding-left: 7px;
+
+        span {
+          opacity: 1;
+        }
+      }
+
+      @include transition-timing(ease);
     }
 
     .form--submit--button:nth-child(1) {
       padding-right:10px;
     }
 
-    .form--submit--button:nth-child(2) {
+    .share-text {
+      width: 0;
+      height: 42px;
+      padding-right: 0;
+      padding-left: 0;
+      border: 0;
+      float:left;
+
+      @include transition-timing(ease);
+    }
+
+    .form--submit--button:nth-child(3) {
       padding-left: 10px;
+      float:right;
     }
   }
 
   .share.stateShare {
 
+    .form--submit--button {
+      width: 0;
+      padding-right:0;
+      padding-left: 0;
+
+      button {
+        width: 0;
+        padding-right: 0;
+        padding-left: 0;
+        border: 0;
+
+        span {
+          opacity: 0;
+          display:none;
+        }
+
+        @include transition(width 300ms 0ms, padding-right 300ms 0ms, padding-right 300ms 0ms);
+      }
+
+      @include transition(width 300ms 0ms, padding-right 300ms 0ms, padding-left 300ms 0ms);
+    }
+
+    .share-text {
+      width: 400px;
+      padding-right: 7px;
+      padding-left: 7px;
+      border: 2px;
+      @include transition(width 300ms 300ms, padding-right 300ms 300ms, padding-left 300ms 300ms, border 300ms 300ms);
+    }
   }
 }

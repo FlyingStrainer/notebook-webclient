@@ -143,7 +143,9 @@ export default class NotebookPagesView extends React.Component {
 			}.bind(this));
 		}
 		else {
-
+			Utils.post("searchByTag", { user_hash : this.parent.getUser().user_hash, notebook_hash : this.parent.getCurrentNotebook().notebook_hash, tag : tags.concat(tag) }, function(json) {
+				this.displayEntries(json.results[0]);
+			}.bind(this));
         }
     }
 
