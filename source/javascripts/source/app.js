@@ -102,37 +102,6 @@ class VENote extends React.Component {
 	        localStorage.setItem("user_hash", this.user.user_hash);
         }
 
-		if(this.user.permissions.role === "manager" || this.user.permissions.role === "admin")
-		{
-			this.socket = new WebSocket("ws://endor-vm1.cs.purdue.edu/");
-
-			this.socket.onopen = function() {
-				this.socket.send(JSON.stringify({type : "login", user_hash : this.user}));
-			}.bind(this);
-
-			this.socket.onmessage = function(event) {
-				const msg = JSON.parse(event.data);
-
-				if(msg.type === "failed")
-				{
-					this.socket.close();
-					this.socket = undefined;
-				}
-				else if(msg.type === "login")
-				{
-					this.socket.send(JSON.stringify({type:"testpush"}));
-					setTimeout(function() {
-						this.socket.send(JSON.stringify({type:"testpush"}));
-					}.bind(this), 5000);
-				}
-				else if(msg.type === "push")
-				{
-					this.push_data = {notebook_hash : msg.msg.notebook_hash, entry_hash : msg.msg.entry_hash};
-					this.setState({ pushView : true });
-				}
-			}.bind(this);
-		}
-
 		this.setState({ view : "notebookView" });
 	}
 

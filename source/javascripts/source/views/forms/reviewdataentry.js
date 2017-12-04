@@ -56,27 +56,22 @@ export default class ReviewEntryForm extends React.Component {
 				console.log("Success");
 				this.state.entry.cosign_hash = this.user_hash;
 				this.setState({entry: this.state.entry});	
-		}.bind(this),
-		null		
-
+		}.bind(this)
 	);
     }
 
     renderCosignButton() {
-	if (this.notebook_permissions.manager) { 
-			console.log(this.state.entry);
-			console.log(this.state.entry.cosign_hash);
+        console.log(this.state.entry.author_hash, this.user_hash);
+	if (this.notebook_permissions.manager && this.state.entry.author_hash !== this.user_hash) {
 			if (this.state.entry.cosign_hash === undefined) {
-				console.log("unsigned");
 				return <div className="form--half"><Button wrapperClass="cosign" type="submit" title="Cosign" onClick={this.cosign} /></div>;
 			}
 			else {
-				console.log("signed");
-				return <div className="form--half"><span></span><Button wrapperClass="cosigned cosign" type="submit" title="Cosigned" /> </div>
+				return <div className="form--half"><Button wrapperClass="cosigned cosign" type="submit" title="Cosigned" /> </div>
 			}
 	}
-	else {
-		return null;
+	else if(this.state.entry.cosign_hash){
+		return <div className="form--half"><Button wrapperClass="cosigned cosign" type="submit" title="Cosigned" /> </div>;
 	}
     }
 

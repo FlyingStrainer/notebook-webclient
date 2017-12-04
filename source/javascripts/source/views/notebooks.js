@@ -80,7 +80,7 @@ export default class NotebooksView extends React.Component {
 	displayNotebooks(results) {
 	    console.log(results);
 
-		if(!results) {
+		if(!results || results.length === 0) {
 			alert("Could not find any notebooks!");
 			return;
 		}

@@ -36,7 +36,7 @@ export default class Button extends React.Component {
     render() {
         if (this.dataIntro && this.dataStep)
         {
-            return <div data-intro={this.dataIntro} data-step={this.dataStep} className={this.state.wrapperClass + "--button"}>
+            return <div data-intro={this.dataIntro} data-step={this.dataStep} className={this.state.wrapperClass}>
                 <button type={this.type} title={this.title} className={this.state.wrapperClass + ' button button--primary button--normal'} onClick={this.clickHandler} onMouseDown={this.mouseHandler}>
                     <span>{this.title}</span>
                 </button>
@@ -44,7 +44,7 @@ export default class Button extends React.Component {
         }
         else
         {
-            return <div className={this.state.wrapperClass + "--button"}>
+            return <div className={this.state.wrapperClass}>
                 <button type={this.type} title={this.title} className={this.state.wrapperClass + ' button button--primary button--normal'} onClick={this.clickHandler} onMouseDown={this.mouseHandler}>
                     <span>{this.title}</span>
                 </button>
