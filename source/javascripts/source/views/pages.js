@@ -133,12 +133,12 @@ export default class NotebookPagesView extends React.Component {
 
     pageSearch(mode, text, date1, date2, tags, tag) {
 		if(mode === "stateText ") {
-			Utils.post("searchByText", { user_hash : this.parent.getUser().user_hash, notebook_hash : this.parent.getCurrentNotebook().notebook_hash, text : text }, function(json) {
+			Utils.post("searchByText", { user_hash : this.parent.getUser().user_hash, notebook_hash : this.parent.getCurrentNotebook().notebook_hash, text : [].concat(text) }, function(json) {
 			    this.displayEntries(json.results[0]);
 			}.bind(this));
 		}
 		else if(mode === "stateTimestamp ") {
-			Utils.post("searchNotebooksByDate", { user_hash : this.parent.getUser().user_hash, notebook_hash : this.parent.getCurrentNotebook().notebook_hash, mindate : date1.getTime(), maxdate  : date2.getTime()}, function(json) {
+			Utils.post("searchByDate", { user_hash : this.parent.getUser().user_hash, notebook_hash : this.parent.getCurrentNotebook().notebook_hash, mindate : date1.getTime(), maxdate  : date2.getTime()}, function(json) {
 			    this.displayEntries(json.results[0]);
 			}.bind(this));
 		}

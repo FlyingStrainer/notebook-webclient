@@ -72,12 +72,15 @@ export default class ManagerView extends React.Component {
 							};
 				}
 				const permissions = tempPermissions;
-				Utils.post("user", { user_hash : user }, function(json) {
-				    if(json.user_hash !== this.parent.getUser().user_hash && json.permissions.role !== "admin") {
-                        allPermissions.push({ user : new User(json), permission : permissions});
-                        this.setState({userPermissions: allPermissions});
-                    }
-				}.bind(this));
+				Utils.post(
+						"user", 
+						{ user_hash : user }, 
+						function(json) {
+				    			if(json.user_hash !== this.parent.getUser().user_hash && json.permissions.role !== "admin") {
+                        					allPermissions.push({ user : new User(json), permission : permissions});
+                        					this.setState({userPermissions: allPermissions});
+                    					}
+						}.bind(this));
 			}
 		}.bind(this));
 	}

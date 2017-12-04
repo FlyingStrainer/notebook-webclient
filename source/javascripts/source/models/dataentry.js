@@ -14,6 +14,7 @@ export default class DataEntry {
 			this.date_created_real = new Date(json.date_created);
 			this.author_hash = json.author_hash;
 			this.author = json.author;
+			this.cosign_hash = json.cosign_hash;
 			this.redacted = json.redacted;
 
 			this.date_created = this.date_created_real.getDate() + "/" + (this.date_created_real.getMonth() + 1) + "/" + this.date_created_real.getFullYear() + ", " +
