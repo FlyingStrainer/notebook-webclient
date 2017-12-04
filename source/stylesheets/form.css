@@ -158,3 +158,22 @@ div.forms {
 .cosigned {
 	background-color: lightgreen;
 }
+
+.data-entry--background{
+	background-color: rgba(242, 242, 242, 1);
+	padding: 10px;
+}
+
+.data-entry--background div p {
+	font-family: Helvetica, serif;
+}
+
+.data-entry--author{
+	font-family: Helvetica, sans-serif;
+	color: rgba(50, 50, 50, 1);
+}
+
+.data-entry--date{
+	font-family: Helvetica, sans-serif;
+	color: rgba(50, 50, 50, 1);
+}
