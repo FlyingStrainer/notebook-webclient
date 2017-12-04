@@ -38,8 +38,6 @@ export default class DataEntryForm extends React.Component {
 		    if(this.state.tag.length > 0)
 		        tags.push(this.state.tag);
 
-		    console.log(this.image)
-
 			Utils.post("addEntry", { user_hash : this.user_hash, notebook_hash : this.notebook_hash, entry : {
 				text : this.textInput.value, image : this.image, caption : this.captionInput.value, tags : tags
 			} }, function(json) {
