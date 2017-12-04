@@ -80,7 +80,7 @@ export default class NotebooksView extends React.Component {
 	displayNotebooks(results) {
 	    console.log(results);
 
-		if(!results) {
+		if(!results || results.length === 0) {
 			alert("Could not find any notebooks!");
 			return;
 		}
@@ -160,7 +160,7 @@ export default class NotebooksView extends React.Component {
 
 	render() {
 		return (<div className="notebooks-view">
-			<ToolbarView dataIntro="Click the suit to manage user permissions. Click the magnifying glass to search. Click button to the far right to log out." dataStep="3" load={this.load}
+			<ToolbarView dataIntro="Click the suit to see what notebooks users own. Click the magnifying glass to search. Click button to the far right to log out." dataStep="3" load={this.load}
 			             page={this.parent.getUser().company_name} parentHandler={this.parentToolbar} visible={this.state.close}
 			             query={true} isManager={this.parent.getUser().permissions.role === "admin"} />
 			<div data-intro="Click on an existing notebook to add or view data entries inside. Click on the bottom left blue button to send feedback." data-step="2" className={this.state.notebookState + "list-view"}>
