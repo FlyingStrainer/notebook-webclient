@@ -1,7 +1,9 @@
 import React from "../../../lib/react.js";
 
 import Button from "./button";
-import Entry from "../subviews/entry"
+import Entry from "../subviews/entry";
+
+import * as Utils from "../../utils.js";
 
 export default class ReviewEntryForm extends React.Component {
     constructor(props) {
@@ -22,6 +24,7 @@ export default class ReviewEntryForm extends React.Component {
         this.showReviewEntry =  this.showReviewEntry.bind(this);
         this.redact = this.redact.bind(this);
         this.cosign = this.cosign.bind(this);
+	this.renderCosignButton = this.renderCosignButton.bind(this);
     }
 
     setReviewEntry(reviewEntry) {
@@ -41,7 +44,40 @@ export default class ReviewEntryForm extends React.Component {
     }
 
     cosign() {
+	console.log("Cosigning");
+	Utils.post(
+		"cosignEntry",
+		{
+			user_hash: this.user_hash,
+			notebook_hash: this.notebook_hash,
+			entry_hash: this.state.entry.entry_hash
+		},
+		function(data) {
+				console.log("Success");
+				this.state.entry.cosign_hash = this.user_hash;
+				this.setState({entry: this.state.entry});	
+		}.bind(this),
+		null		
 
+	);
+    }
+
+    renderCosignButton() {
+	if (this.notebook_permissions.manager) { 
+			console.log(this.state.entry);
+			console.log(this.state.entry.cosign_hash);
+			if (this.state.entry.cosign_hash === undefined) {
+				console.log("unsigned");
+				return <div className="form--half"><Button wrapperClass="cosign" type="submit" title="Cosign" onClick={this.cosign} /></div>;
+			}
+			else {
+				console.log("signed");
+				return <div className="form--half"><span></span><Button wrapperClass="cosigned cosign" type="submit" title="Cosigned" /> </div>
+			}
+	}
+	else {
+		return null;
+	}
     }
 
     render() {
@@ -51,7 +87,7 @@ export default class ReviewEntryForm extends React.Component {
                 {this.state.entry ? <Entry entry={this.state.entry} notebook={this.notebook}/> : null}
                 <form>
                     {this.state.entry ? <div>
-                            {this.notebook_permissions.manager ? <div className="form--half"><Button wrapperClass="cosign" type="submit" title="Cosign" onClick={this.cosign} /></div> : null}
+			    {this.renderCosignButton()}
                     </div> : null}
 
                 </form>
