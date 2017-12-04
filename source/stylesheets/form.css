@@ -2,7 +2,6 @@
 	font-family: "Avenir";
 	color: gray;	
 	display: block;
-	float: center;
 	text-align: center;
 }
 div.forms {
@@ -19,13 +18,16 @@ div.forms {
 	width: 150px;
 	height: 50px;
 	color: gray;
-	float: center;
 }
 
 .forms.imageInput{
 	margin: 0 auto;	
 	display: inline-block;
 	text-align: left;
+}
+
+.data-entry--captioned-image img {
+    max-width: 600px;
 }
 
 .forms.submitButton{
@@ -47,7 +49,6 @@ div.forms {
 
 
 .forms.header{
-	float: center;
 	text-align: center;
 	/*display: block;*/
 	/*background-color: blue;*/
@@ -65,7 +66,6 @@ div.forms {
 	/*margin-left: 50%;*/
 	/*transform: translate(-50%);*/
 	text-align: center;
-	float: center;
 	font-size: 300%;
 	/*background-color: green;*/
 }
@@ -78,7 +78,6 @@ div.forms {
 	max-width: 100%;
 	text-align: center;
 	display: inline-block;
-	float: center;
 }
 
 .forms#image{
