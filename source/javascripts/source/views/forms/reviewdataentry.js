@@ -52,11 +52,16 @@ export default class ReviewEntryForm extends React.Component {
                 <form>
                     {this.state.entry ? <div>
                             {this.notebook_permissions.manager ? <div className="form--half"><Button wrapperClass="cosign" type="submit" title="Cosign" onClick={this.cosign} /></div> : null}
-                            {this.notebook_permissions.write && this.user_hash === this.state.entry.author_hash ?
-                                <div className="form--half"><Button wrapperClass="delete" type="submit" title="Redact" onClick={this.redact} /></div> : null}
                     </div> : null}
+
                 </form>
             </div>
         </div>);
     }
+
+                    /*
+                    {this.notebook_permissions.write && this.user_hash === this.state.entry.author_hash ?
+                                <div className="form--half"><Button wrapperClass="delete" type="submit" title="Redact" onClick={this.redact} /></div> : null}
+
+                     */
 }

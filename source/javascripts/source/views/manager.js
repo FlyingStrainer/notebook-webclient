@@ -65,7 +65,6 @@ export default class ManagerView extends React.Component {
 			for(let user in data) {
 				var tempPermissions = data[user];
 				if (!tempPermissions) {
-					console.log("tempPermissions is false");
 					tempPermissions = {
 								read: false,
 								write: false,
@@ -74,8 +73,10 @@ export default class ManagerView extends React.Component {
 				}
 				const permissions = tempPermissions;
 				Utils.post("user", { user_hash : user }, function(json) {
-					allPermissions.push({ user : new User(json), permission : permissions});
-					this.setState({userPermissions: allPermissions});
+				    if(json.user_hash !== this.parent.getUser().user_hash && json.permissions.role !== "admin") {
+                        allPermissions.push({ user : new User(json), permission : permissions});
+                        this.setState({userPermissions: allPermissions});
+                    }
 				}.bind(this));
 			}
 		}.bind(this));
@@ -88,34 +89,16 @@ export default class ManagerView extends React.Component {
 		var changes = newObject;
 		for (var index in this.state.userPermissions) 
 		{
-			console.log(this.state.userPermissions[index]["user"]);
-			console.log(this.currentUser);
 			if (this.state.userPermissions[index]["user"] == this.currentUser) 
 			{
 				// Save change locally if submitted
 				this.state.userPermissions[index]["permission"] = this.state.currentPermissions;
-				console.log(this.state.userPermissions);
 			}
 		}
 
-		fetch("http://endor-vm1.cs.purdue.edu/setNotebookPermissions", {
-			method: "POST",
-			headers: {
-				"Accept": "application/json",
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				user_hash : this.currentUser.user_hash,
-				notebook_hash : this.parent.getCurrentNotebook().notebook_hash,
-				changes : changes
-			})
-		}).then(function(response) {
-			if(response.ok) {
-				var json = response.json();
-				return json;
-			}
-			throw new Error("Network response was not ok.");
-		});	
+		Utils.post("setNotebookPermissions", { user_hash : this.currentUser.user_hash, notebook_hash : this.parent.getCurrentNotebook().notebook_hash, changes : changes }, (json) => {
+		    alert("Submitted!");
+        });
 	}
 
 	displayUsers() {
@@ -172,11 +155,9 @@ export default class ManagerView extends React.Component {
 
 	settings(mode) {
 		const imageSetting = mode === "stateInline " ? "inline" : "below";
-		console.log(imageSetting);
 		Utils.post("format", { user_hash : this.parent.getUser().user_hash, notebook_hash : this.parent.getCurrentNotebook().notebook_hash, settings : { image : imageSetting }}, function() {
 
 			this.parent.getCurrentNotebook().settings = { image : imageSetting };
-			console.log(this.parent.getCurrentNotebook().settings)
 		}.bind(this), function(error) {console.log(error);});
 	}
 

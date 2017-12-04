@@ -33,7 +33,7 @@ export default class QueryForm extends React.Component {
     }
 
     query() {
-        this.queryHandler(this.state.queryState, this.textInput.value, this.date1, this.date2, this.state.tags, this.state.tag);
+        this.queryHandler(this.state.queryState, this.textInput.value, this.state.date1, this.state.date2, this.state.tags, this.state.tag);
         this.hideQuery();
     }
 
@@ -47,14 +47,12 @@ export default class QueryForm extends React.Component {
                     </div>
 
                     <div className="query--timestamps">
-                        <DatePicker value={this.state.date1} onChange={date => {
+                        <DatePicker maxDate={this.state.date2} value={this.state.date1} onChange={date => {
                             this.setState({ date1 : date });
-                            this.date_picker_2.minDate = this.state.date1;
-                        }} ref={date => this.date_picker_1 = date}/>
-                        <DatePicker value={this.state.date2} onChange={date => {
+                        }} />
+                        <DatePicker minDate={this.state.date1} value={this.state.date2} onChange={date => {
                             this.setState({ date2 : date });
-                            this.date_picker_1.maxDate = date;
-                        }} ref={date => this.date_picker_2 = date}/>
+                        }} />
                     </div>
 
                     <div className="query--tags">

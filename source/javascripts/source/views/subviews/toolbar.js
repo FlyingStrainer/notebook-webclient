@@ -10,9 +10,13 @@ export default class ToolbarView extends React.Component {
 	constructor(props) {
 		super(props);
 
+		console.log(props);
+
 		this.parent = props.parentHandler;
 		this.name = props.page;
 		this.hasBack = props.hasBack;
+
+		console.log(this.parent);
 
 		// Currently unused, may be deleted
 		this.searchFunction = props.searchFunction;
@@ -114,7 +118,7 @@ export default class ToolbarView extends React.Component {
 				</div>
 				{this.state.isManagerUI ? <SettingsForm submitCallback={this.parent.settings} ref={settings => (this.settings_form = settings)}/> : null}
 				{this.state.query ? <QueryForm query={this.parent.query} ref={query => (this.query_form = query)}/> : null}
-				{this.hasShare ? <ShareForm ref={share => {this.share_form = share}}/> : null}
+				{this.hasShare ? <ShareForm notebook={this.parent.notebook_hash} ref={share => {this.share_form = share}}/> : null}
 			</div>);
 		}
 
@@ -133,7 +137,7 @@ export default class ToolbarView extends React.Component {
 				</div>
 				{this.state.isManagerUI ? <SettingsForm submitCallback={this.parent.settings} ref={settings => (this.settings_form = settings)}/> : null}
 				{this.state.query ? <QueryForm query={this.parent.query} ref={query => (this.query_form = query)}/> : null}
-				{this.hasShare ? <ShareForm ref={share => {this.share_form = share}}/> : null}
+				{this.hasShare ? <ShareForm notebook={this.parent.notebook_hash} ref={share => {this.share_form = share}}/> : null}
 			</div>
 		</div>);
 	}

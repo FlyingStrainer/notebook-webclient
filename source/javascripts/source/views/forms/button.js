@@ -11,17 +11,23 @@ export default class Button extends React.Component {
         this.dataIntro = props.dataIntro;
         this.dataStep = props.dataStep;
 
+        this.mouseDown = false;
+
         this.clickHandler = e => {
-            if(this.onClick)
-                e.preventDefault();
-        }
+            if(this.onClick && !this.mouseDown) {
+                this.onClick(e);
+            }
+            this.mouseDown = false;
+            e.preventDefault();
+        };
 
         this.mouseHandler = e => {
+            this.mouseDown = true;
             if(this.onClick) {
                 e.preventDefault();
                 this.onClick(e);
             }
-        }
+        };
     }
 
     render() {

@@ -12,11 +12,54 @@ import DevFeedbackView from "./views/subviews/devfeedback";
 import * as Utils from "./utils.js";
 import AdminView from "./views/admin"
 
+window.downloadFile = function (sUrl) {
+
+    //iOS devices do not support downloading. We have to inform user about this.
+    if (/(iP)/g.test(navigator.userAgent)) {
+        //alert('Your device does not support files downloading. Please try again in desktop browser.');
+        window.open(sUrl, '_blank');
+        return false;
+    }
+
+    //If in Chrome or Safari - download via virtual link click
+    if (window.downloadFile.isChrome || window.downloadFile.isSafari) {
+        //Creating new link node.
+        var link = document.createElement('a');
+        link.href = sUrl;
+        link.setAttribute('target','_blank');
+
+        if (link.download !== undefined) {
+            //Set HTML5 download attribute. This will prevent file from opening if supported.
+            var fileName = sUrl.substring(sUrl.lastIndexOf('/') + 1, sUrl.length);
+            link.download = fileName;
+        }
+
+        //Dispatching click event.
+        if (document.createEvent) {
+            var e = document.createEvent('MouseEvents');
+            e.initEvent('click', true, true);
+            link.dispatchEvent(e);
+            return true;
+        }
+    }
+
+    // Force file download (whether supported by server).
+    if (sUrl.indexOf('?') === -1) {
+        sUrl += '?download';
+    }
+
+    window.open(sUrl, '_blank');
+    return true;
+};
+
+window.downloadFile.isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+window.downloadFile.isSafari = navigator.userAgent.toLowerCase().indexOf('safari') > -1;
+
 class VENote extends React.Component {
 	constructor(props) {
 		super(props);
 
-		if(typeof(Storage) !== "undefined" && localStorage.getItem("user_hash")) {
+		if(typeof(Storage) !== "undefined" && localStorage.getItem("user_hash") !== "undefined") {
 		    this.state = { view : "blankView", pushView : false, toolbarState : false };
         }
         else {
@@ -42,7 +85,8 @@ class VENote extends React.Component {
 	}
 
     componentDidMount() {
-        if(this.state.view === "blankView" && typeof(Storage) !== "undefined" && localStorage.getItem("user_hash")) {
+        if(this.state.view === "blankView" && typeof(Storage) !== "undefined" && localStorage.getItem("user_hash") !== "undefined") {
+            console.log(localStorage.getItem("user_hash"), localStorage.getItem("user_hash") !== undefined, localStorage.getItem("user_hash") !== "undefined", !localStorage.getItem("user_hash"));
             Utils.post("user", { user_hash : localStorage.getItem("user_hash") }, function(json) {
                 this.login(json);
             }.bind(this), function(error) {
@@ -58,8 +102,10 @@ class VENote extends React.Component {
 	    if(typeof(Storage) !== "undefined") {
 	        localStorage.setItem("user_hash", this.user.user_hash);
         }
-		if(this.user.permissions.role === "manager")
+
+		if(this.user.permissions.role === "manager" || this.user.permissions.role === "admin")
 		{
+            console.log("HERE");
 			this.socket = new WebSocket("ws://endor-vm1.cs.purdue.edu/");
 
 			this.socket.onopen = function() {
@@ -67,7 +113,9 @@ class VENote extends React.Component {
 			}.bind(this);
 
 			this.socket.onmessage = function(event) {
-				let msg = JSON.parse(event.data);
+				const msg = JSON.parse(event.data);
+
+				console.log(msg);
 
 				if(msg.type === "failed")
 				{
@@ -83,8 +131,9 @@ class VENote extends React.Component {
 				}
 				else if(msg.type === "push")
 				{
+				    console.log("PUSH", msg.msg);
 					this.push_data = {notebook_hash : msg.msg.notebook_hash, entry_hash : msg.msg.entry_hash};
-					this.setState({pushView : true});
+					this.setState({ pushView : true });
 				}
 				console.log(event);
 			}.bind(this);

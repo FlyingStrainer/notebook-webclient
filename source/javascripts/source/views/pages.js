@@ -28,6 +28,7 @@ export default class NotebookPagesView extends React.Component {
 
 		this.reviewEntry = this.reviewEntry.bind(this);
 
+		this.displayEntries = this.displayEntries.bind(this);
 		this.pageSearch = this.pageSearch.bind(this);
 		this.manager = this.manager.bind(this);
 		this.back = this.back.bind(this);
@@ -37,6 +38,7 @@ export default class NotebookPagesView extends React.Component {
 
         this.parentToolbar = { backCallback : this.back, logoutCallback : this.logout, user_hash : this.parent.getUser().user_hash,
             notebook_hash : this.parent.getCurrentNotebook().notebook_hash, query : this.pageSearch, manager : this.manager};
+
         this.parentEntry = { reviewEntry : this.reviewEntry };
 	}
 
@@ -52,15 +54,15 @@ export default class NotebookPagesView extends React.Component {
             }.bind(this), 300);
         }.bind(this), 300);
 
-		Utils.post("getEntries", { user_hash : this.parent.getUser().user_hash,  notebook_hash : this.parent.getCurrentNotebook().notebook_hash }, function(json) {
+        Utils.post("getEntries", { user_hash : this.parent.getUser().user_hash,  notebook_hash : this.parent.getCurrentNotebook().notebook_hash }, function(json) {
 
-			json.forEach(function(entry_uuid) {
+            json.forEach(function(entry_uuid) {
 
-				Utils.post("getEntry", {
-					user_hash : this.parent.getUser(),
-					notebook_hash : this.parent.getCurrentNotebook().notebook_hash,
-					entry_hash : entry_uuid
-				}, function(json) {
+                Utils.post("getEntry", {
+                    user_hash : this.parent.getUser(),
+                    notebook_hash : this.parent.getCurrentNotebook().notebook_hash,
+                    entry_hash : entry_uuid
+                }, function(json) {
 
                     this.entryList.push(new DataEntry(entry_uuid, json));
 
@@ -68,15 +70,15 @@ export default class NotebookPagesView extends React.Component {
                         return d2.date_created_real - d1.date_created_real;
                     });
 
-					this.setState({ entriesList : this.entryList.slice() });
+                    this.setState({ entriesList : this.entryList.slice() });
 
-				}.bind(this), function(error) {
-					console.log(error);
-				});
+                }.bind(this), function(error) {
+                    console.log(error);
+                });
 
-			}.bind(this));
+            }.bind(this));
 
-		}.bind(this));
+        }.bind(this));
     }
 
     register(responseJson) {
@@ -92,50 +94,57 @@ export default class NotebookPagesView extends React.Component {
     }
 
     redact() {
-
+        console.log("REDACT");
     }
 
     cosign() {
-
+        console.log("COSIGN");
     }
 
     reviewEntry(entry) {
 	    this.review_entry.setReviewEntry(entry);
     }
 
+    displayEntries(results) {
+        if(!results) {
+            alert("Could not find any entries!");
+            return;
+        }
+
+        this.queried = true;
+        this.setState({ entriesList : [] });
+
+        results.entries.forEach(function(entry) {
+
+            const foundNotebook = this.entryList.find(function(n) {
+                return n.entry_hash === entry;
+            });
+
+            const list = this.state.entriesList.concat(foundNotebook);
+
+            list.sort(function(d1, d2) {
+                return d2.date_created_real - d1.date_created_real;
+            });
+
+            this.setState({ entriesList : list });
+
+        }.bind(this));
+    }
+
     pageSearch(mode, text, date1, date2, tags, tag) {
 		if(mode === "stateText ") {
 			Utils.post("searchByText", { user_hash : this.parent.getUser().user_hash, notebook_hash : this.parent.getCurrentNotebook().notebook_hash, text : text }, function(json) {
-
-				this.setState({ entriesList : [] });
-
-				json.results[0].entries.forEach(function(entry) {
-
-					const foundNotebook = this.entryList.find(function(n) {
-						return n.entry_hash === entry;
-					});
-
-					this.setState({ entriesList : this.state.entriesList.concat(foundNotebook) });
-
-				}.bind(this));
+			    this.displayEntries(json.results[0]);
 			}.bind(this));
 		}
 		else if(mode === "stateTimestamp ") {
 			Utils.post("searchNotebooksByDate", { user_hash : this.parent.getUser().user_hash, notebook_hash : this.parent.getCurrentNotebook().notebook_hash, mindate : date1.getTime(), maxdate  : date2.getTime()}, function(json) {
-
-				this.setState({ entriesList : [] });
-
-				json.results[0].entries.forEach(function(entry) {
-
-					const foundNotebook = this.entryList.find(function(n) {
-						return n.entry_hash === entry;
-					});
-
-					this.setState({ entriesList : this.state.entriesList.concat(foundNotebook) });
-
-				}.bind(this));
+			    this.displayEntries(json.results[0]);
 			}.bind(this));
 		}
+		else {
+
+        }
     }
 
     manager() {
@@ -149,13 +158,20 @@ export default class NotebookPagesView extends React.Component {
     }
 
     back(event) {
-	    this.create_entry.hideNewEntry();
+        this.create_entry.hideNewEntry();
         this.review_entry.hideReviewEntry();
-	    this.setState({ pageState : "stateExit stateTransition ", close : true });
+	    if(this.queried) {
+            this.queried = false;
 
-	    setTimeout(function(){
-		    this.parent.back(event);
-	    }.bind(this), 300);
+            this.setState({ entriesList : this.entryList.slice() });
+        }
+        else {
+            this.setState({ pageState : "stateExit stateTransition ", close : true });
+
+            setTimeout(function(){
+                this.parent.back(event);
+            }.bind(this), 300);
+        }
     }
 
 	logout(event) {
@@ -183,7 +199,7 @@ export default class NotebookPagesView extends React.Component {
 				</div> : null}
 				<div className="pages--entry-list">
 					{this.state.entriesList.map(entry => (
-						<PageView parentHandler={this.parentEntry} entry={entry} visible={this.state.close} key={entry.entry_hash} />
+						<PageView parentHandler={this.parentEntry} notebook={this.parent.getCurrentNotebook()} entry={entry} visible={this.state.close} key={entry.entry_hash} />
 					))}
 				</div>
 			</div>

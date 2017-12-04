@@ -34,7 +34,7 @@ export default class LoginView extends React.Component {
 		this.storedValues[event.target.name] = event.target.value;
 	}
 
-	login(event) {
+	login() {
 		if(this.loginState === 0) {
 			if(Form.InputEnum.EMAIL(this.storedValues["email"])) {
 				if(Form.InputEnum.TEXT(this.storedValues["password"])) {
@@ -73,7 +73,7 @@ export default class LoginView extends React.Component {
 		}
 	}
 
-	recover(event) {
+	recover() {
 		if(this.loginState === 0)
 		{
 			this.setState({ buttonState : "stateRecovery " });

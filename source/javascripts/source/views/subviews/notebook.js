@@ -32,7 +32,7 @@ export default class NotebookView extends React.Component {
     render() {
         return (<a className={this.state.notebookState + "notebooks--notebook"} onClick={e => (e.preventDefault(), this.parent.openNotebook(this.notebook))}>
             <div className="notebook--title">{this.notebook.name}</div>
-            <div className="notebook--scribbles" />
+            <div className="notebook--scribbles" style={{background : "url('http://endor-vm1.cs.purdue.edu/icon/" + this.notebook.notebook_hash + "') no-repeat", "background-size" : "contain"}}/>
         </a>);
     }
 }
