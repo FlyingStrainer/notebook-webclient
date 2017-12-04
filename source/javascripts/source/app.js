@@ -86,7 +86,6 @@ class VENote extends React.Component {
 
     componentDidMount() {
         if(this.state.view === "blankView" && typeof(Storage) !== "undefined" && localStorage.getItem("user_hash") !== "undefined") {
-            console.log(localStorage.getItem("user_hash"), localStorage.getItem("user_hash") !== undefined, localStorage.getItem("user_hash") !== "undefined", !localStorage.getItem("user_hash"));
             Utils.post("user", { user_hash : localStorage.getItem("user_hash") }, function(json) {
                 this.login(json);
             }.bind(this), function(error) {
@@ -105,7 +104,6 @@ class VENote extends React.Component {
 
 		if(this.user.permissions.role === "manager" || this.user.permissions.role === "admin")
 		{
-            console.log("HERE");
 			this.socket = new WebSocket("ws://endor-vm1.cs.purdue.edu/");
 
 			this.socket.onopen = function() {
@@ -114,8 +112,6 @@ class VENote extends React.Component {
 
 			this.socket.onmessage = function(event) {
 				const msg = JSON.parse(event.data);
-
-				console.log(msg);
 
 				if(msg.type === "failed")
 				{
@@ -131,11 +127,9 @@ class VENote extends React.Component {
 				}
 				else if(msg.type === "push")
 				{
-				    console.log("PUSH", msg.msg);
 					this.push_data = {notebook_hash : msg.msg.notebook_hash, entry_hash : msg.msg.entry_hash};
 					this.setState({ pushView : true });
 				}
-				console.log(event);
 			}.bind(this);
 		}
 
@@ -202,7 +196,6 @@ class VENote extends React.Component {
 	}
 
 	render() {
-	    console.log("state: " + this.state + this.state.view);
 		return (<div id="venoteview">
 			<div id="renderview">
 				{this.state.view === "notebookView" ? <Notebooks load={this.state.toolbarState} callback={this.notebook} parentHandler={this.parentHandler}/>

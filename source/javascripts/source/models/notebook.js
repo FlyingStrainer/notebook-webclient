@@ -13,8 +13,6 @@ export default class Notebook
 			this.tags = json.tags;
 			this.settings = json.format;
 
-			console.log(json);
-
 			if(this.settings === undefined) {
 				this.settings = { image : "below" }
 			}
