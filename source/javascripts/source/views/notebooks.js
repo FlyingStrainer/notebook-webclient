@@ -36,7 +36,7 @@ export default class NotebooksView extends React.Component {
 
 	componentDidMount() {
 		let notebookCount = this.parent.getUser().notebooks.length;
-		const notebooks = []
+		const notebooks = [];
 
 		let flag = false;
 
@@ -78,6 +78,8 @@ export default class NotebooksView extends React.Component {
 	}
 
 	displayNotebooks(results) {
+	    console.log(results);
+
 		if(!results) {
 			alert("Could not find any notebooks!");
 			return;
@@ -97,20 +99,19 @@ export default class NotebooksView extends React.Component {
 	}
 
 	notebookSearch(mode, text, date1, date2, tags, tag) {
-		console.log(mode);
 		if(mode === "stateText ") {
-			Utils.post("searchByText", { user_hash : this.parent.getUser().user_hash, text : text }, function(json) {
-				this.displayNotebooks(json.results[0]);
-			}.bind(this));
+            Utils.post("searchByText", { user_hash : this.parent.getUser().user_hash, text : text }, function(json) {
+                this.displayNotebooks(json.results);
+            }.bind(this), (error) => {console.log(error)});
 		}
 		else if(mode === "stateTimestamp ") {
-			Utils.post("searchNotebooksByDate", { user_hash : this.parent.getUser().user_hash, mindate : date1.getTime(), maxdate  : date2.getTime()}, function(json) {
-				this.displayNotebooks(json.results[0])
+			Utils.post("searchByDate", { user_hash : this.parent.getUser().user_hash, mindate : date1.getTime(), maxdate  : date2.getTime()}, function(json) {
+				this.displayNotebooks(json.results)
 			}.bind(this));
 		}
 		else {
 			Utils.post("searchByTag", { user_hash : this.parent.getUser().user_hash, tag : tags.concat(tag) }, function(json) {
-				this.displayNotebooks(json.results[0]);
+				this.displayNotebooks(json.results);
 			});
 		}
 	}
