@@ -191,7 +191,7 @@ export default class NotebookPagesView extends React.Component {
 			<ToolbarView dataIntro="Click the man in the suit to change uiSettings. Click the button with 3 circles to share current notebook. Click the magnifying glass to search. Click the button to far right to logout"
 			             dataStep="1" page={this.parent.getUser().company_name + " < " + this.parent.getCurrentNotebook().name} load={this.load}
 			             parentHandler={this.parentToolbar} visible={this.state.close} hasShare={true} hasBack={true} query={this.state.query} isManager={this.notebook_permissions.manager} />
-			<div data-intro="Click on the plus button to create a new data entry. Click on any existing page to it's right and be brought to a window where clicking the top button cosigns or clicking bottom button delete/archive" data-step="2" className={this.state.pageState + "list-view"}>
+			<div data-intro="Click on the plus button to create a new data entry. Click on any existing page to it's right and be brought to a window where clicking the button below the data will cosign." data-step="2" className={this.state.pageState + "list-view"}>
 				{this.notebook_permissions.write ?
 				<div className="entries--entry create" onClick={() => {
 				    if(this.notebook_permissions.write)
